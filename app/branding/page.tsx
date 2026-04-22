@@ -3,18 +3,15 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
-    Search,
-    Layout,
-    Zap,
     ArrowRight,
     ChevronRight,
+    Triangle,
     PenTool,
-    BookOpen,
-    CreditCard,
+    Target,
     Share2,
-    Megaphone,
-    Edit3,
     Layers,
+    Search,
+    Edit3,
     CheckCircle
 } from "lucide-react";
 import Squares from "@/Components/Animations/Squares";
@@ -52,7 +49,7 @@ const AEIcon = () => (
     </svg>
 );
 
-export default function GraphicDesignPage() {
+export default function BrandingPage() {
     const { resolvedTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
 
@@ -77,7 +74,7 @@ export default function GraphicDesignPage() {
         }),
     };
 
-    const words = "Creative Graphic Design That Captures".split(" ");
+    const words = "Crafting Iconic Identities".split(" ");
 
     return (
         <main className="bg-background text-foreground min-h-screen pt-32 transition-colors duration-500">
@@ -94,7 +91,7 @@ export default function GraphicDesignPage() {
                         className="flex flex-col items-center gap-4"
                     >
                         <p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-full backdrop-blur-md border border-primary/20">
-                            PREMIUM DESIGN STUDIO
+                            REDEFINING EXCELLENCE
                         </p>
                     </motion.div>
 
@@ -110,7 +107,7 @@ export default function GraphicDesignPage() {
                                 variants={textVariants}
                                 className="inline-block mr-[0.2em]"
                             >
-                                {word === "Captures" ? <span className="text-primary">{word}</span> : word}
+                                {word === "Identities" || word === "Iconic" ? <span className="text-primary">{word}</span> : word}
                             </motion.span>
                         ))}
                     </motion.h1>
@@ -121,7 +118,7 @@ export default function GraphicDesignPage() {
                         transition={{ delay: 0.8 }}
                         className="text-muted-foreground text-sm md:text-xl font-medium uppercase tracking-[0.2em] max-w-2xl mx-auto leading-relaxed"
                     >
-                        We craft monochromatic visual narratives that define high-end brands. Editorial precision meeting architectural depth for a digital-first world.
+                        We bridge the gap between strategic brand intelligence and architectural visual precision. Elevate your presence with a legacy-driven identity.
                     </motion.p>
 
                     <motion.div
@@ -134,9 +131,9 @@ export default function GraphicDesignPage() {
                             onClick={openContact}
                             className="bg-primary text-primary-foreground px-12 py-6 rounded-[6px] font-black uppercase tracking-widest text-[10px] md:text-xs shadow-2xl shadow-primary/40 hover:scale-105 transition-all active:scale-95 flex items-center gap-3 group"
                         >
-                            Start Your Project <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
+                            Get Started <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
                         </button>
-                        <Link href="/Casestudy">
+                        <Link href="/casestudy">
                             <button 
                                 className="bg-transparent border border-border text-foreground px-12 py-6 rounded-[6px] font-black uppercase tracking-widest text-[10px] md:text-xs hover:bg-accent transition-all active:scale-95 flex items-center gap-3"
                             >
@@ -153,14 +150,14 @@ export default function GraphicDesignPage() {
                 <div className="max-w-7xl mx-auto relative z-10">
                     <div className="flex flex-col md:flex-row justify-between items-center mb-24 gap-12 text-center md:text-left">
                         <div className="max-w-2xl">
-                            <motion.p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] mb-6">OUR EXPERTISE</motion.p>
+                            <motion.p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] mb-6">EXPERTISE</motion.p>
                             <h2 className="text-[42px] font-bold uppercase tracking-tighter leading-tight text-primary">
-                                Architecting <br /> Visual Impact
+                                Comprehensive Visual <br /> Engineering
                             </h2>
                         </div>
-                        <div className="flex flex-col items-center md:items-end">
-                            <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed max-w-sm md:text-right opacity-70">
-                                A specialized suite of services designed for brands that value aesthetic restraint and functional clarity.
+                        <div className="max-w-sm">
+                            <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed opacity-70">
+                                Meticulously designed touchpoints that communicate authority and luxury at every scale.
                             </p>
                         </div>
                     </div>
@@ -168,26 +165,29 @@ export default function GraphicDesignPage() {
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {[
                             {
-                                title: "Brochure Design",
-                                icon: BookOpen,
-                                desc: "Tangible storytelling for high-end developments and corporate reports. Precision in every fold.",
-                                span: "md:col-span-2"
+                                title: "Brand Identity",
+                                icon: Triangle,
+                                desc: "The cornerstone of your visual existence. We build cohesive ecosystems that resonate with global audiences through color, form, and texture."
                             },
                             {
-                                title: "Business Cards",
-                                icon: CreditCard,
-                                desc: "The first impression, refined to its purest form."
+                                title: "Logo Design",
+                                icon: PenTool,
+                                desc: "Iconic marks distilled into their purest essence. Timeless, scalable, and unforgettable."
                             },
                             {
-                                title: "Social Media Post Design",
+                                title: "Brand Strategy",
+                                icon: Target,
+                                desc: "Research-led positioning that ensures your brand doesn't just look better, but performs better."
+                            },
+                            {
+                                title: "Social Media",
                                 icon: Share2,
-                                desc: "Stopping the scroll with monochromatic depth and editorial layouts for Instagram and LinkedIn."
+                                desc: "Dynamic visual systems designed for the rapid-response digital landscape."
                             },
                             {
-                                title: "Ad Creatives",
-                                icon: Megaphone,
-                                desc: "High-conversion advertisement visuals that maintain brand luxury while driving engagement.",
-                                span: "md:col-span-2"
+                                title: "Marketing Collateral",
+                                icon: Layers,
+                                desc: "From high-end print to digital assets, we maintain uncompromising quality."
                             }
                         ].map((item, i) => (
                             <motion.div
@@ -196,16 +196,15 @@ export default function GraphicDesignPage() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1 }}
-                                className={`group relative overflow-hidden rounded-[8px] bg-card border border-border hover:border-primary/50 transition-all duration-500 ${item.span || ""}`}
+                                className="group relative overflow-hidden rounded-[8px] bg-card border border-border hover:border-primary/50 transition-all duration-500"
                             >
                                 <div className="p-10 relative z-10 flex flex-col h-full min-h-[300px]">
                                     <div className="w-12 h-12 rounded-2xl bg-accent text-primary flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500 group-hover:rotate-[360deg]">
                                         <item.icon size={24} />
                                     </div>
-                                    <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight mb-4">{item.title}</h3>
+                                    <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4">{item.title}</h3>
                                     <p className="text-muted-foreground text-sm font-medium leading-relaxed max-w-xs">{item.desc}</p>
                                     
-                                    {/* Modern Background Animation instead of image */}
                                     <div className="absolute inset-0 z-[-1] opacity-0 group-hover:opacity-10 transition-opacity duration-700">
                                         <div className="absolute inset-0 bg-gradient-to-br from-primary via-transparent to-primary blur-3xl animate-pulse" />
                                     </div>
@@ -228,39 +227,27 @@ export default function GraphicDesignPage() {
                         A Methodical <span className="text-primary">Approach</span>
                     </motion.h2>
                     <p className="text-muted-foreground text-sm md:text-lg font-medium leading-relaxed max-w-xl mx-auto mb-24">
-                        Precision-driven creativity. Every project follows a structured path to ensure maximum visual impact.
+                        Structure is the soul of design. Our process ensures every pixel serves a purpose.
                     </p>
 
                     <div className="flex flex-col gap-12 max-w-4xl mx-auto text-left">
                         {[
                             { 
-                                name: "Research & Brief", 
+                                name: "Discovery", 
                                 step: "01",
-                                desc: "We begin by understanding your brand, target audience, competitors, and the story you need your visuals to tell.",
+                                desc: "We begin by auditing your current brand landscape, identifying core values, and understanding your target audience's psychological drivers.",
                                 icon: Search
                             },
                             { 
-                                name: "Concept & Sketching", 
+                                name: "Concept Design", 
                                 step: "02",
-                                desc: "Translating the brief into multiple creative directions, exploring layouts, typography, and visual language.",
-                                icon: PenTool
-                            },
-                            { 
-                                name: "Design & Refinement", 
-                                step: "03",
-                                desc: "Developing the chosen concept into high-fidelity artwork with meticulous attention to detail and craft.",
+                                desc: "Translating strategy into visual form. We explore multiple creative directions, focusing on unique architectural structures and tonal palettes.",
                                 icon: Edit3
                             },
                             { 
-                                name: "Feedback & Revision", 
-                                step: "04",
-                                desc: "Collaborative review rounds to ensure the final design exceeds expectations and aligns with your vision.",
-                                icon: Layers
-                            },
-                            { 
-                                name: "Final Delivery", 
-                                step: "05",
-                                desc: "Exporting production-ready assets in all required formats with a comprehensive usage guide.",
+                                name: "Refinement & Delivery", 
+                                step: "03",
+                                desc: "Iterative polishing based on feedback. We finalize the system and deliver a comprehensive brand manual that ensures future-proof consistency.",
                                 icon: CheckCircle
                             }
                         ].map((step, i) => (
@@ -269,17 +256,13 @@ export default function GraphicDesignPage() {
                                 initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] as any }}
-                                className="group flex flex-col md:flex-row gap-8 items-start md:items-center p-12 rounded-[8px] bg-accent/10 border border-border/50 hover:border-primary/50 hover:bg-primary/5 transition-all duration-500"
+                                className="group flex flex-col md:flex-row gap-8 items-start md:items-center p-12 rounded-[8px] bg-accent/10 border border-border/50 hover:border-primary/50 transition-all duration-500"
                             >
-                                <div className="text-6xl font-bold text-primary/10 group-hover:text-primary transition-colors duration-500">
+                                <div className="text-6xl font-black text-primary/10 group-hover:text-primary transition-colors duration-500">
                                     {step.step}
                                 </div>
-                                <div className="w-12 h-12 rounded-full bg-background border border-border flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500 shrink-0">
-                                    <step.icon size={20} />
-                                </div>
                                 <div className="flex-1">
-                                    <h4 className="text-lg md:text-xl font-bold uppercase tracking-tight mb-4">{step.name}</h4>
+                                    <h4 className="text-lg md:text-xl font-black uppercase tracking-tight mb-4">{step.name}</h4>
                                     <p className="text-muted-foreground text-sm font-medium leading-relaxed max-w-2xl">{step.desc}</p>
                                 </div>
                             </motion.div>
@@ -288,7 +271,7 @@ export default function GraphicDesignPage() {
                 </div>
             </section>
 
-            {/* Tech Stack - Redesigned Centered */}
+            {/* Tech Stack Section */}
             <section className="py-24 md:py-32 lg:py-40 px-6 md:px-12 bg-background relative overflow-hidden">
                 <GridBackground />
                 <div className="max-w-7xl mx-auto text-center relative z-10">
@@ -301,7 +284,7 @@ export default function GraphicDesignPage() {
                             Powered by <span className="text-primary">Modern Tech</span>
                         </h2>
                         <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed max-w-xl mx-auto">
-                            We leverage the industry's most advanced design tools to ensure every project is crafted with absolute precision.
+                            We use precision tools to craft brands that are both visually stunning and technically sound.
                         </p>
                     </motion.div>
 

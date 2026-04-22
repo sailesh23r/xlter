@@ -114,7 +114,7 @@ export default function AIStrategyPage() {
                         >
                             Get Started <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
                         </button>
-                        <Link href="/Casestudy">
+                        <Link href="/casestudy">
                             <button 
                                 className="bg-transparent border border-border text-foreground px-12 py-6 rounded-[6px] font-black uppercase tracking-widest text-[10px] md:text-xs hover:bg-accent transition-all active:scale-95 flex items-center gap-3"
                             >

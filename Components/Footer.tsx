@@ -10,18 +10,18 @@ export default function Footer() {
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Portfolio", href: "/Casestudy" },
-    { name: "Blog", href: "/Blog" },
-    { name: "About", href: "/About" },
-    { name: "Contact", href: "/Contact" },
+    { name: "Portfolio", href: "/casestudy" },
+    { name: "Blog", href: "/blog" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
   ];
 
   const serviceLinks = [
-    { name: "Web Development", href: "/Web-Development" },
-    { name: "AI Strategy", href: "/AI-Strategy" },
-    { name: "UI/UX Design", href: "/UI-UX" },
-    { name: "Branding", href: "/Branding" },
-    { name: "Graphic Design", href: "/Graphic-Design" },
+    { name: "Web Development", href: "/web-development" },
+    { name: "AI Strategy", href: "/ai-strategy" },
+    { name: "UI/UX Design", href: "/ui-ux" },
+    { name: "Branding", href: "/branding" },
+    { name: "Graphic Design", href: "/graphic-design" },
   ];
 
   const socialLinks = [

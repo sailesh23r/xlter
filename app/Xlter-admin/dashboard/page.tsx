@@ -8,7 +8,7 @@ export default async function AdminDashboard() {
   const session = cookieStore.get("admin_session");
 
   if (!session) {
-    redirect("/Xlter-admin/Login");
+    redirect("/xlter-admin/login");
   }
 
   return (
@@ -31,7 +31,7 @@ export default async function AdminDashboard() {
               "use server";
               const cookieStore = await cookies();
               cookieStore.delete("admin_session");
-              redirect("/Xlter-admin/Login");
+              redirect("/xlter-admin/login");
             }}
           >
             <button className="bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-2 rounded-xl text-sm transition-colors">
@@ -44,7 +44,7 @@ export default async function AdminDashboard() {
         <h2 className="text-lg font-semibold text-gray-300 mb-4">Manage</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <Link
-            href="/Xlter-admin/blog"
+            href="/xlter-admin/blog"
             className="group bg-[#111111] border border-white/10 hover:border-purple-500/30 p-8 rounded-2xl transition-all hover:bg-purple-500/5"
           >
             <div className="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center mb-4 border border-purple-500/20">
@@ -57,7 +57,7 @@ export default async function AdminDashboard() {
           </Link>
 
           <Link
-            href="/Xlter-admin/testimonials"
+            href="/xlter-admin/testimonials"
             className="group bg-[#111111] border border-white/10 hover:border-indigo-500/30 p-8 rounded-2xl transition-all hover:bg-indigo-500/5"
           >
             <div className="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center mb-4 border border-indigo-500/20">
@@ -70,7 +70,7 @@ export default async function AdminDashboard() {
           </Link>
 
           <Link
-            href="/Xlter-admin/casestudy"
+            href="/xlter-admin/casestudy"
             className="group bg-[#111111] border border-white/10 hover:border-blue-500/30 p-8 rounded-2xl transition-all hover:bg-blue-500/5"
           >
             <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-4 border border-blue-500/20">

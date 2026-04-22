@@ -99,7 +99,7 @@ export default function TestimonialsAdmin() {
     <div className="min-h-screen bg-black text-white p-6 md:p-12">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-12">
-          <Link href="/Xlter-admin/dashboard" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+          <Link href="/xlter-admin/dashboard" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
             <ArrowLeft size={20} /> Back to Dashboard
           </Link>
           <button

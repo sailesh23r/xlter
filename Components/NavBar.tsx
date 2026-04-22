@@ -11,10 +11,10 @@ import ServiceOverlay from "./ServiceOverlay";
 const navLinks = [
     { name: "HOME", href: "/" },
     { name: "SERVICES", href: "#" },
-    { name: "PORTFOLIO", href: "/Casestudy" },
-    { name: "BLOG", href: "/Blog" },
-    { name: "ABOUT", href: "/About" },
-    { name: "CONTACT", href: "/Contact" },
+    { name: "PORTFOLIO", href: "/casestudy" },
+    { name: "BLOG", href: "/blog" },
+    { name: "ABOUT", href: "/about" },
+    { name: "CONTACT", href: "/contact" },
 ];
 
 export default function Navbar() {
@@ -136,11 +136,11 @@ export default function Navbar() {
                                     {/* Mobile Sub-Links (Accordion) */}
                                     <div className={`flex flex-col gap-4 pl-4 overflow-hidden transition-all duration-300 ${isMobileServiceOpen ? 'max-h-[500px] opacity-100 mt-4 pb-4' : 'max-h-0 opacity-0'}`}>
                                         {[
-                                            { name: "Web Development", href: "/Web-Development", icon: TerminalSquare },
-                                            { name: "AI Digital Strategy", href: "/AI-Strategy", icon: LineChart },
-                                            { name: "UI/UX Design", href: "/UI-UX", icon: MousePointerClick },
-                                            { name: "Branding", href: "/Branding", icon: Triangle },
-                                            { name: "Graphic Design", href: "/Graphic-Design", icon: PenTool },
+                                            { name: "Web Development", href: "/web-development", icon: TerminalSquare },
+                                            { name: "AI Digital Strategy", href: "/ai-strategy", icon: LineChart },
+                                            { name: "UI/UX Design", href: "/ui-ux", icon: MousePointerClick },
+                                            { name: "Branding", href: "/branding", icon: Triangle },
+                                            { name: "Graphic Design", href: "/graphic-design", icon: PenTool },
                                         ].map((sub) => (
                                             <Link
                                                 key={sub.name}

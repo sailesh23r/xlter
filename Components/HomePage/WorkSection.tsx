@@ -91,7 +91,7 @@ export default function Work() {
                 ? casestudies.map((cs, i) => {
                   const accent = ACCENT_MAP[cs.category] ?? "#3b82f6";
                   return (
-                    <Link href="/Casestudy" key={cs._id}>
+                    <Link href="/casestudy" key={cs._id}>
                       <motion.div
                         custom={i}
                         variants={cardVariants}
@@ -153,7 +153,7 @@ export default function Work() {
                 viewport={{ once: true }}
               >
                 <Link
-                  href="/Casestudy"
+                  href="/casestudy"
                   className="group relative h-14 px-10 rounded-full overflow-hidden border border-border text-foreground font-black uppercase tracking-[0.2em] text-[10px] flex items-center gap-4 transition-all duration-300"
                 >
                   <div className="absolute w-2 h-2 bg-primary rounded-full left-6 group-hover:scale-[25] transition-transform duration-700 ease-in-out -z-0 opacity-0 group-hover:opacity-10" />

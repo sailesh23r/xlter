@@ -206,7 +206,7 @@ export default function AdminBlogPage() {
       <div className="max-w-6xl mx-auto px-6 py-10">
         {/* Header */}
         <div className="flex items-center gap-4 mb-10">
-          <Link href="/Xlter-admin/dashboard" className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-white/10">
+          <Link href="/xlter-admin/dashboard" className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-white/10">
             <ArrowLeft className="w-5 h-5 text-gray-400" />
           </Link>
           <div>

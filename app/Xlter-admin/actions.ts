@@ -58,5 +58,5 @@ export async function loginAdmin(prevState: any, formData: FormData) {
   }
 
   // Redirect on success
-  redirect("/Xlter-admin/dashboard");
+  redirect("/xlter-admin/dashboard");
 }

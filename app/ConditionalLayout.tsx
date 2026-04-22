@@ -8,7 +8,7 @@ import Footer from "@/Components/Footer";
 
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAdmin = pathname?.startsWith("/Xlter-admin");
+  const isAdmin = pathname?.startsWith("/xlter-admin");
 
   if (isAdmin) {
     return <main className="flex-grow">{children}</main>;
