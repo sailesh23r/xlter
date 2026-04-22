@@ -19,8 +19,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Xlter | Creative Digital Excellence Studio",
-  description: "Xlter is a high-end digital studio specializing in strategy, design, and AI-driven development. We craft compelling digital experiences that drive growth.",
+  title: "Xlter ",
+  description: "",
+  icons: {
+    icon: "/Transparent-06.png",
+  },
 };
 
 import ConditionalLayout from "./ConditionalLayout";
