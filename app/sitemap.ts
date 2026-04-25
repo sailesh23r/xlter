@@ -14,8 +14,8 @@ const staticRoutes: {
   { path: "/", changeFrequency: "weekly", priority: 1.0 },
   { path: "/about", changeFrequency: "monthly", priority: 0.8 },
   { path: "/blog", changeFrequency: "daily", priority: 0.9 },
-  { path: "/contact", changeFrequency: "yearly", priority: 0.7 },
   { path: "/casestudy", changeFrequency: "weekly", priority: 0.8 },
+  { path: "/contact", changeFrequency: "yearly", priority: 0.7 },
   { path: "/ai-strategy", changeFrequency: "monthly", priority: 0.7 },
   { path: "/branding", changeFrequency: "monthly", priority: 0.7 },
   { path: "/graphic-design", changeFrequency: "monthly", priority: 0.7 },
@@ -24,7 +24,7 @@ const staticRoutes: {
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Static pages
+  // 1. Static Pages
   const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
     url: `${BASE_URL}${route.path}`,
     lastModified: new Date(),
@@ -32,35 +32,46 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route.priority,
   }));
 
-  // Dynamic blog posts
+  // 2. Dynamic Blog Posts
   let blogEntries: MetadataRoute.Sitemap = [];
   try {
     await connectToDatabase();
-    // Filter out draft posts and noIndex posts
-    const blogs = await Blog.find({ status: "PUBLISHED", noIndex: { $ne: true } }, { slug: 1, updatedAt: 1 }).lean();
+    // Fetch only published and indexable blogs
+    const blogs = await Blog.find(
+      { status: "PUBLISHED", noIndex: { $ne: true } }, 
+      { slug: 1, updatedAt: 1 }
+    ).lean();
+    
     blogEntries = blogs.map((blog: any) => ({
       url: `${BASE_URL}/blog/${blog.slug}`,
       lastModified: blog.updatedAt || new Date(),
       changeFrequency: "weekly" as const,
-      priority: 0.6,
+      priority: 0.8, // Increased priority for blog content
     }));
   } catch (error) {
     console.error("Sitemap: Error fetching blog posts:", error);
   }
 
-  // Dynamic custom pages
+  // 3. Dynamic Custom Pages (from Page model)
   let pageEntries: MetadataRoute.Sitemap = [];
   try {
-    const pages = await Page.find({ noIndex: { $ne: true } }, { slug: 1, updatedAt: 1 }).lean();
+    const pages = await Page.find(
+      { noIndex: { $ne: true } }, 
+      { slug: 1, updatedAt: 1 }
+    ).lean();
+    
     pageEntries = pages.map((page: any) => ({
       url: `${BASE_URL}/${page.slug}`,
       lastModified: page.updatedAt || new Date(),
       changeFrequency: "monthly" as const,
-      priority: 0.5,
+      priority: 0.6,
     }));
   } catch (error) {
     console.error("Sitemap: Error fetching dynamic pages:", error);
   }
 
-  return [...staticEntries, ...blogEntries, ...pageEntries];
+  // Combine all entries, ensuring no duplicates and excluding administrative paths
+  return [...staticEntries, ...blogEntries, ...pageEntries].filter(
+    (entry) => !entry.url.includes("/xlter-admin") && !entry.url.includes("/api")
+  );
 }
