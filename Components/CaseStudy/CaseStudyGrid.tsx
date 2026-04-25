@@ -217,12 +217,12 @@ export default function CaseStudyGrid({ initialData }: Props) {
     }).length;
 
   return (
-    <div className="min-h-screen bg-background text-foreground transition-colors duration-500 relative">
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-500 relative overflow-x-hidden">
       <GridBackground />
 
       {/* Hero */}
       <section className="max-w-7xl mx-auto px-4 md:px-6 relative text-center pb-12 md:pb-16">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[90vw] max-w-[600px] h-[250px] bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
 
         <motion.div
           initial={{ opacity: 0, y: -20 }}
