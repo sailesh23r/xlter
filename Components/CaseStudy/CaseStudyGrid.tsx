@@ -263,6 +263,8 @@ export default function CaseStudyGrid({ initialData }: Props) {
 
       {/* Grid Content */}
       <section className="max-w-7xl mx-auto px-4 md:px-6 pb-24 md:pb-40">
+
+        {/* ── Desktop Grid ── */}
         <AnimatePresence mode="wait">
           <motion.div
             key={active}
@@ -275,7 +277,6 @@ export default function CaseStudyGrid({ initialData }: Props) {
             {filtered.map((cs, i) => {
               const accent = ACCENT_MAP[cs.category] ?? "#3b82f6";
               const pCount = previewCount(cs);
-
               return (
                 <motion.div
                   key={cs._id}
@@ -287,18 +288,16 @@ export default function CaseStudyGrid({ initialData }: Props) {
                   className="group relative bg-card border border-border rounded-[16px] overflow-hidden hover:border-primary/40 shadow-2xl shadow-black/5 transition-all duration-500 cursor-pointer"
                   onClick={() => setSelected(cs)}
                 >
-                  {/* Thumbnail */}
                   <div className="relative overflow-hidden bg-muted rounded-[12px] transition-all duration-700 w-full h-56 sm:h-72">
                     <Image
                       src={cs.thumbnail}
                       alt={cs.title}
                       fill
+                      priority={i === 0}
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-transparent to-transparent opacity-60" />
-
-                    {/* Preview Badge */}
                     {pCount > 0 && (
                       <div className="absolute top-6 left-6 flex items-center gap-2.5 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest backdrop-blur-xl border border-white/10 text-white shadow-2xl" style={{ background: `${accent}CC` }}>
                         <Layers size={14} />
@@ -306,22 +305,16 @@ export default function CaseStudyGrid({ initialData }: Props) {
                       </div>
                     )}
                   </div>
-
-                  {/* Content */}
                   <div className="p-6 md:p-10">
                     <p className="text-[10px] font-black tracking-widest uppercase mb-4" style={{ color: accent }}>
                       • {cs.category}
                     </p>
-
                     <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight group-hover:text-primary transition-colors">
                       {cs.title}
                     </h3>
-
                     <p className="text-muted-foreground text-sm font-medium leading-relaxed mb-8 line-clamp-2 opacity-80">
                       {cs.description}
                     </p>
-
-                    {/* View Button */}
                     <div className="mt-6">
                       <div className="inline-flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-foreground group/btn relative py-3 pr-8 transition-all">
                         <div className="absolute inset-y-0 left-0 w-0 group-hover/btn:w-full bg-primary/10 rounded-[4px] transition-all duration-500 -z-10" />
@@ -330,56 +323,74 @@ export default function CaseStudyGrid({ initialData }: Props) {
                       </div>
                     </div>
                   </div>
-
-                  {/* Bottom accent line */}
                   <div className="absolute bottom-0 left-0 h-[4px] w-0 group-hover:w-full transition-all duration-700" style={{ background: accent }} />
                 </motion.div>
               );
             })}
           </motion.div>
-
-          {/* Mobile Swipe Section */}
-          <div className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-6 px-6 pb-20 no-scrollbar relative z-10">
-            {filtered.map((cs) => {
-              const accent = ACCENT_MAP[cs.category] ?? "#3b82f6";
-              const pCount = previewCount(cs);
-
-              return (
-                <motion.div
-                  key={cs._id}
-                  className="min-w-[85vw] snap-center"
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  onClick={() => setSelected(cs)}
-                >
-                  <div className="group relative bg-card border border-border rounded-[24px] overflow-hidden shadow-2xl transition-all duration-500">
-                     <div className="relative aspect-[16/10] overflow-hidden">
-                        <Image
-                          src={cs.thumbnail}
-                          alt={cs.title}
-                          fill
-                          className="object-cover"
-                        />
-                        <div className="absolute top-4 left-4">
-                           <div className="flex items-center gap-2 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest backdrop-blur-xl border border-white/10 text-white" style={{ background: `${accent}CC` }}>
-                            {cs.category}
-                           </div>
-                        </div>
-                     </div>
-                     <div className="p-8">
-                        <h3 className="text-xl font-bold uppercase tracking-tight mb-2">{cs.title}</h3>
-                        <p className="text-muted-foreground text-xs line-clamp-2 mb-6 opacity-70">{cs.description}</p>
-                        <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-primary">
-                           VIEW CASE STUDY <ArrowRight size={14} />
-                        </div>
-                     </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
         </AnimatePresence>
+
+        {/* ── Mobile Stacked Cards ── */}
+        <div className="md:hidden flex flex-col gap-5">
+          {filtered.map((cs, i) => {
+            const accent = ACCENT_MAP[cs.category] ?? "#3b82f6";
+            const pCount = previewCount(cs);
+            return (
+              <motion.div
+                key={cs._id}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+                className="group relative bg-card border border-border rounded-[20px] overflow-hidden shadow-xl cursor-pointer active:scale-[0.98] transition-transform duration-200"
+                onClick={() => setSelected(cs)}
+              >
+                {/* Thumbnail */}
+                <div className="relative w-full aspect-[16/9] overflow-hidden">
+                  <Image
+                    src={cs.thumbnail}
+                    alt={cs.title}
+                    fill
+                    priority={i === 0}
+                    sizes="100vw"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent" />
+                  {/* Category badge */}
+                  <div
+                    className="absolute top-3 left-3 flex items-center gap-2 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest backdrop-blur-xl border border-white/10 text-white"
+                    style={{ background: `${accent}CC` }}
+                  >
+                    {cs.category}
+                  </div>
+                  {/* Views badge */}
+                  {pCount > 0 && (
+                    <div className="absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest backdrop-blur-xl border border-white/10 text-white" style={{ background: `${accent}99` }}>
+                      <Layers size={10} /> {pCount} VIEW{pCount > 1 ? "S" : ""}
+                    </div>
+                  )}
+                </div>
+
+                {/* Content */}
+                <div className="p-5">
+                  <h3 className="text-base font-bold uppercase tracking-tight mb-1.5 group-hover:text-primary transition-colors line-clamp-2">
+                    {cs.title}
+                  </h3>
+                  <p className="text-muted-foreground text-xs leading-relaxed line-clamp-2 opacity-75 mb-4">
+                    {cs.description}
+                  </p>
+                  <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary">
+                    VIEW CASE STUDY <ArrowRight size={13} />
+                  </div>
+                </div>
+
+                {/* Bottom accent line */}
+                <div className="absolute bottom-0 left-0 h-[3px] w-full" style={{ background: `linear-gradient(to right, ${accent}, transparent)` }} />
+              </motion.div>
+            );
+          })}
+        </div>
+
       </section>
 
       <AnimatePresence>
