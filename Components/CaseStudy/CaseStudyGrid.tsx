@@ -227,7 +227,7 @@ export default function CaseStudyGrid({ initialData }: Props) {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex flex-col items-center gap-8"
+          className="flex flex-col items-center gap-4 md:gap-8"
         >
           <span className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-[4px] border border-primary/20">
             Our Portfolio
@@ -246,7 +246,7 @@ export default function CaseStudyGrid({ initialData }: Props) {
       {/* Category Filters */}
       <div className="max-w-7xl mx-auto mb-8">
         {/* Mobile: horizontal scroll row */}
-        <div className="flex gap-2 overflow-x-auto no-scrollbar px-4 md:px-6 pb-1 md:flex-wrap md:justify-center md:overflow-visible">
+        <div className="flex flex-nowrap gap-2 overflow-x-auto no-scrollbar px-4 md:px-6 pb-3 md:flex-wrap md:justify-center md:overflow-visible">
           {allCategories.map((f) => (
             <button
               key={f}
@@ -333,7 +333,7 @@ export default function CaseStudyGrid({ initialData }: Props) {
         </AnimatePresence>
 
         {/* ── Mobile Stacked Cards ── */}
-        <div className="md:hidden flex flex-col gap-5">
+        <div className="md:hidden flex flex-col gap-6 px-4">
           {filtered.map((cs, i) => {
             const accent = ACCENT_MAP[cs.category] ?? "#3b82f6";
             const pCount = previewCount(cs);
