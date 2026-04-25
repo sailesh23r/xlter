@@ -221,7 +221,7 @@ export default function CaseStudyGrid({ initialData }: Props) {
       <GridBackground />
 
       {/* Hero */}
-      <section className="max-w-7xl mx-auto px-6 relative text-center pt-8 md:pt-16 pb-16">
+      <section className="max-w-7xl mx-auto px-4 md:px-6 relative text-center pb-12 md:pb-16">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
 
         <motion.div
@@ -244,8 +244,8 @@ export default function CaseStudyGrid({ initialData }: Props) {
       </section>
 
       {/* Category Filters */}
-      <div className="max-w-7xl mx-auto px-6 mb-10 flex justify-center">
-        <div className="flex gap-3 flex-wrap justify-center">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 mb-10 flex justify-center">
+        <div className="flex gap-2 md:gap-3 flex-wrap justify-center">
           {allCategories.map((f) => (
             <button
               key={f}
@@ -262,7 +262,7 @@ export default function CaseStudyGrid({ initialData }: Props) {
       </div>
 
       {/* Grid Content */}
-      <section className="max-w-7xl mx-auto px-6 pb-40">
+      <section className="max-w-7xl mx-auto px-4 md:px-6 pb-24 md:pb-40">
         <AnimatePresence mode="wait">
           <motion.div
             key={active}

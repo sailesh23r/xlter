@@ -56,7 +56,7 @@ export default function Navbar() {
     return (
         <header className="fixed top-4 md:top-6 inset-x-0 z-50 flex justify-center pointer-events-none px-4 md:px-0">
             <div className="relative w-full max-w-6xl md:px-6 pointer-events-auto">
-                <div className="w-full flex items-center justify-between px-4 md:px-8 h-14 md:h-16 bg-background/90 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl transition-all duration-300">
+                <div className="w-full flex items-center justify-between px-3 md:px-8 h-14 md:h-16 bg-background/90 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl transition-all duration-300">
 
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2 shrink-0">
@@ -98,7 +98,7 @@ export default function Navbar() {
                     ))}
                 </nav>
 
-                <div className="flex items-center gap-1.5 md:gap-3">
+                <div className="flex items-center gap-1 md:gap-3 shrink-0">
                     {/* Theme Toggle */}
                     {mounted && (
                         <button
