@@ -22,31 +22,31 @@ const services: ServiceItem[] = [
         title: "Web Development",
         desc: "Building high-performance websites",
         icon: TerminalSquare,
-        href: "/Web-Development"
+        href: "/web-development"
     },
     {
         title: "AI Digital Strategy",
         desc: "Data-driven insights & AI strategy",
         icon: LineChart,
-        href: "/AI-Strategy"
+        href: "/ai-strategy"
     },
     {
         title: "UI/UX Design",
         desc: "Intuitive user-centric interfaces",
         icon: MousePointerClick,
-        href: "/UI-UX"
+        href: "/ui-ux"
     },
     {
         title: "Branding",
         desc: "Crafting iconic visuals & narratives",
         icon: Triangle,
-        href: "/Branding"
+        href: "/branding"
     },
     {
         title: "Graphic Design",
         desc: "Creative assets for every touchpoint",
         icon: PenTool,
-        href: "/Graphic-Design"
+        href: "/graphic-design"
     }
 ];
 

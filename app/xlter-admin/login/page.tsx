@@ -91,7 +91,7 @@ export default function AdminLoginPage() {
             </button>
           </form>
 
-          Footer Info
+          {/* Footer Info */}
           <div className="mt-8 pt-6 border-t border-white/10 text-center">
             <Link
               href="/"

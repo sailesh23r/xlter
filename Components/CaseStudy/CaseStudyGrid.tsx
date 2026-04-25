@@ -143,7 +143,7 @@ function PreviewOverlay({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[999] flex items-center justify-center p-4 md:p-8 bg-background/40 backdrop-blur-[32px]"
+      className="fixed inset-0 z-[999] flex items-center justify-center p-2 sm:p-4 md:p-8 bg-background/40 backdrop-blur-[32px]"
       onClick={onClose}
     >
       <motion.div
@@ -157,13 +157,12 @@ function PreviewOverlay({
           mass: 1
         }}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-6xl flex flex-col"
-        style={{ height: "min(86vh, 900px)" }}
+        className="relative w-full max-w-6xl flex flex-col h-[90vh] md:h-[86vh] max-h-[900px]"
       >
         <div className="flex items-center justify-between mb-4 px-2">
-          <div className="flex items-center gap-4">
-            <span className="text-[10px] font-black tracking-[0.2em] uppercase px-3 py-1.5 rounded-full" style={{ color: accent, background: `${accent}18`, border: `1px solid ${accent}30` }}>{cs.category}</span>
-            <h2 className="text-foreground font-bold text-xl uppercase tracking-tight truncate max-w-xs md:max-w-sm">{cs.title}</h2>
+          <div className="flex items-center gap-3 md:gap-4 overflow-hidden">
+            <span className="hidden xs:inline-block text-[10px] font-black tracking-[0.2em] uppercase px-3 py-1.5 rounded-full whitespace-nowrap" style={{ color: accent, background: `${accent}18`, border: `1px solid ${accent}30` }}>{cs.category}</span>
+            <h2 className="text-foreground font-bold text-lg md:text-xl uppercase tracking-tight truncate max-w-[150px] xs:max-w-xs md:max-w-sm">{cs.title}</h2>
           </div>
           <div className="flex items-center gap-3">
             {currentUrl && (
@@ -176,14 +175,14 @@ function PreviewOverlay({
         </div>
 
         {availableTabs.length > 0 && (
-          <div className="flex items-center gap-1 mb-4 bg-card border border-border rounded-xl p-1.5 w-fit shadow-xl shadow-black/5">
+          <div className="flex items-center gap-1 mb-4 bg-card border border-border rounded-xl p-1 w-fit max-w-full overflow-x-auto shadow-xl shadow-black/5 no-scrollbar">
             {availableTabs.map((tab) => {
               const isActive = activeTab === tab.key;
               return (
                 <button
                   key={tab.key}
                   onClick={() => setActiveTab(tab.key)}
-                  className={`flex items-center gap-2 px-5 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${isActive ? "text-white" : "text-muted-foreground hover:text-foreground"}`}
+                   className={`flex items-center gap-2 px-3 sm:px-5 py-2 rounded-lg text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all duration-300 whitespace-nowrap ${isActive ? "text-white" : "text-muted-foreground hover:text-foreground"}`}
                   style={isActive ? { background: accent, boxShadow: `0 10px 20px ${accent}44` } : {}}
                 >
                   {tab.icon} {tab.label}
@@ -222,7 +221,7 @@ export default function CaseStudyGrid({ initialData }: Props) {
       <GridBackground />
 
       {/* Hero */}
-      <section className="max-w-7xl mx-auto px-6 relative text-center pt-32 pb-24">
+      <section className="max-w-7xl mx-auto px-6 relative text-center pt-8 md:pt-16 pb-16">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
 
         <motion.div
@@ -234,7 +233,7 @@ export default function CaseStudyGrid({ initialData }: Props) {
             Our Portfolio
           </span>
 
-          <h1 className="text-[42px] font-bold leading-[1.1] uppercase tracking-tighter max-w-4xl">
+          <h1 className="text-3xl md:text-[42px] font-bold leading-[1.1] uppercase tracking-tighter max-w-4xl">
             SELECTED WORKS
           </h1>
 
@@ -245,13 +244,13 @@ export default function CaseStudyGrid({ initialData }: Props) {
       </section>
 
       {/* Category Filters */}
-      <div className="max-w-7xl mx-auto px-6 mb-16 flex justify-center">
+      <div className="max-w-7xl mx-auto px-6 mb-10 flex justify-center">
         <div className="flex gap-3 flex-wrap justify-center">
           {allCategories.map((f) => (
             <button
               key={f}
               onClick={() => setActive(f)}
-              className={`px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-500 border ${active === f
+              className={`px-5 md:px-8 py-2 md:py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-500 border ${active === f
                   ? "bg-primary border-primary text-white shadow-2xl shadow-primary/30"
                   : "border-border text-muted-foreground hover:border-primary/50"
                 }`}
@@ -271,7 +270,7 @@ export default function CaseStudyGrid({ initialData }: Props) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4 }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-10"
+            className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-10"
           >
             {filtered.map((cs, i) => {
               const accent = ACCENT_MAP[cs.category] ?? "#3b82f6";
@@ -289,7 +288,7 @@ export default function CaseStudyGrid({ initialData }: Props) {
                   onClick={() => setSelected(cs)}
                 >
                   {/* Thumbnail */}
-                  <div className="relative overflow-hidden bg-muted rounded-[12px] transition-all duration-700 w-full h-72">
+                  <div className="relative overflow-hidden bg-muted rounded-[12px] transition-all duration-700 w-full h-56 sm:h-72">
                     <Image
                       src={cs.thumbnail}
                       alt={cs.title}
@@ -309,7 +308,7 @@ export default function CaseStudyGrid({ initialData }: Props) {
                   </div>
 
                   {/* Content */}
-                  <div className="p-10">
+                  <div className="p-6 md:p-10">
                     <p className="text-[10px] font-black tracking-widest uppercase mb-4" style={{ color: accent }}>
                       • {cs.category}
                     </p>
@@ -338,6 +337,48 @@ export default function CaseStudyGrid({ initialData }: Props) {
               );
             })}
           </motion.div>
+
+          {/* Mobile Swipe Section */}
+          <div className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-6 px-6 pb-20 no-scrollbar relative z-10">
+            {filtered.map((cs) => {
+              const accent = ACCENT_MAP[cs.category] ?? "#3b82f6";
+              const pCount = previewCount(cs);
+
+              return (
+                <motion.div
+                  key={cs._id}
+                  className="min-w-[85vw] snap-center"
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  onClick={() => setSelected(cs)}
+                >
+                  <div className="group relative bg-card border border-border rounded-[24px] overflow-hidden shadow-2xl transition-all duration-500">
+                     <div className="relative aspect-[16/10] overflow-hidden">
+                        <Image
+                          src={cs.thumbnail}
+                          alt={cs.title}
+                          fill
+                          className="object-cover"
+                        />
+                        <div className="absolute top-4 left-4">
+                           <div className="flex items-center gap-2 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest backdrop-blur-xl border border-white/10 text-white" style={{ background: `${accent}CC` }}>
+                            {cs.category}
+                           </div>
+                        </div>
+                     </div>
+                     <div className="p-8">
+                        <h3 className="text-xl font-bold uppercase tracking-tight mb-2">{cs.title}</h3>
+                        <p className="text-muted-foreground text-xs line-clamp-2 mb-6 opacity-70">{cs.description}</p>
+                        <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-primary">
+                           VIEW CASE STUDY <ArrowRight size={14} />
+                        </div>
+                     </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </AnimatePresence>
       </section>
 

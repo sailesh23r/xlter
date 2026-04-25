@@ -1,6 +1,16 @@
 import connectToDatabase from "@/lib/mongodb";
 import Blog from "@/models/Blog";
 import BlogClient from "./BlogClient";
+import { Metadata } from "next";
+import { getPageMetadata } from "@/lib/getSEO";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const meta = await getPageMetadata("/blog");
+  return meta || {
+    title: "Blog | Xlter Studio",
+    description: "Insights, stories, and updates from Xlter Studio.",
+  };
+}
 
 interface BlogDoc {
   _id: string;

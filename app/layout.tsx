@@ -29,11 +29,46 @@ export const metadata: Metadata = {
 };
 
 
-export default function RootLayout({
+import connectToDatabase from "@/lib/mongodb";
+import ScriptInjection from "@/models/ScriptInjection";
+
+async function getInjectedScripts() {
+  try {
+    await connectToDatabase();
+    return await ScriptInjection.find({ enabled: true }).lean();
+  } catch (error) {
+    console.error("Failed to fetch injected scripts:", error);
+    return [];
+  }
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const scripts = await getInjectedScripts();
+  const headScripts = scripts.filter((s: any) => s.location === "head");
+  const bodyScripts = scripts.filter((s: any) => s.location === "body");
+
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Xlter Studio",
+    "url": "https://xlter.com",
+    "logo": "https://xlter.com/Transparent-06.png",
+    "sameAs": [
+      "https://facebook.com/xlter",
+      "https://instagram.com/xlter",
+      "https://linkedin.com/company/xlter"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+91-XXXXXXXXXX",
+      "contactType": "customer service"
+    }
+  };
+
   return (
     <html
       lang="en"
@@ -41,6 +76,22 @@ export default function RootLayout({
       suppressHydrationWarning
       data-scroll-behavior="smooth"
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        {/* Inject head scripts. Note: Using a wrapper because React requires one for dangerouslySetInnerHTML */}
+        {headScripts.map((s: any) => (
+          <script
+            key={s._id.toString()}
+            id={`head-script-${s._id.toString()}`}
+            dangerouslySetInnerHTML={{ 
+              __html: s.content.replace(/<\/?script[^>]*>/gi, '') 
+            }}
+          />
+        ))}
+      </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider
           attribute="class"
@@ -59,6 +110,16 @@ export default function RootLayout({
             <ConditionalLayout>
               {children}
             </ConditionalLayout>
+            
+            {/* Inject body scripts */}
+            {bodyScripts.map((s: any) => (
+              <div 
+                key={s._id.toString()} 
+                id={`body-script-${s._id.toString()}`}
+                dangerouslySetInnerHTML={{ __html: s.content }} 
+                style={{ display: 'none' }}
+              />
+            ))}
           </>
         </ThemeProvider>
       </body>

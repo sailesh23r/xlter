@@ -102,7 +102,7 @@ export default function AboutPage() {
     if (!mounted) return null;
 
     return (
-        <main className="bg-background text-foreground selection:bg-primary selection:text-white pb-20 pt-32 transition-colors duration-500 relative overflow-hidden">
+        <main className="bg-background text-foreground selection:bg-primary selection:text-white pb-20 pt-24 md:pt-32 transition-colors duration-500 relative overflow-hidden">
             {/* Background Animations */}
             {/* Background elements removed for cleaner look */}
 
@@ -110,7 +110,7 @@ export default function AboutPage() {
                 <GridBackground />
 
                 {/* Header / Hero */}
-                <section className="max-w-7xl mx-auto px-6 text-center mb-32">
+                <section className="max-w-7xl mx-auto px-4 md:px-6 text-center mb-16 md:mb-32">
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -121,7 +121,7 @@ export default function AboutPage() {
                             About Us
                         </span>
 
-                        <h1 className="text-[42px] font-bold leading-[1.1] uppercase tracking-tighter mt-8 mb-8">
+                        <h1 className="text-[26px] sm:text-[34px] md:text-[42px] font-bold leading-[1.1] uppercase tracking-tighter mt-8 mb-8">
                             BLEND OF <span className="text-primary">AI AND HUMAN</span> CREATIVITY
                         </h1>
 
@@ -132,9 +132,9 @@ export default function AboutPage() {
                 </section>
 
                 {/* Philosophy Section */}
-                <section className="max-w-7xl mx-auto px-6 mb-40 overflow-hidden" ref={(el) => setScrollTarget(el)}>
-                    <div className="text-center mb-20">
-                        <h2 className="text-[42px] font-bold uppercase tracking-tighter leading-tight text-primary mb-4">Core Philosophy</h2>
+                <section className="max-w-7xl mx-auto px-4 md:px-6 mb-20 md:mb-40 overflow-hidden" ref={(el) => setScrollTarget(el)}>
+                    <div className="text-center mb-12 md:mb-20">
+                        <h2 className="text-[26px] sm:text-[34px] md:text-[42px] font-bold uppercase tracking-tighter leading-tight text-primary mb-4">Core Philosophy</h2>
                         <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed opacity-60">&quot;Experience, Elevate, Lead, Transform, and Reinvent.&quot;</p>
                     </div>
 
@@ -146,7 +146,7 @@ export default function AboutPage() {
                             <motion.div
                                 key={idx}
                                 whileHover={{ y: -5, borderColor: "rgba(37,99,235,0.3)" }}
-                                className="bg-card border border-border p-10 rounded-[8px] shadow-2xl shadow-black/5 min-w-[300px] md:min-w-[400px] transition-all duration-500 group"
+                                className="bg-card border border-border p-8 md:p-10 rounded-[8px] shadow-2xl shadow-black/5 min-w-[260px] md:min-w-[380px] transition-all duration-500 group"
                             >
                                 <div className="w-14 h-14 bg-background border border-border rounded-[8px] flex items-center justify-center text-primary mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm">
                                     <item.icon size={24} />
@@ -159,9 +159,9 @@ export default function AboutPage() {
                 </section>
 
                 {/* Framework Section */}
-                <section className="max-w-7xl mx-auto px-6 mb-48">
-                    <div className="text-center mb-20">
-                        <h2 className="text-[42px] font-bold uppercase tracking-tighter leading-tight text-primary mb-4">The X.E.L.T.R Framework</h2>
+                <section className="max-w-7xl mx-auto px-4 md:px-6 mb-24 md:mb-48">
+                    <div className="text-center mb-12 md:mb-20">
+                        <h2 className="text-[26px] sm:text-[34px] md:text-[42px] font-bold uppercase tracking-tighter leading-tight text-primary mb-4">The X.E.L.T.R Framework</h2>
                         <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed max-w-xl mx-auto opacity-60">
                             Our methodology is a systematic approach to creative problem-solving.
                         </p>
@@ -194,9 +194,9 @@ export default function AboutPage() {
                 </section>
 
                 {/* Mission & Vision */}
-                <section className="max-w-7xl mx-auto px-6 mb-48">
-                    <div className="text-center mb-24">
-                        <h2 className="text-[42px] font-bold uppercase tracking-tighter leading-tight">Our Mission & Vision</h2>
+                <section className="max-w-7xl mx-auto px-4 md:px-6 mb-24 md:mb-48">
+                    <div className="text-center mb-12 md:mb-24">
+                        <h2 className="text-[28px] md:text-[42px] font-bold uppercase tracking-tighter leading-tight">Our Mission & Vision</h2>
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                         <motion.div
@@ -204,7 +204,7 @@ export default function AboutPage() {
                             whileInView={{ opacity: 1, scale: 1 }}
                             whileHover={{ y: -10 }}
                             viewport={{ once: true }}
-                            className="bg-card border border-border p-12 rounded-[8px] relative overflow-hidden group shadow-2xl shadow-black/5"
+                            className="bg-card border border-border p-8 md:p-12 rounded-[8px] relative overflow-hidden group shadow-2xl shadow-black/5"
                         >
                             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[60px] rounded-full -translate-y-1/2 translate-x-1/2" />
                             <h3 className="flex items-center gap-3 text-primary text-[10px] font-black tracking-widest uppercase mb-8">
@@ -221,7 +221,7 @@ export default function AboutPage() {
                             whileInView={{ opacity: 1, scale: 1 }}
                             whileHover={{ y: -10 }}
                             viewport={{ once: true }}
-                            className="bg-card border border-border p-12 rounded-[8px] relative overflow-hidden group shadow-2xl shadow-black/5"
+                            className="bg-card border border-border p-8 md:p-12 rounded-[8px] relative overflow-hidden group shadow-2xl shadow-black/5"
                         >
                             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[60px] rounded-full -translate-y-1/2 translate-x-1/2" />
                             <h3 className="flex items-center gap-3 text-primary text-[10px] font-black tracking-widest uppercase mb-8">
@@ -236,7 +236,7 @@ export default function AboutPage() {
                 </section>
 
                 {/* Quote & CTA */}
-                <section className="px-6 text-center max-w-5xl mx-auto pb-40">
+                <section className="px-4 md:px-6 text-center max-w-5xl mx-auto pb-20 md:pb-40">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}

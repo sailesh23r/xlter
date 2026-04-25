@@ -24,7 +24,7 @@ export default function Logo({ forceWhite = false, monochrome = false }: { force
             xmlnsXlink="http://www.w3.org/1999/xlink" 
             x="0px" y="0px"
             viewBox="0 0 878.93 229.13" 
-            className="h-8 w-auto transition-all duration-300"
+            className="h-full w-auto transition-all duration-300"
             xmlSpace="preserve"
             aria-label="Xlter Logo"
             role="img"

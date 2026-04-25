@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { FileText, MessageSquare, Eye, LayoutDashboard, Layers } from "lucide-react";
+import { FileText, MessageSquare, Eye, LayoutDashboard, Layers, Globe, ArrowRightLeft, Code, Users, TrendingUp, Clock } from "lucide-react";
 
 export default async function AdminDashboard() {
   const cookieStore = await cookies();
@@ -11,76 +11,106 @@ export default async function AdminDashboard() {
     redirect("/xlter-admin/login");
   }
 
+  // Mock data for the dashboard
+  const stats = [
+    { name: "Total Blogs", value: "24", icon: FileText, color: "text-purple-400", bg: "bg-purple-400/10" },
+    { name: "Case Studies", value: "12", icon: Layers, color: "text-blue-400", bg: "bg-blue-400/10" },
+    { name: "Testimonials", value: "48", icon: MessageSquare, color: "text-green-400", bg: "bg-green-400/10" },
+    { name: "Site Visits", value: "1.2k", icon: Eye, color: "text-yellow-400", bg: "bg-yellow-400/10" },
+  ];
+
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white font-sans">
-      <div className="max-w-6xl mx-auto px-6 py-10">
-        {/* Header */}
-        <header className="flex justify-between items-center mb-12 border-b border-white/10 pb-6">
-          <div className="flex items-center gap-6">
-            <Link href="/" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 text-sm">
-              <span className="text-lg">←</span> Back to Home
+    <div className="space-y-10">
+      {/* Welcome Header */}
+      <div>
+        <h1 className="text-4xl font-bold tracking-tight text-white">Welcome back, Admin</h1>
+        <p className="text-gray-400 mt-2 text-lg">Here's what's happening with your studio today.</p>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {stats.map((stat) => (
+          <div key={stat.name} className="bg-[#111111] border border-white/10 p-6 rounded-2xl hover:border-white/20 transition-all group">
+            <div className="flex items-center justify-between mb-4">
+              <div className={`p-3 rounded-xl ${stat.bg}`}>
+                <stat.icon className={`w-6 h-6 ${stat.color}`} />
+              </div>
+              <span className="text-green-400 text-xs font-bold bg-green-400/10 px-2 py-1 rounded-lg flex items-center gap-1">
+                <TrendingUp size={12} /> +12%
+              </span>
+            </div>
+            <h3 className="text-gray-400 text-sm font-medium">{stat.name}</h3>
+            <p className="text-3xl font-bold text-white mt-1">{stat.value}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Recent Activity */}
+        <div className="lg:col-span-2 bg-[#111111] border border-white/10 rounded-3xl p-8">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-xl font-bold text-white flex items-center gap-2">
+              <Clock className="w-5 h-5 text-purple-400" /> Recent Activity
+            </h2>
+            <button className="text-sm text-purple-400 hover:text-purple-300 transition-colors">View all</button>
+          </div>
+          
+          <div className="space-y-6">
+            {[
+              { type: "Blog", title: "Future of AI in Web Design", time: "2 hours ago", action: "Published" },
+              { type: "Case Study", title: "Fintech App Redesign", time: "5 hours ago", action: "Updated" },
+              { type: "Testimonial", title: "Sarah Johnson", time: "1 day ago", action: "Added" },
+              { type: "SEO", title: "Home Page Meta", time: "2 days ago", action: "Optimized" },
+            ].map((activity, i) => (
+              <div key={i} className="flex items-center justify-between py-4 border-b border-white/5 last:border-0">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-xs font-bold text-gray-400">
+                    {activity.type[0]}
+                  </div>
+                  <div>
+                    <p className="text-white font-medium">{activity.title}</p>
+                    <p className="text-gray-500 text-sm">{activity.action} by Admin</p>
+                  </div>
+                </div>
+                <span className="text-gray-500 text-sm">{activity.time}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* System Health / Quick Links */}
+        <div className="space-y-8">
+          <div className="bg-purple-600/10 border border-purple-500/20 rounded-3xl p-8">
+            <h3 className="text-purple-400 font-bold mb-2">Pro Tip</h3>
+            <p className="text-purple-200/70 text-sm leading-relaxed">
+              Don't forget to update your Global SEO settings every month to maintain search visibility.
+            </p>
+            <Link href="/xlter-admin/seo" className="inline-block mt-4 text-sm font-bold text-purple-400 hover:underline">
+              Go to SEO →
             </Link>
-            <div className="h-6 w-px bg-white/10" />
-            <div className="flex items-center gap-3">
-              <LayoutDashboard className="w-6 h-6 text-purple-400" />
-              <h1 className="text-3xl font-bold tracking-tight">Xlter Admin</h1>
+          </div>
+
+          <div className="bg-[#111111] border border-white/10 rounded-3xl p-8">
+            <h3 className="text-white font-bold mb-6">System Status</h3>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-gray-400">Database</span>
+                <span className="text-green-400 flex items-center gap-1.5 font-medium">
+                  <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" /> Operational
+                </span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-gray-400">Vercel Build</span>
+                <span className="text-green-400 flex items-center gap-1.5 font-medium">
+                  <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" /> Success
+                </span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-gray-400">API Latency</span>
+                <span className="text-white font-medium">42ms</span>
+              </div>
             </div>
           </div>
-          <form
-            action={async () => {
-              "use server";
-              const cookieStore = await cookies();
-              cookieStore.delete("admin_session");
-              redirect("/xlter-admin/login");
-            }}
-          >
-            <button className="bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-2 rounded-xl text-sm transition-colors">
-              Sign Out
-            </button>
-          </form>
-        </header>
-
-        {/* Quick Links */}
-        <h2 className="text-lg font-semibold text-gray-300 mb-4">Manage</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <Link
-            href="/xlter-admin/blog"
-            className="group bg-[#111111] border border-white/10 hover:border-purple-500/30 p-8 rounded-2xl transition-all hover:bg-purple-500/5"
-          >
-            <div className="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center mb-4 border border-purple-500/20">
-              <FileText className="w-6 h-6 text-purple-400" />
-            </div>
-            <h3 className="text-xl font-semibold text-white">Blog Posts</h3>
-            <p className="text-gray-500 mt-2">
-              Add, manage and remove blog articles
-            </p>
-          </Link>
-
-          <Link
-            href="/xlter-admin/testimonials"
-            className="group bg-[#111111] border border-white/10 hover:border-indigo-500/30 p-8 rounded-2xl transition-all hover:bg-indigo-500/5"
-          >
-            <div className="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center mb-4 border border-indigo-500/20">
-              <MessageSquare className="w-6 h-6 text-indigo-400" />
-            </div>
-            <h3 className="text-xl font-semibold text-white">Testimonials</h3>
-            <p className="text-gray-500 mt-2">
-              Manage client feedback and reviews
-            </p>
-          </Link>
-
-          <Link
-            href="/xlter-admin/casestudy"
-            className="group bg-[#111111] border border-white/10 hover:border-blue-500/30 p-8 rounded-2xl transition-all hover:bg-blue-500/5"
-          >
-            <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-4 border border-blue-500/20">
-              <Layers className="w-6 h-6 text-blue-400" />
-            </div>
-            <h3 className="text-xl font-semibold text-white">Case Studies</h3>
-            <p className="text-gray-500 mt-2">
-              Add, manage and remove portfolio case studies
-            </p>
-          </Link>
         </div>
       </div>
     </div>

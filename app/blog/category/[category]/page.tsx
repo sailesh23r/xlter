@@ -1,6 +1,6 @@
 import connectToDatabase from "@/lib/mongodb";
 import Blog from "@/models/Blog";
-import BlogClient from "../BlogClient";
+import BlogClient from "../../BlogClient";
 import { notFound } from "next/navigation";
 
 interface Props {
@@ -35,16 +35,10 @@ async function getCategories(): Promise<any[]> {
 export default async function CategoryPage({ params }: Props) {
   const { category } = await params;
   
-  // Check if category exists in our system (optional, but good for SEO)
-  // For now, we'll just try to fetch blogs.
-  
   const [blogs, categories] = await Promise.all([
     getBlogsByCategory(category),
     getCategories()
   ]);
 
-  // If no blogs found and it's not a known category, maybe notFound?
-  // But let's just show an empty BlogClient with the filter set.
-  
   return <BlogClient blogs={blogs} categories={categories} initialCategory={category.toUpperCase()} />;
 }

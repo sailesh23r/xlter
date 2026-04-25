@@ -59,7 +59,7 @@ export default function Ecosystem() {
   return (
     <section
       id="services"
-      className="bg-transparent text-foreground relative overflow-hidden py-32 px-6"
+      className="bg-transparent text-foreground relative overflow-hidden py-20 px-6"
     >
       <GridBackground />
       <div className="max-w-7xl mx-auto">
@@ -84,7 +84,13 @@ export default function Ecosystem() {
         <div className="divide-y divide-border">
           {items.map((item, i) => {
             const Icon = item.icon;
-            return (
+            const href = item.id === "graphic-design" ? "/graphic-design" : 
+                         item.id === "web-dev" ? "/web-development" : 
+                         item.id === "branding" ? "/branding" :
+                         item.id === "ai-strategy" ? "/ai-strategy" :
+                         item.id === "ui-ux" ? "/ui-ux" : null;
+
+            const CardContent = (
               <motion.div
                 key={i}
                 id={item.id}
@@ -92,7 +98,7 @@ export default function Ecosystem() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="group py-8 sm:py-10 md:py-12 flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 md:gap-8 hover:bg-accent/50 px-3 sm:px-4 transition-colors rounded-2xl"
+                className="group py-8 sm:py-10 md:py-12 flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 md:gap-8 hover:bg-accent/50 px-3 sm:px-4 transition-colors rounded-2xl cursor-pointer"
               >
                 {/* Icon */}
                 <div className="flex-shrink-0">
@@ -140,33 +146,21 @@ export default function Ecosystem() {
                 </div>
 
                 {/* Arrow */}
-                {item.id === "graphic-design" || item.id === "web-dev" || item.id === "branding" || item.id === "ai-strategy" || item.id === "ui-ux" ? (
-                  <Link href={
-                    item.id === "graphic-design" ? "/Graphic-Design" : 
-                    item.id === "web-dev" ? "/Web-Development" : 
-                    item.id === "branding" ? "/Branding" :
-                    item.id === "ai-strategy" ? "/AI-Strategy" :
-                    "/UI-UX"
-                  } className="self-start md:self-center flex-shrink-0">
-                    <motion.button
-                      whileHover={{ scale: 1.1, x: 10 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-muted/50 border border-border text-muted-foreground hover:bg-muted flex items-center justify-center shadow-sm transition-colors"
-                    >
-                      <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
-                    </motion.button>
-                  </Link>
-                ) : (
-                  <motion.button
-                    whileHover={{ scale: 1.1, x: 10 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-muted/50 border border-border text-muted-foreground hover:bg-muted flex items-center justify-center shadow-sm self-start md:self-center transition-colors"
-                  >
-                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
-                  </motion.button>
-                )}
+                <motion.div
+                  whileHover={{ scale: 1.1, x: 10 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-muted/50 border border-border text-muted-foreground group-hover:bg-primary group-hover:text-white flex items-center justify-center shadow-sm self-start md:self-center transition-colors"
+                >
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+                </motion.div>
               </motion.div>
             );
+
+            return href ? (
+              <Link href={href} key={i}>
+                {CardContent}
+              </Link>
+            ) : CardContent;
           })}
         </div>
       </div>

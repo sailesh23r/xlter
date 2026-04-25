@@ -56,18 +56,18 @@ export default function Work() {
   }, []);
 
   return (
-    <section id="work" className="bg-transparent text-foreground py-32 px-6 relative">
+    <section id="work" className="bg-transparent text-foreground py-20 px-6 relative">
       <GridBackground />
       <div className="max-w-7xl mx-auto">
         {/* Centered Header */}
-        <div className="text-center mb-24">
+        <div className="text-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="flex flex-col items-center gap-6"
           >
-            <h2 className="text-[42px] font-bold uppercase tracking-tighter">
+            <h2 className="text-[32px] md:text-[42px] lg:text-[56px] font-bold uppercase tracking-tighter">
               SELECTED WORKS
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto text-lg font-medium leading-relaxed opacity-60">

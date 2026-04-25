@@ -267,7 +267,7 @@ export default function AdminCaseStudyPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white font-sans">
+    <>
       {/* Toast */}
       <AnimatePresence>
         {toast && (
@@ -293,15 +293,7 @@ export default function AdminCaseStudyPage() {
         )}
       </AnimatePresence>
 
-      <div className="max-w-7xl mx-auto px-6 py-10">
-        {/* Header */}
         <div className="flex items-center gap-4 mb-10">
-          <Link
-            href="/Xlter-admin/dashboard"
-            className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-white/10"
-          >
-            <ArrowLeft className="w-5 h-5 text-gray-400" />
-          </Link>
           <div>
             <h1 className="text-3xl font-bold text-white tracking-tight">
               Case Study Manager
@@ -725,7 +717,6 @@ export default function AdminCaseStudyPage() {
             )}
           </div>
         </div>
-      </div>
-    </div>
+    </>
   );
 }

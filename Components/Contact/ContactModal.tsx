@@ -75,7 +75,7 @@ export default function ContactModal({ isOpen, onClose }: Props) {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 100 }}
                         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as any }}
-                        className="relative w-full max-w-4xl bg-card text-foreground rounded-[3rem] p-10 md:p-16 shadow-[0_0_100px_rgba(0,0,0,0.1)] border border-border overflow-hidden"
+                        className="relative w-full max-w-4xl bg-card text-foreground rounded-2xl md:rounded-[3rem] p-6 md:p-16 shadow-[0_0_100px_rgba(0,0,0,0.1)] border border-border overflow-hidden"
                     >
                         {/* Decorative Background Glow */}
                         <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 blur-[100px] rounded-full pointer-events-none" />
@@ -94,7 +94,7 @@ export default function ContactModal({ isOpen, onClose }: Props) {
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.2 }}
-                                className="text-[42px] font-bold mb-4 tracking-tighter uppercase"
+                                className="text-3xl md:text-[42px] font-bold mb-4 tracking-tighter uppercase"
                             >
                                 Let&apos;s Talk
                             </motion.h2>
@@ -102,7 +102,7 @@ export default function ContactModal({ isOpen, onClose }: Props) {
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.3 }}
-                                className="text-muted-foreground text-xl font-medium"
+                                className="text-muted-foreground text-lg md:text-xl font-medium"
                             >
                                 Start a Conversation. <br />
                                 <span className="text-muted-foreground/60 text-lg">Share your requirements and we&apos;ll get back to you with how we can help.</span>
@@ -110,7 +110,7 @@ export default function ContactModal({ isOpen, onClose }: Props) {
                         </div>
 
                         {/* Form Section */}
-                        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
+                        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 md:gap-y-10">
 
                             <motion.div
                                 initial={{ opacity: 0, y: 10 }}
@@ -126,7 +126,7 @@ export default function ContactModal({ isOpen, onClose }: Props) {
                                     onChange={handleChange}
                                     required
                                     placeholder="Enter your name here"
-                                    className="w-full bg-transparent border-b border-border pb-4 text-xl focus:outline-none focus:border-primary transition-all placeholder:text-muted-foreground/20"
+                                    className="w-full bg-transparent border-b border-border pb-4 text-lg md:text-xl focus:outline-none focus:border-primary transition-all placeholder:text-muted-foreground/20"
                                 />
                             </motion.div>
 
@@ -143,7 +143,7 @@ export default function ContactModal({ isOpen, onClose }: Props) {
                                     value={formData.email}
                                     onChange={handleChange}
                                     placeholder="Enter your email address"
-                                    className="w-full bg-transparent border-b border-border pb-4 text-xl focus:outline-none focus:border-primary transition-all placeholder:text-muted-foreground/20"
+                                    className="w-full bg-transparent border-b border-border pb-4 text-lg md:text-xl focus:outline-none focus:border-primary transition-all placeholder:text-muted-foreground/20"
                                 />
                             </motion.div>
 
@@ -155,7 +155,7 @@ export default function ContactModal({ isOpen, onClose }: Props) {
                             >
                                 <label className="block text-[10px] uppercase tracking-[0.3em] font-bold text-muted-foreground mb-3 ml-1 group-focus-within:text-primary transition-colors">Phone Number <span className="text-red-500">*</span></label>
                                 <div className="flex items-center gap-4 border-b border-border pb-4 group-focus-within:border-primary transition-all">
-                                    <span className="text-xl text-muted-foreground">+91</span>
+                                    <span className="text-lg md:text-xl text-muted-foreground">+91</span>
                                     <input
                                         type="tel"
                                         name="phone"
@@ -163,7 +163,7 @@ export default function ContactModal({ isOpen, onClose }: Props) {
                                         onChange={handleChange}
                                         required
                                         placeholder="Phone number"
-                                        className="w-full bg-transparent text-xl focus:outline-none placeholder:text-muted-foreground/20"
+                                        className="w-full bg-transparent text-lg md:text-xl focus:outline-none placeholder:text-muted-foreground/20"
                                     />
                                 </div>
                             </motion.div>
@@ -182,7 +182,7 @@ export default function ContactModal({ isOpen, onClose }: Props) {
                                     required
                                     placeholder="Tell us about your project or vision..."
                                     rows={1}
-                                    className="w-full bg-transparent border-b border-border pb-4 text-xl focus:outline-none focus:border-primary transition-all placeholder:text-muted-foreground/20 resize-none min-h-[60px]"
+                                    className="w-full bg-transparent border-b border-border pb-4 text-lg md:text-xl focus:outline-none focus:border-primary transition-all placeholder:text-muted-foreground/20 resize-none min-h-[60px]"
                                 />
                             </motion.div>
 

@@ -30,6 +30,18 @@ export default function Navbar() {
         setMounted(true);
     }, []);
 
+    // Close mobile menu when resizing to desktop
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 768) {
+                setIsOpen(false);
+                setIsMobileServiceOpen(false);
+            }
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     // Listen for global modal triggers
     useEffect(() => {
         const handleOpen = () => setIsContactOpen(true);
@@ -42,12 +54,15 @@ export default function Navbar() {
     };
 
     return (
-        <header className="fixed top-6 left-0 w-full flex justify-center z-50 px-4">
-            <div className="w-full max-w-6xl flex items-center justify-between px-6 py-3 rounded-full bg-background/40 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] border border-white/20 dark:border-white/10 transition-all duration-300">
+        <header className="fixed top-4 md:top-6 inset-x-0 z-50 flex justify-center pointer-events-none px-4 md:px-0">
+            <div className="relative w-full max-w-6xl md:px-6 pointer-events-auto">
+                <div className="w-full flex items-center justify-between px-4 md:px-8 h-14 md:h-16 bg-background/90 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl transition-all duration-300">
 
                 {/* Logo */}
-                <Link href="/" className="flex items-center gap-2">
-                    <Logo />
+                <Link href="/" className="flex items-center gap-2 shrink-0">
+                    <div className="h-5 md:h-7">
+                        <Logo />
+                    </div>
                 </Link>
 
                 {/* Desktop Menu */}
@@ -83,7 +98,7 @@ export default function Navbar() {
                     ))}
                 </nav>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1.5 md:gap-3">
                     {/* Theme Toggle */}
                     {mounted && (
                         <button
@@ -100,25 +115,26 @@ export default function Navbar() {
                             const event = new CustomEvent('openContactModal');
                             window.dispatchEvent(event);
                         }}
-                        className="hidden sm:block bg-primary text-primary-foreground hover:brightness-110 active:scale-95 transition-all px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest shadow-md shadow-primary/20"
+                        className="hidden md:block bg-primary text-primary-foreground hover:brightness-110 active:scale-95 transition-all px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest shadow-md shadow-primary/20"
                     >
                         GET IN TOUCH
                     </button>
 
                     {/* Hamburger */}
                     <button
-                        className="md:hidden p-2 rounded-full hover:bg-accent text-foreground transition-colors"
+                        className="md:hidden p-2 rounded-xl bg-accent/50 text-foreground transition-colors shrink-0"
                         onClick={() => setIsOpen(!isOpen)}
                     >
-                        {isOpen ? <X size={24} /> : <Menu size={24} />}
+                        {isOpen ? <X size={20} /> : <Menu size={20} />}
                     </button>
                 </div>
             </div>
 
-            {/* Mobile Menu */}
+            {/* Mobile Menu — inside pointer-events-auto wrapper */}
             <div
-                className={`absolute top-full left-1/2 -translate-x-1/2 w-[90%] md:hidden bg-background/60 backdrop-blur-2xl mt-4 rounded-3xl overflow-hidden shadow-2xl border border-white/20 dark:border-white/10 transition-all duration-300 ease-in-out ${isOpen ? "max-h-[500px] py-8 opacity-100" : "max-h-0 py-0 opacity-0 pointer-events-none"
-                    }`}
+                className={`absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2 w-[93%] md:hidden bg-background/95 backdrop-blur-2xl rounded-3xl overflow-hidden shadow-2xl border border-white/20 dark:border-white/10 transition-all duration-300 ease-in-out ${
+                    isOpen ? "max-h-[600px] py-8 opacity-100 pointer-events-auto" : "max-h-0 py-0 opacity-0 pointer-events-none"
+                }`}
             >
                 <nav className="flex flex-col gap-6 px-8 text-sm font-bold uppercase tracking-widest">
                     {navLinks.map((link) => (
@@ -182,6 +198,8 @@ export default function Navbar() {
                         GET IN TOUCH
                     </button>
                 </nav>
+            </div>
+
             </div>
 
             <ContactModal

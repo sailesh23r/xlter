@@ -40,10 +40,10 @@ const techStack: Tech[] = [
 
 export default function TechStack() {
     return (
-        <section className="bg-background text-foreground py-24 md:py-32 lg:py-40 overflow-hidden relative">
+        <section className="bg-background text-foreground py-16 md:py-24 lg:py-32 overflow-hidden relative">
         <GridBackground />
             {/* Heading */}
-            <div className="max-w-7xl mx-auto px-6 text-center mb-24">
+            <div className="max-w-7xl mx-auto px-6 text-center mb-16">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}

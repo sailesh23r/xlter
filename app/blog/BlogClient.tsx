@@ -51,11 +51,11 @@ export default function BlogClient({
   const words = "THINK. BUILD. GROW.".split(" ");
 
   return (
-    <div className="bg-background text-foreground min-h-screen pt-32 pb-20 transition-colors duration-500 relative">
+    <div className="bg-background text-foreground min-h-screen pt-4 pb-20 transition-colors duration-500 relative">
       <GridBackground />
       
       {/* Hero */}
-      <section className="max-w-7xl mx-auto px-6 relative z-10 text-center py-20">
+      <section className="max-w-7xl mx-auto px-6 relative text-center pt-8 md:pt-16 pb-16">
         <motion.p 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -122,7 +122,7 @@ export default function BlogClient({
         ) : (
           <motion.div 
             layout
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-12"
+            className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-12"
           >
             <AnimatePresence mode="popLayout">
               {filteredBlogs.map((blog, i) => (
@@ -147,6 +147,28 @@ export default function BlogClient({
             </AnimatePresence>
           </motion.div>
         )}
+      </div>
+
+      {/* Mobile Swipe Section */}
+      <div className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-6 px-6 pb-12 no-scrollbar">
+        {filteredBlogs.map((blog) => (
+          <motion.div
+            key={blog._id}
+            className="min-w-[85vw] snap-center"
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+          >
+            <BlogCard
+              id={blog._id}
+              slug={blog.slug}
+              title={blog.title}
+              category={blog.category}
+              description={blog.description}
+              image={blog.thumbnail}
+            />
+          </motion.div>
+        ))}
       </div>
     </div>
   );

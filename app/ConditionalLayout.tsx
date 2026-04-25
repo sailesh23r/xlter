@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import Navbar from "@/Components/NavBar";
 import WhatsAppButton from "@/Components/Contact/WhatsAppButton";
 import PreFooterCTA from "@/Components/PreFooterCTA";
+import Breadcrumbs from "@/Components/Breadcrumbs";
 import Footer from "@/Components/Footer";
 
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
@@ -18,6 +19,7 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
     <>
       <Navbar />
       <WhatsAppButton />
+      <Breadcrumbs />
       <main className="flex-grow">{children}</main>
       <PreFooterCTA />
       <Footer />

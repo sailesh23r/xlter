@@ -11,9 +11,7 @@ type Props = {
 };
 
 export default function BlogCard({ id, slug, title, category, description, image }: Props) {
-    // Hierarchical professional URL: /Blog/[category]/[slug]
-    const catSlug = category.toLowerCase().replace(/ /g, "-");
-    const linkHref = `/Blog/${catSlug}/${slug || id}`;
+    const linkHref = `/blog/${slug || id}`;
 
     return (
         <div className="border border-border rounded-2xl overflow-hidden hover:border-primary transition-all duration-300 bg-card hover:shadow-2xl hover:shadow-primary/5 group">

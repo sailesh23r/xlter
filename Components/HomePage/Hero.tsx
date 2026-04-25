@@ -93,7 +93,7 @@ export default function Hero() {
 
                 <motion.h1
                     variants={fadeUp}
-                    className="text-[42px] font-bold uppercase tracking-tighter leading-[0.95] mt-8 max-w-4xl"
+                    className="text-[32px] sm:text-[48px] md:text-[64px] lg:text-[72px] font-bold uppercase tracking-tighter leading-[0.95] mt-8 max-w-4xl"
                     style={{ translateZ: "100px" }}
                 >
                     EVERYTHING <span className="text-primary">DIGITAL</span>.<br />DONE RIGHT.

@@ -96,12 +96,9 @@ export default function TestimonialsAdmin() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white p-6 md:p-12">
-      <div className="max-w-6xl mx-auto">
+    <>
         <div className="flex justify-between items-center mb-12">
-          <Link href="/xlter-admin/dashboard" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
-            <ArrowLeft size={20} /> Back to Dashboard
-          </Link>
+          <h1 className="text-4xl font-bold">Manage Testimonials</h1>
           <button
             onClick={() => setIsAdding(true)}
             className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-all"
@@ -109,8 +106,6 @@ export default function TestimonialsAdmin() {
             <Plus size={20} /> Add Testimonial
           </button>
         </div>
-
-        <h1 className="text-4xl font-bold mb-8">Manage Testimonials</h1>
 
         {isAdding && (
           <div className="bg-[#111111] border border-white/10 p-8 rounded-3xl mb-12">
@@ -209,7 +204,6 @@ export default function TestimonialsAdmin() {
             ))}
           </div>
         )}
-      </div>
-    </div>
+    </>
   );
 }

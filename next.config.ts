@@ -11,8 +11,18 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  trailingSlash: false,
   turbopack: {
     root: process.cwd(),
+  },
+  async redirects() {
+    return [
+      {
+        source: '/Admin/:path*',
+        destination: '/xlter-admin/:path*',
+        permanent: true,
+      },
+    ];
   },
 };
 
