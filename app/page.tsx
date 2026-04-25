@@ -5,8 +5,8 @@ import ClientHome from "./ClientHome";
 export async function generateMetadata(): Promise<Metadata> {
   const meta = await getPageMetadata("/");
   return meta || {
-    title: "Xlter Studio | boutique creative agency",
-    description: "Digital experiences that scale. We think, build, and grow your brand.",
+    title: "Xeltr ",
+    description: "",
   };
 }
 

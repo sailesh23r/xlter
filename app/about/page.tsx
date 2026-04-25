@@ -102,37 +102,36 @@ export default function AboutPage() {
     if (!mounted) return null;
 
     return (
-        <main className="bg-background text-foreground selection:bg-primary selection:text-white pb-20 pt-24 md:pt-32 transition-colors duration-500 relative overflow-hidden">
+        <div className="bg-background text-foreground selection:bg-primary selection:text-white pb-16 pt-0 transition-colors duration-500 relative overflow-hidden">
             {/* Background Animations */}
             {/* Background elements removed for cleaner look */}
 
             <div className="relative z-10">
                 <GridBackground />
 
-                {/* Header / Hero */}
-                <section className="max-w-7xl mx-auto px-4 md:px-6 text-center mb-16 md:mb-32">
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
-                        className="flex flex-col items-center"
-                    >
-                        <span className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-[4px] border border-primary/20">
-                            About Us
-                        </span>
-
-                        <h1 className="text-[26px] sm:text-[34px] md:text-[42px] font-bold leading-[1.1] uppercase tracking-tighter mt-8 mb-8">
-                            BLEND OF <span className="text-primary">AI AND HUMAN</span> CREATIVITY
-                        </h1>
-
-                        <p className="text-muted-foreground text-sm md:text-lg font-medium leading-relaxed max-w-2xl mx-auto">
-                            at <span className="text-primary font-bold">Xlter</span>, we are more than a digital agency; we are a fusion of human creativity and artificial intelligence.
-                        </p>
-                    </motion.div>
+                {/* Standardized Hero Section */}
+                <section className="relative w-full h-auto py-16 md:py-20 bg-background border-b border-border/10">
+                    <div className="max-w-7xl mx-auto px-6 text-center">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="flex flex-col items-center gap-4"
+                        >
+                            <p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-[4px] border border-primary/20 w-fit mx-auto">
+                                About Us
+                            </p>
+                            <h1 className="text-4xl md:text-[64px] font-bold leading-[1.1] uppercase tracking-tighter mb-6 mt-6">
+                                BLEND OF <span className="text-primary">AI AND HUMAN</span> CREATIVITY
+                            </h1>
+                            <p className="text-muted-foreground text-base md:text-lg font-medium leading-relaxed max-w-2xl mb-10 mx-auto">
+                                at <span className="text-primary font-bold">Xlter</span>, we are more than a digital agency; we are a fusion of human creativity and artificial intelligence.
+                            </p>
+                        </motion.div>
+                    </div>
                 </section>
 
                 {/* Philosophy Section */}
-                <section className="max-w-7xl mx-auto px-4 md:px-6 mb-20 md:mb-40 overflow-hidden" ref={(el) => setScrollTarget(el)}>
+                <section className="max-w-7xl mx-auto px-4 md:px-6 mb-16 md:mb-32 overflow-hidden" ref={(el) => setScrollTarget(el)}>
                     <div className="text-center mb-12 md:mb-20">
                         <h2 className="text-[26px] sm:text-[34px] md:text-[42px] font-bold uppercase tracking-tighter leading-tight text-primary mb-4">Core Philosophy</h2>
                         <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed opacity-60">&quot;Experience, Elevate, Lead, Transform, and Reinvent.&quot;</p>
@@ -159,7 +158,7 @@ export default function AboutPage() {
                 </section>
 
                 {/* Framework Section */}
-                <section className="max-w-7xl mx-auto px-4 md:px-6 mb-24 md:mb-48">
+                <section className="max-w-7xl mx-auto px-4 md:px-6 mb-16 md:mb-32">
                     <div className="text-center mb-12 md:mb-20">
                         <h2 className="text-[26px] sm:text-[34px] md:text-[42px] font-bold uppercase tracking-tighter leading-tight text-primary mb-4">The X.E.L.T.R Framework</h2>
                         <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed max-w-xl mx-auto opacity-60">
@@ -194,7 +193,7 @@ export default function AboutPage() {
                 </section>
 
                 {/* Mission & Vision */}
-                <section className="max-w-7xl mx-auto px-4 md:px-6 mb-24 md:mb-48">
+                <section className="max-w-7xl mx-auto px-4 md:px-6 mb-16 md:mb-32">
                     <div className="text-center mb-12 md:mb-24">
                         <h2 className="text-[28px] md:text-[42px] font-bold uppercase tracking-tighter leading-tight">Our Mission & Vision</h2>
                     </div>
@@ -236,7 +235,7 @@ export default function AboutPage() {
                 </section>
 
                 {/* Quote & CTA */}
-                <section className="px-4 md:px-6 text-center max-w-5xl mx-auto pb-20 md:pb-40">
+                <section className="px-4 md:px-6 text-center max-w-5xl mx-auto pb-16 md:pb-32">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -265,6 +264,6 @@ export default function AboutPage() {
                     </motion.div>
                 </section>
             </div>
-        </main>
+        </div>
     );
 }

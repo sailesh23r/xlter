@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Loader2, ArrowRight } from "lucide-react";
 import GridBackground from "../Animations/GridBackground";
+import { SwipeStack } from "../Common/SwipeStack";
 
 interface CaseStudyDoc {
   _id: string;
@@ -83,9 +84,9 @@ export default function Work() {
           </div>
         )}
 
-        {/* Cards Grid */}
+        {/* Desktop Cards Grid */}
         {!loading && (
-          <div className="space-y-16">
+          <div className="hidden md:block space-y-16">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {casestudies.length > 0
                 ? casestudies.map((cs, i) => {
@@ -98,55 +99,54 @@ export default function Work() {
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true }}
-                        whileHover={{ y: -10 }}
-                        className="group relative bg-card border border-border rounded-[16px] overflow-hidden shadow-2xl shadow-black/5 hover:border-primary/30 transition-all duration-500 h-full flex flex-col"
+                        className="group relative bg-card border border-border/50 rounded-[24px] overflow-hidden hover:border-primary/50 transition-all duration-700 shadow-2xl shadow-black/5"
                       >
-                        {/* Thumbnail */}
-                        <div className="relative w-full h-64 overflow-hidden bg-muted">
+                        <div className="relative aspect-[4/3] overflow-hidden">
                           <Image
                             src={cs.thumbnail}
                             alt={cs.title}
                             fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                            className="object-cover group-hover:scale-110 transition-transform duration-700"
+                            className="object-cover group-hover:scale-110 transition-transform duration-1000"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-60" />
-
-                          {/* Category badge */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
                           <div
-                            className="absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase backdrop-blur-md border border-white/10 text-white"
-                            style={{ background: `${accent}80` }}
+                            className="absolute top-6 left-6 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest backdrop-blur-xl border border-white/10 text-white"
+                            style={{ background: `${accent}CC` }}
                           >
                             {cs.category}
                           </div>
                         </div>
 
-                        {/* Content */}
-                        <div className="p-8 flex-1 flex flex-col">
-                          <h3 className="text-2xl font-bold uppercase tracking-tight mb-3 group-hover:text-primary transition-colors">
+                        <div className="p-8">
+                          <h3 className="text-2xl font-bold uppercase tracking-tighter mb-4 group-hover:text-primary transition-colors">
                             {cs.title}
                           </h3>
-                          <p className="text-muted-foreground text-sm font-medium leading-relaxed mb-6 opacity-80 line-clamp-2">
+                          <p className="text-muted-foreground text-sm font-medium leading-relaxed line-clamp-2 mb-8 opacity-70">
                             {cs.description}
                           </p>
 
-                          <div className="mt-auto pt-6 border-t border-border/50 flex items-center justify-between">
-                            <span className="text-[10px] font-black tracking-widest uppercase text-primary">View Project</span>
-                            <ArrowUpRight className="w-4 h-4 text-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                          <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary group/link">
+                            VIEW CASE STUDY
+                            <ArrowRight
+                              size={18}
+                              className="group-hover/link:translate-x-3 transition-transform duration-500"
+                            />
                           </div>
                         </div>
+
+                        <div
+                          className="absolute bottom-0 left-0 h-[4px] w-0 group-hover:w-full transition-all duration-700"
+                          style={{ background: accent }}
+                        />
                       </motion.div>
                     </Link>
                   );
                 })
-                : [1, 2, 3].map((_, i) => (
-                  <div key={i} className="h-[450px] bg-card/50 border border-border rounded-[16px] animate-pulse" />
-                ))
-              }
+                : null}
             </div>
 
             {/* Bottom-Right View All Button */}
-            <div className="flex justify-end">
+            <div className="flex justify-end mt-12">
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -163,6 +163,53 @@ export default function Work() {
                 </Link>
               </motion.div>
             </div>
+          </div>
+        )}
+
+        {/* Mobile Swipe Stack */}
+        {!loading && (
+          <div className="md:hidden">
+            <SwipeStack
+              items={casestudies}
+              onSwipeRight={(cs) => {
+                window.location.href = "/casestudy";
+              }}
+              renderCard={(cs) => {
+                const accent = ACCENT_MAP[cs.category] ?? "#3b82f6";
+                return (
+                  <div className="relative h-[450px] w-full bg-card overflow-hidden">
+                    <div className="relative w-full h-[250px] overflow-hidden">
+                      <Image
+                        src={cs.thumbnail}
+                        alt={cs.title}
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
+                      <div
+                        className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest backdrop-blur-xl border border-white/10 text-white"
+                        style={{ background: `${accent}CC` }}
+                      >
+                        {cs.category}
+                      </div>
+                    </div>
+                    <div className="p-6 text-center">
+                      <h3 className="text-xl font-bold uppercase tracking-tighter mb-2">{cs.title}</h3>
+                      <p className="text-muted-foreground text-xs line-clamp-3 mb-6">
+                        {cs.description}
+                      </p>
+                      <div className="flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary">
+                        VIEW PROJECT <ArrowRight size={14} />
+                      </div>
+                    </div>
+                    <div className="absolute bottom-0 left-0 h-[4px] w-full" style={{ background: accent }} />
+                  </div>
+                );
+              }}
+            />
+            <p className="text-center text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground animate-pulse mt-8">
+              Swipe Right to View Case Study • Swipe Left to Skip
+            </p>
           </div>
         )}
       </div>

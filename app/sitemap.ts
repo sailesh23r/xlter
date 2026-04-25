@@ -72,6 +72,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Combine all entries, ensuring no duplicates and excluding administrative paths
   return [...staticEntries, ...blogEntries, ...pageEntries].filter(
-    (entry) => !entry.url.includes("/xlter-admin") && !entry.url.includes("/api")
+    (entry) => !entry.url.includes("/xeltr-admin") && !entry.url.includes("/api")
   );
 }

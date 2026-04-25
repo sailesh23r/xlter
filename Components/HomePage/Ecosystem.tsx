@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { SwipeStack } from "../Common/SwipeStack";
 import {
   ArrowRight,
   LineChart,
@@ -80,8 +81,8 @@ export default function Ecosystem() {
           </p>
         </motion.div>
 
-        {/* Items */}
-        <div className="divide-y divide-border">
+        {/* Desktop List View */}
+        <div className="hidden md:block divide-y divide-border">
           {items.map((item, i) => {
             const Icon = item.icon;
             const href = item.id === "graphic-design" ? "/graphic-design" : 
@@ -98,25 +99,21 @@ export default function Ecosystem() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="group py-8 sm:py-10 md:py-12 flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 md:gap-8 hover:bg-accent/50 px-3 sm:px-4 transition-colors rounded-2xl cursor-pointer"
+                className="group flex flex-col md:flex-row items-start md:items-center gap-8 py-12 px-4 hover:bg-accent/30 transition-all duration-500 rounded-[12px] cursor-pointer"
               >
                 {/* Icon */}
-                <div className="flex-shrink-0">
-                  <div
-                    className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-lg transition-transform duration-500 group-hover:scale-110"
-                    style={{
-                      background: `${item.accent}15`,
-                      border: `1px solid ${item.accent}30`,
-                    }}
-                  >
-                    <Icon
-                      className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7"
-                      style={{ color: item.accent }}
-                    />
-                  </div>
+                <div
+                  className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center transition-all duration-500 group-hover:scale-110 shadow-lg"
+                  style={{
+                    background: `${item.accent}15`,
+                    color: item.accent,
+                    border: `1px solid ${item.accent}25`,
+                  }}
+                >
+                  <Icon className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12" />
                 </div>
 
-                {/* Content */}
+                {/* Text Content */}
                 <div className="flex-1 min-w-0">
                   <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tighter mb-2 group-hover:text-primary transition-colors">
                     {item.title}
@@ -162,6 +159,64 @@ export default function Ecosystem() {
               </Link>
             ) : CardContent;
           })}
+        </div>
+
+        {/* Mobile Swipe Stack */}
+        <div className="md:hidden">
+          <SwipeStack
+            items={items.map(item => ({ ...item, _id: item.id }))}
+            onSwipeRight={(item) => {
+              const href = item.id === "graphic-design" ? "/graphic-design" : 
+                           item.id === "web-dev" ? "/web-development" : 
+                           item.id === "branding" ? "/branding" :
+                           item.id === "ai-strategy" ? "/ai-strategy" :
+                           item.id === "ui-ux" ? "/ui-ux" : null;
+              if (href) window.location.href = href;
+            }}
+            renderCard={(item) => {
+              const Icon = item.icon;
+              return (
+                <div className="bg-card p-8 h-[450px] flex flex-col items-center text-center justify-center relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-[4px]" style={{ background: item.accent }} />
+                  <div
+                    className="w-24 h-24 rounded-full flex items-center justify-center mb-8 shadow-xl"
+                    style={{
+                      background: `${item.accent}15`,
+                      color: item.accent,
+                      border: `1px solid ${item.accent}25`,
+                    }}
+                  >
+                    <Icon size={48} />
+                  </div>
+                  <h3 className="text-2xl font-bold uppercase tracking-tighter mb-4">{item.title}</h3>
+                  <p className="text-muted-foreground text-sm font-medium leading-relaxed mb-8">
+                    {item.desc}
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-2 mb-8">
+                    {item.tags.slice(0, 2).map((tag, idx) => (
+                      <span
+                        key={idx}
+                        className="text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full"
+                        style={{
+                          background: `${item.accent}12`,
+                          color: item.accent,
+                          border: `1px solid ${item.accent}25`,
+                        }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary">
+                    LEARN MORE <ArrowRight size={14} />
+                  </div>
+                </div>
+              );
+            }}
+          />
+          <p className="text-center text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground animate-pulse mt-8">
+            Swipe Right to Learn More • Swipe Left to Skip
+          </p>
         </div>
       </div>
     </section>

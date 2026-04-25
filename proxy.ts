@@ -8,7 +8,7 @@ export default async function proxy(request: NextRequest) {
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/api") ||
-    pathname.startsWith("/xlter-admin") ||
+    pathname.startsWith("/xeltr-admin") ||
     pathname.includes(".") // skip files (images, etc)
   ) {
     return NextResponse.next();

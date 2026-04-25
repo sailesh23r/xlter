@@ -58,13 +58,13 @@ export default async function RootLayout({
     "url": "https://xlter.com",
     "logo": "https://xlter.com/Transparent-06.png",
     "sameAs": [
-      "https://facebook.com/xlter",
-      "https://instagram.com/xlter",
-      "https://linkedin.com/company/xlter"
+      "https://www.facebook.com/xeltrcom",
+      "https://www.instagram.com/xeltrcom",
+      "https://www.linkedin.com/company/xeltrcom/"
     ],
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+91-XXXXXXXXXX",
+      "telephone": "+91-94950-91659",
       "contactType": "customer service"
     }
   };

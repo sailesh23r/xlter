@@ -14,7 +14,7 @@ export default function PreFooterCTA() {
     };
 
     return (
-        <section className="relative py-40 bg-background border-t border-border/50 overflow-hidden">
+        <section className="relative py-24 bg-background border-t border-border/50 overflow-hidden">
             {/* Background Grid */}
             <div className="absolute inset-0 z-0 opacity-40">
                 <GridBackground />

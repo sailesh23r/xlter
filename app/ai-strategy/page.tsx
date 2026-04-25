@@ -58,20 +58,17 @@ export default function AIStrategyPage() {
     const words = "AI-Powered Digital Growth & SEO That Scales".split(" ");
 
     return (
-        <main className="bg-background text-foreground min-h-screen pt-32 transition-colors duration-500">
+        <div className="bg-background text-foreground min-h-screen pt-0 transition-colors duration-500">
 
             {/* Hero Section */}
-            <section className="relative w-full flex flex-col items-center text-center overflow-hidden min-h-screen justify-center bg-background border-b border-border/10">
-
-                {/* Background animations removed for cleaner look */}
-
-                <div className="relative z-10 px-6 md:px-12 max-w-7xl mx-auto space-y-12">
+            <section className="relative w-full py-16 md:py-20 bg-background border-b border-border/10">
+                <div className="px-6 md:px-12 max-w-7xl mx-auto space-y-12 text-center">
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="flex flex-col items-center gap-4"
                     >
-                        <p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-full backdrop-blur-md border border-primary/20">
+                        <p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-[4px] border border-primary/20 w-fit mx-auto">
                             REDEFINING EXCELLENCE
                         </p>
                     </motion.div>
@@ -79,7 +76,7 @@ export default function AIStrategyPage() {
                     <motion.h1
                         initial="hidden"
                         animate="visible"
-                        className="text-[42px] font-bold leading-[1.1] uppercase tracking-tighter"
+                        className="text-4xl md:text-[64px] font-bold leading-[1.1] uppercase tracking-tighter mb-6"
                     >
                         {words.map((word, i) => (
                             <motion.span
@@ -96,17 +93,17 @@ export default function AIStrategyPage() {
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.8 }}
-                        className="text-muted-foreground text-sm md:text-xl font-medium uppercase tracking-[0.2em] max-w-2xl mx-auto leading-relaxed"
+                        transition={{ delay: 0.2 }}
+                        className="text-muted-foreground text-base md:text-lg font-medium leading-relaxed max-w-2xl mb-10 mx-auto"
                     >
-                        We bridge the gap between strategic brand intelligence and architectural visual precision. Elevate your presence with a legacy-driven identity.
+                        Master the future with AI strategies that don&apos;t just keep pace—they set the standard. We combine advanced data science with creative intuition to build intelligent systems that scale.
                     </motion.p>
 
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 1 }}
-                        className="flex flex-wrap justify-center gap-6 pt-8"
+                        transition={{ delay: 0.3 }}
+                        className="flex flex-wrap justify-center gap-4"
                     >
                         <button 
                             onClick={openContact}
@@ -126,7 +123,7 @@ export default function AIStrategyPage() {
             </section>
 
             {/* Expertise Section */}
-            <section className="py-24 md:py-32 lg:py-40 px-6 md:px-12 bg-accent/30 transition-colors duration-500 border-t border-border/10 relative overflow-hidden">
+            <section className="py-16 md:py-24 lg:py-32 px-6 md:px-12 bg-accent/30 transition-colors duration-500 border-t border-border/10 relative overflow-hidden">
                 <GridBackground />
                 <div className="max-w-7xl mx-auto relative z-10">
                     <div className="flex flex-col md:flex-row justify-between items-center mb-24 gap-12 text-center md:text-left">
@@ -197,7 +194,7 @@ export default function AIStrategyPage() {
             </section>
 
             {/* Methodology Section */}
-            <section className="py-24 md:py-32 lg:py-40 px-6 md:px-12 bg-background relative border-y border-border/10 overflow-hidden">
+            <section className="py-16 md:py-24 lg:py-32 px-6 md:px-12 bg-background relative border-y border-border/10 overflow-hidden">
                 <GridBackground />
                 <div className="max-w-7xl mx-auto text-center relative z-10">
                     <motion.h2
@@ -276,7 +273,7 @@ export default function AIStrategyPage() {
 
 
             {/* Tech Stack Section */}
-            <section className="py-24 md:py-32 lg:py-40 px-6 md:px-12 bg-background relative overflow-hidden">
+            <section className="py-16 md:py-24 lg:py-32 px-6 md:px-12 bg-background relative overflow-hidden">
                 <GridBackground />
                 <div className="max-w-7xl mx-auto text-center relative z-10">
                     <motion.div
@@ -322,6 +319,6 @@ export default function AIStrategyPage() {
                 </div>
             </section>
 
-        </main>
+        </div>
     );
 }

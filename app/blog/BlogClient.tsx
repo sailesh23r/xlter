@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import GridBackground from "@/Components/Animations/GridBackground";
 import BlogCard from "@/Components/Blog/BlogCard";
+import { SwipeStack } from "@/Components/Common/SwipeStack";
 
 interface BlogDoc {
   _id: string;
@@ -51,35 +52,33 @@ export default function BlogClient({
   const words = "THINK. BUILD. GROW.".split(" ");
 
   return (
-    <div className="bg-background text-foreground min-h-screen pt-4 pb-20 transition-colors duration-500 relative">
+    <div className="bg-background text-foreground min-h-screen pt-0 pb-20 transition-colors duration-500 relative">
       <GridBackground />
       
       {/* Hero */}
-      <section className="max-w-7xl mx-auto px-6 relative text-center pt-8 md:pt-16 pb-16">
+      <section className="relative w-full h-auto py-16 md:py-20 max-w-7xl mx-auto px-6 text-center">
         <motion.p 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] mb-8"
+          className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-[4px] border border-primary/20 w-fit mb-4 mx-auto"
         >
           OUR BLOG
         </motion.p>
         
-        <motion.h1 
-          initial="hidden"
-          animate="visible"
-          className="text-[42px] font-bold leading-[1.1] uppercase tracking-tighter mb-12"
-        >
+        <h1 className="text-4xl md:text-[64px] font-bold leading-[1.1] uppercase tracking-tighter mb-6 mt-6">
           {words.map((word, i) => (
             <motion.span
               key={i}
-              custom={i}
               variants={textVariants}
-              className="inline-block mr-4 last:mr-0"
+              custom={i}
+              initial="hidden"
+              animate="visible"
+              className="inline-block mr-[0.3em]"
             >
               {word === "BUILD." ? <span className="text-primary">{word}</span> : word}
             </motion.span>
           ))}
-        </motion.h1>
+        </h1>
         
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
@@ -150,15 +149,10 @@ export default function BlogClient({
       </div>
 
       {/* Mobile Swipe Section */}
-      <div className="md:hidden overflow-x-auto snap-x snap-mandatory flex gap-6 px-6 pb-12 no-scrollbar">
-        {filteredBlogs.map((blog) => (
-          <motion.div
-            key={blog._id}
-            className="min-w-[85vw] snap-center"
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
+      <div className="md:hidden px-6 pb-20">
+        <SwipeStack
+          items={filteredBlogs}
+          renderCard={(blog) => (
             <BlogCard
               id={blog._id}
               slug={blog.slug}
@@ -167,8 +161,27 @@ export default function BlogClient({
               description={blog.description}
               image={blog.thumbnail}
             />
-          </motion.div>
-        ))}
+          )}
+          onSwipeRight={(blog) => {
+            window.location.href = `/blog/${blog.slug}`;
+          }}
+          emptyState={
+            <div className="text-center py-20">
+              <p className="text-muted-foreground text-xs uppercase tracking-widest font-bold opacity-50 mb-6">No more posts to show.</p>
+              <button 
+                onClick={() => setActiveCategory("All")}
+                className="px-8 py-3 border border-primary text-primary rounded-full font-black uppercase tracking-widest text-[10px]"
+              >
+                Reset Filter
+              </button>
+            </div>
+          }
+        />
+        <div className="text-center mt-4">
+          <p className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground animate-pulse">
+            Swipe Right to Read • Swipe Left to Skip
+          </p>
+        </div>
       </div>
     </div>
   );

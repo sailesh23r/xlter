@@ -19,15 +19,15 @@ export default function AdminLoginPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="w-full max-w-md relative z-10"
+        className="w-full max-w-md relative z-10 mx-auto"
       >
-        <div className="bg-[#111111]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
+        <div className="bg-[#111111]/80 backdrop-blur-xl border border-white/10 rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-2xl">
           {/* Logo / Header */}
           <div className="flex flex-col items-center justify-center mb-8">
             <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center mb-4 border border-white/10 shadow-inner">
               <ShieldCheck className="w-8 h-8 text-purple-400" />
             </div>
-            <h1 className="text-3xl font-bold text-white tracking-tight">
+            <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
               Admin Portal
             </h1>
             <p className="text-gray-400 mt-2 text-sm">

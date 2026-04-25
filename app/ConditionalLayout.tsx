@@ -9,20 +9,22 @@ import Footer from "@/Components/Footer";
 
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAdmin = pathname?.startsWith("/xlter-admin");
+  const isAdmin = pathname?.startsWith("/xeltr-admin");
 
   if (isAdmin) {
     return <main className="flex-grow">{children}</main>;
   }
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
       <WhatsAppButton />
-      <Breadcrumbs />
-      <main className="flex-grow">{children}</main>
+      <main className="flex-grow">
+        <Breadcrumbs />
+        {children}
+      </main>
       <PreFooterCTA />
       <Footer />
-    </>
+    </div>
   );
 }

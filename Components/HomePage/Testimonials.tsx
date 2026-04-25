@@ -35,7 +35,7 @@ export default function Testimonials() {
     ];
 
     return (
-        <section className="py-24 md:py-32 lg:py-40 bg-background text-foreground relative overflow-hidden min-h-[900px] flex flex-col items-center justify-center transition-colors duration-500">
+        <section className="py-20 md:py-24 bg-background text-foreground relative overflow-hidden min-h-[700px] flex flex-col items-center justify-center transition-colors duration-500">
         <GridBackground />
             
             {/* Background Decorative Elements */}

@@ -19,17 +19,17 @@ import {
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { logoutAdmin } from "@/app/xlter-admin/actions";
+import { logoutAdmin } from "@/app/xeltr-admin/actions";
 
 const menuItems = [
-    { name: "Dashboard", href: "/xlter-admin/dashboard", icon: LayoutDashboard },
-    { name: "Blog Posts", href: "/xlter-admin/blog", icon: FileText },
-    { name: "Testimonials", href: "/xlter-admin/testimonials", icon: MessageSquare },
-    { name: "Case Studies", href: "/xlter-admin/casestudy", icon: Layers },
-    { name: "Global SEO", href: "/xlter-admin/seo", icon: Globe },
-    { name: "Redirects", href: "/xlter-admin/redirects", icon: ArrowRightLeft },
-    { name: "Script Injection", href: "/xlter-admin/scripts", icon: Code },
-    { name: "Landing Pages", href: "/xlter-admin/pages", icon: LayoutDashboard },
+    { name: "Dashboard", href: "/xeltr-admin/dashboard", icon: LayoutDashboard },
+    { name: "Blog Posts", href: "/xeltr-admin/blog", icon: FileText },
+    { name: "Testimonials", href: "/xeltr-admin/testimonials", icon: MessageSquare },
+    { name: "Case Studies", href: "/xeltr-admin/casestudy", icon: Layers },
+    { name: "Global SEO", href: "/xeltr-admin/seo", icon: Globe },
+    { name: "Redirects", href: "/xeltr-admin/redirects", icon: ArrowRightLeft },
+    { name: "Script Injection", href: "/xeltr-admin/scripts", icon: Code },
+    { name: "Landing Pages", href: "/xeltr-admin/pages", icon: LayoutDashboard },
 ];
 
 import { Menu } from "lucide-react";

@@ -8,7 +8,7 @@ export default async function AdminDashboard() {
   const session = cookieStore.get("admin_session");
 
   if (!session) {
-    redirect("/xlter-admin/login");
+    redirect("/xeltr-admin/login");
   }
 
   // Mock data for the dashboard
@@ -85,7 +85,7 @@ export default async function AdminDashboard() {
             <p className="text-purple-200/70 text-sm leading-relaxed">
               Don't forget to update your Global SEO settings every month to maintain search visibility.
             </p>
-            <Link href="/xlter-admin/seo" className="inline-block mt-4 text-sm font-bold text-purple-400 hover:underline">
+            <Link href="/xeltr-admin/seo" className="inline-block mt-4 text-sm font-bold text-purple-400 hover:underline">
               Go to SEO →
             </Link>
           </div>

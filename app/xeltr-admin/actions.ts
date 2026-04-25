@@ -58,11 +58,11 @@ export async function loginAdmin(prevState: any, formData: FormData) {
   }
 
   // Redirect on success
-  redirect("/xlter-admin/dashboard");
+  redirect("/xeltr-admin/dashboard");
 }
 
 export async function logoutAdmin() {
   const cookieStore = await cookies();
   cookieStore.delete("admin_session");
-  redirect("/xlter-admin/login");
+  redirect("/xeltr-admin/login");
 }

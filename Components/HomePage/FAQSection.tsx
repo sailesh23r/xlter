@@ -41,7 +41,7 @@ export default function FAQSection() {
   };
 
   return (
-    <section className="bg-transparent text-foreground py-24 md:py-32 lg:py-40 overflow-hidden relative">
+    <section className="bg-transparent text-foreground py-16 md:py-24 overflow-hidden relative">
       <GridBackground />
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Logo from "./Logo";
 import { ArrowUpRight, Mail, Phone, MapPin } from "lucide-react";
-import { FaGithub, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { FaGithub, FaTwitter, FaLinkedin, FaInstagram, FaFacebook, FaWhatsapp } from "react-icons/fa";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -25,10 +25,10 @@ export default function Footer() {
   ];
 
   const socialLinks = [
-    { name: "Twitter", icon: <FaTwitter size={18} />, href: "#" },
-    { name: "Instagram", icon: <FaInstagram size={18} />, href: "#" },
-    { name: "LinkedIn", icon: <FaLinkedin size={18} />, href: "#" },
-    { name: "GitHub", icon: <FaGithub size={18} />, href: "#" },
+    { name: "Instagram", icon: <FaInstagram size={18} />, href: "https://www.instagram.com/xeltrcom" },
+    { name: "Facebook", icon: <FaFacebook size={18} />, href: "https://www.facebook.com/xeltrcom" },
+    { name: "LinkedIn", icon: <FaLinkedin size={18} />, href: "https://www.linkedin.com/company/xeltrcom/" },
+    { name: "WhatsApp", icon: <FaWhatsapp size={18} />, href: "https://wa.me/919495091659" },
   ];
 
   return (
@@ -42,8 +42,8 @@ export default function Footer() {
           
           {/* Logo & Brief */}
           <div className="md:col-span-4 flex flex-col gap-6">
-            <Link href="/" className="inline-block w-fit">
-              <Logo />
+            <Link href="/" className="inline-block w-fit h-10 md:h-12">
+              <img src="/SVG-01.svg" alt="Xeltr Logo" className="h-full w-auto" />
             </Link>
             <p className="text-muted-foreground leading-relaxed max-w-sm font-medium">
               A premium digital agency focused on crafting beautiful, high-performance web and mobile applications for modern brands.
@@ -120,13 +120,13 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="tel:+917871110997" className="group flex items-start gap-3">
+                <a href="tel:+919495091659" className="group flex items-start gap-3">
                   <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all">
                     <Phone size={14} />
                   </div>
                   <div>
                     <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Phone</p>
-                    <p className="text-xs font-bold text-foreground">+91 78711 10997</p>
+                    <p className="text-xs font-bold text-foreground">+91 94950 91659</p>
                   </div>
                 </a>
               </li>
@@ -137,7 +137,9 @@ export default function Footer() {
                 <div>
                   <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Location</p>
                   <p className="text-xs font-bold text-foreground leading-relaxed">
-                    10/14 Syndicate Apartments,<br /> T.Nagar, Chennai - 600017
+                    L R Towers, Suite #i40,<br />
+                    South Janatha Road, Palarivattom,<br />
+                    Kochi, Kerala - 682022
                   </p>
                 </div>
               </li>

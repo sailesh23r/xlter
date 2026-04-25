@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { SwipeStack } from "@/Components/Common/SwipeStack";
 import {
   ArrowUpRight,
   X,
@@ -217,11 +218,11 @@ export default function CaseStudyGrid({ initialData }: Props) {
     }).length;
 
   return (
-    <div className="min-h-screen bg-background text-foreground transition-colors duration-500 relative overflow-x-hidden">
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-500 relative overflow-x-hidden pt-0">
       <GridBackground />
 
       {/* Hero */}
-      <section className="max-w-7xl mx-auto px-4 md:px-6 relative text-center pb-12 md:pb-16">
+      <section className="relative w-full h-auto py-16 md:py-20 max-w-7xl mx-auto px-6 text-center">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[90vw] max-w-[600px] h-[250px] bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
 
         <motion.div
@@ -229,15 +230,15 @@ export default function CaseStudyGrid({ initialData }: Props) {
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-col items-center gap-4 md:gap-8"
         >
-          <span className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-[4px] border border-primary/20">
+          <span className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-[4px] border border-primary/20 w-fit mx-auto">
             Our Portfolio
           </span>
 
-          <h1 className="text-2xl sm:text-3xl md:text-[42px] font-bold leading-[1.1] uppercase tracking-tighter max-w-4xl">
+          <h1 className="text-4xl md:text-[64px] font-bold leading-[1.1] uppercase tracking-tighter mb-6 mt-6">
             SELECTED WORKS
           </h1>
 
-          <p className="text-muted-foreground text-sm md:text-lg font-medium leading-relaxed max-w-2xl mx-auto">
+          <p className="text-muted-foreground text-base md:text-lg font-medium leading-relaxed max-w-2xl mb-10 mx-auto">
             A showcase of our finest digital creations — from immersive web experiences to powerful mobile applications.
           </p>
         </motion.div>
@@ -264,7 +265,7 @@ export default function CaseStudyGrid({ initialData }: Props) {
       </div>
 
       {/* Grid Content */}
-      <section className="max-w-7xl mx-auto px-4 md:px-6 pb-24 md:pb-40">
+      <section className="max-w-7xl mx-auto px-4 md:px-6 pb-16 md:pb-32">
 
         {/* ── Desktop Grid ── */}
         <AnimatePresence mode="wait">
@@ -332,65 +333,63 @@ export default function CaseStudyGrid({ initialData }: Props) {
           </motion.div>
         </AnimatePresence>
 
-        {/* ── Mobile Stacked Cards ── */}
-        <div className="md:hidden flex flex-col gap-6 px-4">
-          {filtered.map((cs, i) => {
-            const accent = ACCENT_MAP[cs.category] ?? "#3b82f6";
-            const pCount = previewCount(cs);
-            return (
-              <motion.div
-                key={cs._id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
-                className="group relative bg-card border border-border rounded-[20px] overflow-hidden shadow-xl cursor-pointer active:scale-[0.98] transition-transform duration-200"
-                onClick={() => setSelected(cs)}
-              >
-                {/* Thumbnail */}
-                <div className="relative w-full aspect-[16/9] overflow-hidden">
-                  <Image
-                    src={cs.thumbnail}
-                    alt={cs.title}
-                    fill
-                    priority={i === 0}
-                    sizes="100vw"
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent" />
-                  {/* Category badge */}
-                  <div
-                    className="absolute top-3 left-3 flex items-center gap-2 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest backdrop-blur-xl border border-white/10 text-white"
-                    style={{ background: `${accent}CC` }}
-                  >
-                    {cs.category}
-                  </div>
-                  {/* Views badge */}
-                  {pCount > 0 && (
-                    <div className="absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest backdrop-blur-xl border border-white/10 text-white" style={{ background: `${accent}99` }}>
-                      <Layers size={10} /> {pCount} VIEW{pCount > 1 ? "S" : ""}
+        {/* ── Mobile Tinder Stack ── */}
+        <div className="md:hidden px-4 pb-20">
+          <SwipeStack
+            items={filtered}
+            onSwipeRight={(cs) => setSelected(cs)}
+            renderCard={(cs) => {
+              const accent = ACCENT_MAP[cs.category] ?? "#3b82f6";
+              return (
+                <div 
+                  className="relative h-[450px] w-full"
+                  onClick={() => setSelected(cs)}
+                >
+                  <div className="relative w-full h-[250px] overflow-hidden">
+                    <Image
+                      src={cs.thumbnail}
+                      alt={cs.title}
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
+                    <div
+                      className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest backdrop-blur-xl border border-white/10 text-white"
+                      style={{ background: `${accent}CC` }}
+                    >
+                      {cs.category}
                     </div>
-                  )}
-                </div>
-
-                {/* Content */}
-                <div className="p-5">
-                  <h3 className="text-base font-bold uppercase tracking-tight mb-1.5 group-hover:text-primary transition-colors line-clamp-2">
-                    {cs.title}
-                  </h3>
-                  <p className="text-muted-foreground text-xs leading-relaxed line-clamp-2 opacity-75 mb-4">
-                    {cs.description}
-                  </p>
-                  <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary">
-                    VIEW CASE STUDY <ArrowRight size={13} />
                   </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold uppercase tracking-tighter mb-2">{cs.title}</h3>
+                    <p className="text-muted-foreground text-xs line-clamp-3 mb-6">
+                      {cs.description || "A premium digital experience crafted for impact and performance."}
+                    </p>
+                    <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary">
+                      VIEW PROJECT <ArrowRight size={14} />
+                    </div>
+                  </div>
+                  <div className="absolute bottom-0 left-0 h-[4px] w-full" style={{ background: accent }} />
                 </div>
-
-                {/* Bottom accent line */}
-                <div className="absolute bottom-0 left-0 h-[3px] w-full" style={{ background: `linear-gradient(to right, ${accent}, transparent)` }} />
-              </motion.div>
-            );
-          })}
+              );
+            }}
+            emptyState={
+              <div className="text-center py-20">
+                <p className="text-muted-foreground text-[10px] font-black uppercase tracking-widest opacity-50 mb-6">No more projects to show.</p>
+                <button 
+                  onClick={() => setActive("All")}
+                  className="px-8 py-3 border border-primary text-primary rounded-full font-black uppercase tracking-widest text-[10px]"
+                >
+                  Explore All
+                </button>
+              </div>
+            }
+          />
+          <div className="text-center mt-6">
+            <p className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground animate-pulse">
+              Swipe Right to View • Swipe Left to Skip
+            </p>
+          </div>
         </div>
 
       </section>

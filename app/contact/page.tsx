@@ -18,7 +18,8 @@ import {
     FaInstagram, 
     FaFacebook, 
     FaTwitter, 
-    FaGithub 
+    FaGithub,
+    FaLinkedin
 } from "react-icons/fa6";
 import { fadeUp, stagger } from "@/lib/animations";
 import { useTheme } from "next-themes";
@@ -36,22 +37,21 @@ const contactInfo = [
     {
         icon: <Phone size={20} />,
         label: "Phone",
-        value: "+91 78711 10997",
-        href: "tel:+917871110997"
+        value: "+91 94950 91659",
+        href: "tel:+919495091659"
     },
     {
         icon: <MapPin size={20} />,
         label: "Office",
-        value: "10/14 Syndicate Apartments First block, first floor, Dr.BN 1st Street, T.Nagar, Chennai - 600017.",
-        href: "#"
+        value: "L R Towers, Suite #i40, South Janatha Road, Palarivattom, Kochi, Kerala - 682022",
+        href: "https://maps.google.com/?q=Palarivattom,Kochi,Kerala"
     }
 ];
 
 const socials = [
-    { icon: <FaInstagram size={18} />, href: "#", label: "Instagram" },
-    { icon: <FaFacebook size={18} />, href: "#", label: "Facebook" },
-    { icon: <FaTwitter size={18} />, href: "#", label: "Twitter" },
-    { icon: <FaGithub size={18} />, href: "#", label: "Github" }
+    { icon: <FaInstagram size={18} />, href: "https://www.instagram.com/xeltrcom", label: "Instagram" },
+    { icon: <FaFacebook size={18} />, href: "https://www.facebook.com/xeltrcom", label: "Facebook" },
+    { icon: <FaLinkedin size={18} />, href: "https://www.linkedin.com/company/xeltrcom/", label: "LinkedIn" },
 ];
 
 const services = [
@@ -125,42 +125,41 @@ export default function ContactPage() {
     };
 
     return (
-        <main className="min-h-screen bg-background text-foreground relative overflow-hidden selection:bg-primary/30 transition-colors duration-500">
+        <div className="min-h-screen bg-background text-foreground relative overflow-hidden selection:bg-primary/30 transition-colors duration-500">
             {/* Background Animations */}
             {/* Background elements removed for cleaner look */}
             
-            <div className="relative z-10 pt-32 pb-24">
+            <div className="relative z-10 pt-0 pb-20">
                 <GridBackground />
                 
-                {/* Hero Header */}
-                <section className="max-w-7xl mx-auto px-6 mb-24 text-center">
-                    <div className="flex flex-col items-center gap-8">
-                        <motion.span
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as any }}
-                            className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-[4px] border border-primary/20"
-                        >
-                            Get In Touch
-                        </motion.span>
-                        
-                        <motion.h1
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] as any }}
-                            className="text-[42px] font-bold leading-[1.1] uppercase tracking-tighter max-w-4xl mx-auto"
-                        >
-                            Let&apos;s Build Something Amazing
-                        </motion.h1>
-                        
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] as any }}
-                            className="text-muted-foreground text-sm md:text-lg font-medium leading-relaxed max-w-2xl mx-auto"
-                        >
-                            Have a project in mind? We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.
-                        </motion.p>
+                {/* Standardized Hero Section */}
+                <section className="relative w-full h-auto py-16 md:py-20 bg-background border-b border-border/10">
+                    <div className="max-w-7xl mx-auto px-6 text-center">
+                        <div className="flex flex-col items-center gap-4">
+                            <motion.p
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-[4px] border border-primary/20 w-fit mx-auto"
+                            >
+                                Get In Touch
+                            </motion.p>
+                            <motion.h1
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.1 }}
+                                className="text-4xl md:text-[64px] font-bold leading-[1.1] uppercase tracking-tighter mb-6 mt-6"
+                            >
+                                Let&apos;s Build Something <span className="text-primary">Amazing</span>
+                            </motion.h1>
+                            <motion.p
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2 }}
+                                className="text-muted-foreground text-base md:text-lg font-medium leading-relaxed max-w-2xl mb-10 mx-auto"
+                            >
+                                Have a project in mind? We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.
+                            </motion.p>
+                        </div>
                     </div>
                 </section>
 
@@ -302,7 +301,7 @@ export default function ContactPage() {
                                             value={formData.phone}
                                             onChange={handleChange}
                                             required
-                                            placeholder="+91 78711 10997"
+                                            placeholder="+91 94950 91659"
                                             className="w-full bg-background border border-border rounded-[8px] pl-12 pr-6 py-4 text-sm focus:outline-none focus:border-primary/50 transition-all placeholder:text-muted-foreground/30"
                                         />
                                     </div>
@@ -320,7 +319,7 @@ export default function ContactPage() {
                                             onChange={handleChange}
                                             className="w-full bg-background border border-border rounded-[8px] pl-12 pr-10 py-4 text-sm focus:outline-none focus:border-primary/50 transition-all appearance-none cursor-pointer"
                                         >
-                                            <option value="" disabled selected>Select a service...</option>
+                                            <option value="" disabled>Select a service...</option>
                                             {services.map((service) => (
                                                 <option key={service} value={service} className="bg-background">{service}</option>
                                             ))}
@@ -368,6 +367,6 @@ export default function ContactPage() {
                     </div>
                 </section>
             </div>
-        </main>
+        </div>
     );
 }

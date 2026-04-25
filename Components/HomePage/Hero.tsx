@@ -68,7 +68,7 @@ export default function Hero() {
             variants={stagger}
             initial="hidden"
             animate="show"
-            className="min-h-screen flex flex-col justify-center items-center text-center w-full bg-transparent will-change-transform overflow-hidden relative"
+            className="min-h-[90vh] py-20 flex flex-col justify-center items-center text-center w-full bg-transparent will-change-transform overflow-hidden relative"
             style={{ perspective: "1200px" }}
         >
             <GridBackground />

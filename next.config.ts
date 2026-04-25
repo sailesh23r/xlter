@@ -19,7 +19,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/Admin/:path*',
-        destination: '/xlter-admin/:path*',
+        destination: '/xeltr-admin/:path*',
         permanent: true,
       },
     ];

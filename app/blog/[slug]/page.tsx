@@ -120,9 +120,9 @@ export default async function BlogPostPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
       />
-      <article className="bg-background text-foreground min-h-screen pb-32 transition-colors duration-500">
+      <article className="bg-background text-foreground min-h-screen pt-0 pb-32 transition-colors duration-500">
         {/* Hero Section */}
-        <section className="relative w-full h-[70vh] min-h-[600px] flex items-end pb-20 px-6">
+        <section className="relative w-full h-[60vh] min-h-[500px] flex items-end pb-16 px-6">
           <div className="absolute inset-0">
             <Image 
               src={blog.thumbnail} 
