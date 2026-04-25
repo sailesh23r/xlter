@@ -233,7 +233,7 @@ export default function CaseStudyGrid({ initialData }: Props) {
             Our Portfolio
           </span>
 
-          <h1 className="text-3xl md:text-[42px] font-bold leading-[1.1] uppercase tracking-tighter max-w-4xl">
+          <h1 className="text-2xl sm:text-3xl md:text-[42px] font-bold leading-[1.1] uppercase tracking-tighter max-w-4xl">
             SELECTED WORKS
           </h1>
 
@@ -244,16 +244,18 @@ export default function CaseStudyGrid({ initialData }: Props) {
       </section>
 
       {/* Category Filters */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 mb-10 flex justify-center">
-        <div className="flex gap-2 md:gap-3 flex-wrap justify-center">
+      <div className="max-w-7xl mx-auto mb-8">
+        {/* Mobile: horizontal scroll row */}
+        <div className="flex gap-2 overflow-x-auto no-scrollbar px-4 md:px-6 pb-1 md:flex-wrap md:justify-center md:overflow-visible">
           {allCategories.map((f) => (
             <button
               key={f}
               onClick={() => setActive(f)}
-              className={`px-5 md:px-8 py-2 md:py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-500 border ${active === f
+              className={`shrink-0 px-4 md:px-8 py-2 md:py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-500 border ${
+                active === f
                   ? "bg-primary border-primary text-white shadow-2xl shadow-primary/30"
                   : "border-border text-muted-foreground hover:border-primary/50"
-                }`}
+              }`}
             >
               {f}
             </button>

@@ -132,13 +132,14 @@ export default function Navbar() {
 
             {/* Mobile Menu — inside pointer-events-auto wrapper */}
             <div
-                className={`absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2 w-[93%] md:hidden bg-background/95 backdrop-blur-2xl rounded-3xl overflow-hidden shadow-2xl border border-white/20 dark:border-white/10 transition-all duration-300 ease-in-out ${
-                    isOpen ? "max-h-[600px] py-8 opacity-100 pointer-events-auto" : "max-h-0 py-0 opacity-0 pointer-events-none"
+                className={`absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2 w-[93%] md:hidden bg-background/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/20 dark:border-white/10 transition-all duration-300 ease-in-out ${
+                    isOpen ? "max-h-[80vh] py-6 opacity-100 pointer-events-auto" : "max-h-0 py-0 opacity-0 pointer-events-none"
                 }`}
             >
-                <nav className="flex flex-col gap-6 px-8 text-sm font-bold uppercase tracking-widest">
+                {/* Scrollable nav area */}
+                <nav className="flex flex-col gap-5 px-6 text-sm font-bold uppercase tracking-widest overflow-y-auto max-h-[calc(80vh-80px)]">
                     {navLinks.map((link) => (
-                        <div key={link.name} className="flex flex-col gap-4">
+                        <div key={link.name} className="flex flex-col gap-3">
                             {link.name === "SERVICES" ? (
                                 <>
                                     <button
@@ -146,11 +147,11 @@ export default function Navbar() {
                                         className="text-foreground/70 hover:text-primary transition-colors text-left w-full flex items-center justify-between"
                                     >
                                         {link.name}
-                                        <ChevronDown size={18} className={`transition-transform duration-300 ${isMobileServiceOpen ? 'rotate-180' : ''}`} />
+                                        <ChevronDown size={16} className={`transition-transform duration-300 ${isMobileServiceOpen ? 'rotate-180' : ''}`} />
                                     </button>
-                                    
+
                                     {/* Mobile Sub-Links (Accordion) */}
-                                    <div className={`flex flex-col gap-4 pl-4 overflow-hidden transition-all duration-300 ${isMobileServiceOpen ? 'max-h-[500px] opacity-100 mt-4 pb-4' : 'max-h-0 opacity-0'}`}>
+                                    <div className={`flex flex-col gap-2 pl-3 overflow-hidden transition-all duration-300 ${isMobileServiceOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}>
                                         {[
                                             { name: "Web Development", href: "/web-development", icon: TerminalSquare },
                                             { name: "AI Digital Strategy", href: "/ai-strategy", icon: LineChart },
@@ -165,10 +166,10 @@ export default function Navbar() {
                                                     setIsOpen(false);
                                                     setIsMobileServiceOpen(false);
                                                 }}
-                                                className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors py-1"
+                                                className="flex items-center gap-3 text-xs text-muted-foreground hover:text-primary transition-colors py-1.5 normal-case tracking-normal font-semibold"
                                             >
-                                                <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center text-gray-500">
-                                                    <sub.icon size={14} />
+                                                <div className="w-7 h-7 rounded-lg bg-accent flex items-center justify-center text-muted-foreground shrink-0">
+                                                    <sub.icon size={13} />
                                                 </div>
                                                 {sub.name}
                                             </Link>
@@ -187,17 +188,20 @@ export default function Navbar() {
                             )}
                         </div>
                     ))}
+                </nav>
 
+                {/* GET IN TOUCH — always pinned at bottom */}
+                <div className="px-6 pt-4">
                     <button
                         onClick={() => {
                             setIsOpen(false);
                             setIsContactOpen(true);
                         }}
-                        className="mt-2 bg-primary text-primary-foreground px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg shadow-primary/20"
+                        className="w-full bg-primary text-primary-foreground px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg shadow-primary/20"
                     >
                         GET IN TOUCH
                     </button>
-                </nav>
+                </div>
             </div>
 
             </div>
