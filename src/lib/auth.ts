@@ -3,25 +3,25 @@ import connectToDatabase from "./mongodb";
 import Admin, { IAdmin } from "@/models/Admin";
 import { SignJWT, jwtVerify } from "jose";
 
-const secret = process.env.JWT_SECRET;
-
-if (!secret && process.env.NODE_ENV === "production") {
-  throw new Error("JWT_SECRET missing from environment variables");
+function getJwtSecret() {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error("JWT_SECRET missing from environment variables");
+  }
+  return new TextEncoder().encode(secret);
 }
-
-const JWT_SECRET = new TextEncoder().encode(secret || "fallback_secret");
 
 export async function signJWT(payload: any, expiresIn: string = "24h") {
     return await new SignJWT(payload)
         .setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
         .setExpirationTime(expiresIn)
-        .sign(JWT_SECRET);
+        .sign(getJwtSecret());
 }
 
 export async function verifyJWT(token: string) {
     try {
-        const { payload } = await jwtVerify(token, JWT_SECRET);
+        const { payload } = await jwtVerify(token, getJwtSecret());
         return payload;
     } catch (error) {
         return null;
