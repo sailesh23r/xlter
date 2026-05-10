@@ -10,7 +10,7 @@ interface Props {
 export default function FeaturedBlog({ blogs }: Props) {
   if (!blogs || blogs.length === 0) return null;
 
-  const [featured, ...rest] = blogs;
+  const [featured, ...rest] = blogs; // featured is BlogDoc
   const sidePosts = rest.slice(0, 3);
   const featuredHref = `/blog/${featured.slug || featured._id}`;
   const featuredDate = formatDate(featured.publishDate || featured.createdAt);
