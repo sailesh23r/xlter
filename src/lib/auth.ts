@@ -3,10 +3,13 @@ import connectToDatabase from "./mongodb";
 import Admin, { IAdmin } from "@/models/Admin";
 import { SignJWT, jwtVerify } from "jose";
 
-if (!process.env.JWT_SECRET) {
+const secret = process.env.JWT_SECRET;
+
+if (!secret && process.env.NODE_ENV === "production") {
   throw new Error("JWT_SECRET missing from environment variables");
 }
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
+
+const JWT_SECRET = new TextEncoder().encode(secret || "fallback_secret");
 
 export async function signJWT(payload: any, expiresIn: string = "24h") {
     return await new SignJWT(payload)
