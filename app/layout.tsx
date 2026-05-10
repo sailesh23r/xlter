@@ -29,13 +29,15 @@ export const metadata: Metadata = {
   },
 };
 
+export const dynamic = "force-dynamic";
+
 async function getInjectedScripts() {
   try {
     // Parallelize connection and fetching with a strict timeout
-    await withTimeout(connectToDatabase(), 2000);
+    await withTimeout(connectToDatabase(), 5000);
     return await withTimeout(
       ScriptInjection.find({ enabled: true }).lean() as Promise<any[]>,
-      1000
+      5000
     );
   } catch (error) {
     console.error("Layout data fetch failed:", error);

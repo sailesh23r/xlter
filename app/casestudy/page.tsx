@@ -1,4 +1,5 @@
 import connectToDatabase from "@/lib/mongodb";
+export const dynamic = "force-dynamic";
 import CaseStudy from "@/models/CaseStudy";
 import CaseStudyGrid from "@/Components/CaseStudy/CaseStudyGrid";
 

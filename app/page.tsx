@@ -3,11 +3,13 @@ import ClientHome from "./ClientHome";
 import connectToDatabase, { withTimeout } from "@/lib/mongodb";
 import HeroSEO from "@/models/HeroSEO";
 
+export const dynamic = "force-dynamic";
+
 async function getHeroData() {
   try {
     // Parallelize connection and fetching
-    await withTimeout(connectToDatabase(), 2000);
-    return await withTimeout(HeroSEO.findOne({}).lean() as Promise<any>, 1000);
+    await withTimeout(connectToDatabase(), 5000);
+    return await withTimeout(HeroSEO.findOne({}).lean() as Promise<any>, 5000);
   } catch (error) {
     console.error("Hero data fetch failed:", error);
     return null;
