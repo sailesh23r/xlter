@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
     if (!admin) return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
 
     const { searchParams } = new URL(req.url);
-    const device = searchParams.get("device") || "mobile";
+    const device = (searchParams.get("device") as "mobile" | "desktop") || "mobile";
 
     await connectToDatabase();
 
