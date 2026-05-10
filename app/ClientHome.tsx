@@ -8,40 +8,48 @@ import Ecosystem from "@/Components/HomePage/Ecosystem";
 import FAQSection from "@/Components/HomePage/FAQSection";
 import { motion } from "framer-motion";
 
-const revealAnimation = {
-  hidden: { opacity: 0, y: 50, filter: "blur(10px)" },
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
   visible: { 
     opacity: 1, 
-    y: 0, 
-    filter: "blur(0px)",
-    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as any }
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as any }
   }
 };
 
-export default function ClientHome() {
+export default function ClientHome({ heroData }: {
+  heroData: {
+    heroLabel?: string;
+    h1?: string;
+    highlightedWord?: string;
+    description?: string;
+    primaryCTA?: { text: string; link: string };
+    secondaryCTA?: { text: string; link: string };
+  } | null;
+}) {
   return (
     <main className="relative">
-      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={revealAnimation}>
-        <Hero />
-      </motion.div>
+      {/* Hero has its own internal animations, so we keep it clean here */}
+      <Hero data={heroData} />
       
-      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={revealAnimation}>
+      {/* Only wrap key sections with lightweight reveal to avoid overloading the GPU */}
+      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
         <Ecosystem />
       </motion.div>
       
-      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={revealAnimation}>
+      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
         <Work />
       </motion.div>
       
-      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={revealAnimation}>
+      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
         <TechStack />
       </motion.div>
       
-      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={revealAnimation}>
+      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
         <Testimonials />
       </motion.div>
       
-      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={revealAnimation}>
+      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}>
         <FAQSection />
       </motion.div>
     </main>

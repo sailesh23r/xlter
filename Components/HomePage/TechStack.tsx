@@ -40,26 +40,26 @@ const techStack: Tech[] = [
 
 export default function TechStack() {
     return (
-        <section className="bg-background text-foreground py-16 md:py-24 lg:py-32 overflow-hidden relative">
-        <GridBackground />
+        <section className="bg-background text-foreground py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden relative">
             {/* Heading */}
-            <div className="max-w-7xl mx-auto px-6 text-center mb-16">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center mb-12">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
+                    className="relative"
                 >
-                    <h2 className="text-[42px] font-bold uppercase tracking-tighter leading-tight">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter leading-tight">
                         OUR <span className="text-primary">TECH STACK</span>
                     </h2>
-                    <p className="mt-6 max-w-2xl mx-auto">
+                    <p className="text-muted-foreground mt-6 max-w-2xl mx-auto text-sm sm:text-base md:text-lg font-medium leading-relaxed">
                         Leveraging industry-leading tools to build high-performance digital ecosystems.
                     </p>
                 </motion.div>
             </div>
 
             {/* Grid */}
-            <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-y-16 gap-x-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-y-12 gap-x-6">
                 {techStack.map((tech, index) => (
                     <motion.div
                         key={index}
@@ -68,25 +68,25 @@ export default function TechStack() {
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
-                        transition={{ 
-                            duration: 0.4, 
+                        transition={{
+                            duration: 0.4,
                             delay: index * 0.05,
                             type: "spring",
                             stiffness: 200
                         }}
-                        className="flex flex-col items-center justify-center transition-all duration-300 group cursor-pointer"
+                        className="flex flex-col items-center justify-center transition-all duration-300 group cursor-pointer relative"
                     >
                         {/* Icon Container */}
-                        <div className={`text-6xl md:text-7xl mb-8 text-muted-foreground/30 transition-all duration-500 transform group-hover:scale-110 ${tech.color}`}>
+                        <div className={`text-6xl md:text-7xl mb-8 text-muted-foreground/60 transition-all duration-500 transform group-hover:scale-110 ${tech.color}`}>
                             {tech.icon}
                         </div>
-                        
+
                         {/* Label */}
                         <div className="relative overflow-hidden">
                             <p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] text-muted-foreground/40 group-hover:text-foreground transition-colors duration-500">
                                 {tech.name}
                             </p>
-                            <motion.div 
+                            <motion.div
                                 className="absolute bottom-0 left-0 w-0 h-[1px] bg-primary group-hover:w-full transition-all duration-500"
                             />
                         </div>

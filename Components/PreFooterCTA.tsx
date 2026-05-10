@@ -4,17 +4,23 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import GridBackground from "./Animations/GridBackground";
 import { useRouter } from "next/navigation";
+import { useLenis } from "./Animations/SmoothScroll";
 
 export default function PreFooterCTA() {
     const router = useRouter();
+    const lenis = useLenis();
 
     const handleCTA = () => {
         router.push("/Contact");
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (lenis) {
+            lenis.scrollTo(0);
+        } else {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
     };
 
     return (
-        <section className="relative py-24 bg-background border-t border-border/50 overflow-hidden">
+        <section className="relative py-16 sm:py-20 lg:py-28 bg-background border-t border-border/50 overflow-x-clip px-4 sm:px-6 lg:px-8">
             {/* Background Grid */}
             <div className="absolute inset-0 z-0 opacity-40">
                 <GridBackground />
@@ -29,9 +35,9 @@ export default function PreFooterCTA() {
                     className="flex flex-col items-center gap-10"
                 >
                     {/* Clean Heading */}
-                    <h2 className="text-[36px] md:text-[58px] font-black tracking-tight leading-[1.1] text-foreground max-w-4xl uppercase">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] text-foreground max-w-4xl uppercase">
                         READY TO BUILD THE <br />
-                        <span className="text-primary italic">FUTURE</span> OF YOUR BRAND?
+                        <span className="text-primary bold">FUTURE</span> OF YOUR BRAND?
                     </h2>
 
                     {/* Premium Hover Button */}

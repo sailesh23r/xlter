@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export default function MatchingCursor() {
@@ -14,7 +14,10 @@ export default function MatchingCursor() {
     const ringX = useSpring(cursorX, { damping: 30, stiffness: 100 });
     const ringY = useSpring(cursorY, { damping: 30, stiffness: 100 });
 
+    const [mounted, setMounted] = useState(false);
+
     useEffect(() => {
+        setMounted(true);
         const moveCursor = (e: MouseEvent) => {
             cursorX.set(e.clientX);
             cursorY.set(e.clientY);
@@ -23,6 +26,8 @@ export default function MatchingCursor() {
         window.addEventListener("mousemove", moveCursor);
         return () => window.removeEventListener("mousemove", moveCursor);
     }, [cursorX, cursorY]);
+
+    if (!mounted) return null;
 
     return (
         <>

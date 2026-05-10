@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -7,8 +7,9 @@ import { ThemeProvider } from "@/lib/ThemeProvider";
 import MatchingCursor from "@/Components/Animations/MatchingCursor";
 import { Toaster } from "sonner";
 import GridBackground from "@/Components/Animations/GridBackground";
-import StarBackground from "@/Components/Animations/StarBackground";
 import ConditionalLayout from "./ConditionalLayout";
+import connectToDatabase, { withTimeout } from "@/lib/mongodb";
+import ScriptInjection from "@/models/ScriptInjection";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,23 +22,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Xlter ",
-  description: "",
+  title: "Xeltr",
+  description: "Digital Excellence Studio",
   icons: {
     icon: "/Transparent-06.png",
   },
 };
 
-
-import connectToDatabase from "@/lib/mongodb";
-import ScriptInjection from "@/models/ScriptInjection";
-
 async function getInjectedScripts() {
   try {
-    await connectToDatabase();
-    return await ScriptInjection.find({ enabled: true }).lean();
+    // Parallelize connection and fetching with a strict timeout
+    await withTimeout(connectToDatabase(), 2000);
+    return await withTimeout(
+      ScriptInjection.find({ enabled: true }).lean() as Promise<any[]>,
+      1000
+    );
   } catch (error) {
-    console.error("Failed to fetch injected scripts:", error);
+    console.error("Layout data fetch failed:", error);
     return [];
   }
 }
@@ -49,14 +50,14 @@ export default async function RootLayout({
 }>) {
   const scripts = await getInjectedScripts();
   const headScripts = scripts.filter((s: any) => s.location === "head");
-  const bodyScripts = scripts.filter((s: any) => s.location === "body");
+  const bodyScripts = scripts.filter((s: any) => s.location === "body_start" || s.location === "body_end");
 
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Xlter Studio",
-    "url": "https://xlter.com",
-    "logo": "https://xlter.com/Transparent-06.png",
+    "name": "Xeltr Studio",
+    "url": "https://Xeltr.com",
+    "logo": "https://Xeltr.com/Transparent-06.png",
     "sameAs": [
       "https://www.facebook.com/xeltrcom",
       "https://www.instagram.com/xeltrcom",
@@ -72,16 +73,14 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       suppressHydrationWarning
-      data-scroll-behavior="smooth"
     >
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
-        {/* Inject head scripts. Note: Using a wrapper because React requires one for dangerouslySetInnerHTML */}
         {headScripts.map((s: any) => (
           <script
             key={s._id.toString()}
@@ -92,35 +91,36 @@ export default async function RootLayout({
           />
         ))}
       </head>
-      <body className="min-h-full flex flex-col overflow-x-hidden">
+      <body className="min-h-screen overflow-x-hidden bg-background text-foreground selection:bg-primary/30">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
-          <>
-            <Preloader />
-            <MatchingCursor />
-            <Toaster position="top-center" richColors />
-            <StarBackground />
-            <div className="fixed inset-0 z-[-2] pointer-events-none">
-              <GridBackground />
-            </div>
-            <ConditionalLayout>
+          <Preloader />
+          <MatchingCursor />
+          <Toaster position="top-center" richColors />
+          
+          <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
+            <GridBackground />
+          </div>
+
+          <ConditionalLayout>
+            <Suspense fallback={<div className="min-h-screen bg-background" />}>
               {children}
-            </ConditionalLayout>
-            
-            {/* Inject body scripts */}
-            {bodyScripts.map((s: any) => (
-              <div 
-                key={s._id.toString()} 
-                id={`body-script-${s._id.toString()}`}
-                dangerouslySetInnerHTML={{ __html: s.content }} 
-                style={{ display: 'none' }}
-              />
-            ))}
-          </>
+            </Suspense>
+          </ConditionalLayout>
+          
+          {/* Inject body scripts */}
+          {bodyScripts.map((s: any) => (
+            <div 
+              key={s._id.toString()} 
+              id={`body-script-${s._id.toString()}`}
+              dangerouslySetInnerHTML={{ __html: s.content }} 
+              style={{ display: 'none' }}
+            />
+          ))}
         </ThemeProvider>
       </body>
     </html>

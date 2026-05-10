@@ -7,7 +7,7 @@ import GridBackground from "@/Components/Animations/GridBackground";
 
 export default function NotFound() {
   return (
-    <main className="relative min-h-screen bg-background flex flex-col items-center justify-center text-center px-6 overflow-hidden">
+    <main className="relative min-h-screen bg-background flex flex-col items-center justify-center text-center px-6 overflow-x-clip">
       <GridBackground />
       
       <div className="relative z-10 max-w-2xl mx-auto">

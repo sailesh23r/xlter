@@ -1,24 +1,26 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { SwipeStack } from "../Common/SwipeStack";
 import {
   ArrowRight,
+  ArrowLeft,
   LineChart,
   Triangle,
   PenTool,
   TerminalSquare,
   MousePointerClick,
+  Cpu,
+  ExternalLink,
 } from "lucide-react";
-import GridBackground from "../Animations/GridBackground";
 
 const items = [
   {
     id: "ai-strategy",
     title: "AI DIGITAL STRATEGY",
     desc: "Defining your path to digital market leadership.",
-    tags: [],
+    tags: ["SEO", "GEO & AEO", "CONTENT MARKETING", "EMAIL MARKETING", "ANALYTICS & REPORTING"],
     icon: LineChart,
     accent: "#3b82f6",
   },
@@ -41,7 +43,7 @@ const items = [
   {
     id: "ui-ux",
     title: "UI/UX DESIGN",
-    desc: "Intuitive, user-centric interfaces designed to maximize conversion and engagement.",
+    desc: "Intuitive, user-centric interfaces designed to maximise conversion and engagement.",
     icon: MousePointerClick,
     tags: ["UI Design", "UX Research"],
     accent: "#a855f7",
@@ -49,174 +51,316 @@ const items = [
   {
     id: "web-dev",
     title: "WEB DEVELOPMENT",
-    desc: "Building high-performance, scalable, and secure websites tailored to your business needs.",
+    desc: "High-performance, scalable, and secure websites tailored to your business needs.",
     icon: TerminalSquare,
-    tags: ["E-commerce", "Static Website", "Wordpress"],
+    tags: ["E-commerce", "Static Sites", "WordPress", "Dynamic Sites", "Shopify"],
     accent: "#22c55e",
+  },
+  {
+    id: "soft-dev",
+    title: "SOFTWARE DEVELOPMENT",
+    desc: "Intelligent, fast, and scalable software solutions that elevate brands.",
+    icon: Cpu,
+    tags: ["Custom Software", "Maintenance & Support"],
+    accent: "#10b981",
   },
 ];
 
+const serviceRoutes: Record<string, string> = {
+  "graphic-design": "/graphic-design",
+  "web-dev": "/web-development",
+  branding: "/branding",
+  "ai-strategy": "/ai-strategy",
+  "ui-ux": "/ui-ux",
+  "soft-dev": "/soft-dev",
+};
+
+/* ─── Desktop row card ──────────────────────────────────────── */
+function DesktopRow({ item }: { item: (typeof items)[number] }) {
+  const Icon = item.icon;
+  return (
+    <div className="
+      group relative w-full cursor-pointer rounded-[24px]
+      flex items-start sm:items-center gap-6 lg:gap-12
+      px-4 sm:px-8 lg:px-12
+      py-10 sm:py-12 lg:py-16
+      hover:bg-accent/40 transition-all duration-500
+    ">
+      {/* Icon */}
+      <div
+        className="
+          w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20
+          shrink-0 rounded-full flex items-center justify-center
+          transition-all duration-500 group-hover:scale-110 shadow-lg
+        "
+        style={{
+          background: `${item.accent}15`,
+          color: item.accent,
+          border: `1px solid ${item.accent}25`,
+        }}
+      >
+        <Icon className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10" />
+      </div>
+
+      {/* Text */}
+      <div className="flex-1 min-w-0">
+        <h3 className="
+          text-xl sm:text-2xl md:text-3xl lg:text-[36px]
+          font-black uppercase tracking-tight leading-tight
+          group-hover:text-primary transition-colors
+        ">
+          {item.title}
+        </h3>
+        <p className="
+          mt-3 mb-5 max-w-3xl line-clamp-2
+          text-sm sm:text-base lg:text-lg
+          text-muted-foreground font-medium leading-relaxed
+        ">
+          {item.desc}
+        </p>
+        <div className="flex flex-wrap gap-2 md:gap-4">
+          {item.tags.map((tag) => (
+            <span
+              key={tag}
+              className="
+                text-[10px] sm:text-11px md:text-sm
+                font-semibold px-3 sm:px-4 py-1.5 sm:py-2
+                rounded-full uppercase tracking-wider
+                hover:scale-105 transition-transform duration-300
+              "
+              style={{
+                background: `${item.accent}12`,
+                color: item.accent,
+                border: `1px solid ${item.accent}25`,
+              }}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Arrow */}
+      <motion.div
+        whileHover={{ scale: 1.1, x: 8 }}
+        whileTap={{ scale: 0.95 }}
+        className="
+          hidden sm:flex shrink-0
+          w-12 h-12 md:w-16 md:h-16
+          rounded-full bg-muted/50 border border-border
+          text-muted-foreground group-hover:bg-primary group-hover:text-white
+          items-center justify-center shadow-md transition-colors
+        "
+      >
+        <ArrowRight className="w-6 h-6 md:w-8 md:h-8" />
+      </motion.div>
+    </div>
+  );
+}
+
+/* ─── Mobile carousel card ──────────────────────────────────── */
+function MobileServiceCard({ item }: { item: (typeof items)[number] }) {
+  const Icon = item.icon;
+  return (
+    <div className="flex flex-col h-full">
+      {/* Hero icon band */}
+      <div className="relative flex items-center justify-between px-6 py-7">
+        {/* Large icon with glow */}
+        <div className="flex items-center gap-4 w-full">
+          <div
+            className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg"
+            style={{
+              background: `${item.accent}18`,
+              color: item.accent,
+              border: `1.5px solid ${item.accent}35`,
+              boxShadow: `0 0 28px ${item.accent}22`,
+            }}
+          >
+            <Icon className="w-8 h-8" />
+          </div>
+          <div
+            className="h-px flex-1 opacity-20"
+            style={{ background: item.accent }}
+          />
+        </div>
+      </div>
+
+      {/* Content body */}
+      <div className="flex flex-col flex-1 px-6 pt-5 pb-6 gap-4">
+        <div>
+          <h3 className="text-[22px] font-black uppercase tracking-tight leading-tight mb-2">
+            {item.title}
+          </h3>
+          <p className="text-muted-foreground text-[13px] font-medium leading-relaxed">
+            {item.desc}
+          </p>
+        </div>
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-1.5">
+          {item.tags.map((tag) => (
+            <span
+              key={tag}
+              className="text-[9px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider"
+              style={{
+                background: `${item.accent}12`,
+                color: item.accent,
+                border: `1px solid ${item.accent}30`,
+              }}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* CTA bar */}
+      <div className="mx-6 mb-6 flex items-center justify-between cursor-pointer transition-opacity hover:opacity-80">
+        <span
+          className="text-[10px] font-black uppercase tracking-[0.2em]"
+          style={{ color: item.accent }}
+        >
+          View Service
+        </span>
+        <motion.div
+          whileHover={{ x: 4 }}
+          className="w-8 h-8 rounded-full flex items-center justify-center"
+          style={{ background: item.accent, color: "#fff" }}
+        >
+          <ArrowRight size={13} />
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Main component ────────────────────────────────────────── */
 export default function Ecosystem() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
+
+  const goNext = () => {
+    setDirection(1);
+    setActiveIndex((i) => (i + 1) % items.length);
+  };
+
+  const goPrev = () => {
+    setDirection(-1);
+    setActiveIndex((i) => (i - 1 + items.length) % items.length);
+  };
+
   return (
     <section
       id="services"
-      className="bg-transparent text-foreground relative overflow-hidden py-20 px-6"
+      className="bg-transparent text-foreground relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8"
     >
-      <GridBackground />
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl 2xl:max-w-[1440px] mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-24"
+          className="text-center mb-12 sm:mb-16 lg:mb-20"
         >
-          <h2 className="text-[42px] font-bold uppercase tracking-tighter leading-tight">
-            <span className="text-primary">ECO</span>
-            <span className="text-foreground">SYSTEM.</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter leading-tight">
+            ECO<span className="text-primary">SYSTEM.</span>
           </h2>
-          <p className="text-muted-foreground mt-6 max-w-2xl mx-auto text-lg font-medium leading-relaxed">
+          <p className="text-muted-foreground mt-4 sm:mt-6 max-w-3xl mx-auto text-sm sm:text-base md:text-lg font-medium leading-relaxed">
             A multi-disciplinary approach to modern brand building, where design
             meets data and code.
           </p>
         </motion.div>
 
-        {/* Desktop List View */}
-        <div className="hidden md:block divide-y divide-border">
-          {items.map((item, i) => {
-            const Icon = item.icon;
-            const href = item.id === "graphic-design" ? "/graphic-design" : 
-                         item.id === "web-dev" ? "/web-development" : 
-                         item.id === "branding" ? "/branding" :
-                         item.id === "ai-strategy" ? "/ai-strategy" :
-                         item.id === "ui-ux" ? "/ui-ux" : null;
-
-            const CardContent = (
-              <motion.div
-                key={i}
-                id={item.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="group flex flex-col md:flex-row items-start md:items-center gap-8 py-12 px-4 hover:bg-accent/30 transition-all duration-500 rounded-[12px] cursor-pointer"
-              >
-                {/* Icon */}
-                <div
-                  className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center transition-all duration-500 group-hover:scale-110 shadow-lg"
-                  style={{
-                    background: `${item.accent}15`,
-                    color: item.accent,
-                    border: `1px solid ${item.accent}25`,
-                  }}
-                >
-                  <Icon className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12" />
-                </div>
-
-                {/* Text Content */}
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tighter mb-2 group-hover:text-primary transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm sm:text-base md:text-lg font-medium max-w-2xl leading-relaxed mb-6">
-                    {item.desc}
-                  </p>
-
-                  {/* Tags */}
-                  {item.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 sm:gap-2 md:gap-3">
-                      {item.tags.map((tag, idx) => (
-                        <span
-                          key={idx}
-                          className="text-[10px] sm:text-xs font-semibold px-2.5 sm:px-3.5 md:px-5 py-1 sm:py-1.5 md:py-2 rounded-full uppercase tracking-wider transition-all duration-300 hover:scale-105"
-                          style={{
-                            background: `${item.accent}12`,
-                            color: item.accent,
-                            border: `1px solid ${item.accent}25`,
-                          }}
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* Arrow */}
-                <motion.div
-                  whileHover={{ scale: 1.1, x: 10 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-muted/50 border border-border text-muted-foreground group-hover:bg-primary group-hover:text-white flex items-center justify-center shadow-sm self-start md:self-center transition-colors"
-                >
-                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
-                </motion.div>
-              </motion.div>
-            );
-
+        {/* ── Desktop: full vertical list ── */}
+        <div className="hidden lg:block divide-y divide-border">
+          {items.map((item) => {
+            const href = serviceRoutes[item.id] ?? null;
+            const row = <DesktopRow item={item} />;
             return href ? (
-              <Link href={href} key={i}>
-                {CardContent}
+              <Link href={href} key={item.id}>
+                {row}
               </Link>
-            ) : CardContent;
+            ) : (
+              <div key={item.id}>{row}</div>
+            );
           })}
         </div>
 
-        {/* Mobile Swipe Stack */}
-        <div className="md:hidden">
-          <SwipeStack
-            items={items.map(item => ({ ...item, _id: item.id }))}
-            onSwipeRight={(item) => {
-              const href = item.id === "graphic-design" ? "/graphic-design" : 
-                           item.id === "web-dev" ? "/web-development" : 
-                           item.id === "branding" ? "/branding" :
-                           item.id === "ai-strategy" ? "/ai-strategy" :
-                           item.id === "ui-ux" ? "/ui-ux" : null;
-              if (href) window.location.href = href;
-            }}
-            renderCard={(item) => {
-              const Icon = item.icon;
-              return (
-                <div className="bg-card p-8 h-[450px] flex flex-col items-center text-center justify-center relative overflow-hidden">
-                  <div className="absolute top-0 left-0 w-full h-[4px]" style={{ background: item.accent }} />
-                  <div
-                    className="w-24 h-24 rounded-full flex items-center justify-center mb-8 shadow-xl"
-                    style={{
-                      background: `${item.accent}15`,
-                      color: item.accent,
-                      border: `1px solid ${item.accent}25`,
-                    }}
+        {/* ── Mobile / Tablet: carousel ── */}
+        <div className="lg:hidden">
+          {/* Card shell */}
+          <div
+            className="relative overflow-hidden rounded-3xl border bg-card shadow-xl"
+            style={{ borderColor: `${items[activeIndex].accent}30` }}
+          >
+            {/* Animated accent line at top */}
+            <motion.div
+              key={items[activeIndex].accent}
+              layoutId="accent-bar"
+              className="h-[3px] w-full"
+              style={{ background: items[activeIndex].accent }}
+            />
+
+            <AnimatePresence mode="wait" initial={false}>
+              {(() => {
+                const item = items[activeIndex];
+                const href = serviceRoutes[item.id] ?? null;
+                const card = <MobileServiceCard item={item} />;
+                return (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, x: direction > 0 ? 56 : -56 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: direction > 0 ? -56 : 56 }}
+                    transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <Icon size={48} />
-                  </div>
-                  <h3 className="text-2xl font-bold uppercase tracking-tighter mb-4">{item.title}</h3>
-                  <p className="text-muted-foreground text-sm font-medium leading-relaxed mb-8">
-                    {item.desc}
-                  </p>
-                  <div className="flex flex-wrap justify-center gap-2 mb-8">
-                    {item.tags.slice(0, 2).map((tag, idx) => (
-                      <span
-                        key={idx}
-                        className="text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full"
-                        style={{
-                          background: `${item.accent}12`,
-                          color: item.accent,
-                          border: `1px solid ${item.accent}25`,
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary">
-                    LEARN MORE <ArrowRight size={14} />
-                  </div>
-                </div>
-              );
-            }}
-          />
-          <p className="text-center text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground animate-pulse mt-8">
-            Swipe Right to Learn More • Swipe Left to Skip
-          </p>
+                    {href ? <Link href={href}>{card}</Link> : card}
+                  </motion.div>
+                );
+              })()}
+            </AnimatePresence>
+          </div>
+
+          {/* Controls */}
+          <div className="mt-5 flex items-center justify-between">
+            {/* Dot indicators */}
+            <div className="flex gap-2">
+              {items.map((it, i) => (
+                <button
+                  key={i}
+                  onClick={() => { setDirection(i > activeIndex ? 1 : -1); setActiveIndex(i); }}
+                  aria-label={`Go to service ${i + 1}`}
+                  className="h-1.5 rounded-full transition-all duration-300"
+                  style={{
+                    width: i === activeIndex ? "24px" : "8px",
+                    background: i === activeIndex ? it.accent : "var(--muted)",
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Counter + arrows */}
+            <div className="flex items-center gap-3">
+              <span className="text-[11px] font-bold text-muted-foreground tabular-nums">
+                {String(activeIndex + 1).padStart(2, "0")} /{" "}
+                {String(items.length).padStart(2, "0")}
+              </span>
+              <button
+                onClick={goPrev}
+                aria-label="Previous service"
+                className="h-10 w-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:border-primary hover:text-primary active:scale-95 transition-all"
+              >
+                <ArrowLeft size={16} />
+              </button>
+              <button
+                onClick={goNext}
+                aria-label="Next service"
+                className="h-10 w-10 rounded-full bg-primary border border-primary flex items-center justify-center text-white active:scale-95 transition-all"
+              >
+                <ArrowRight size={16} />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>

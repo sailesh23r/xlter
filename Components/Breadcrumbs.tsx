@@ -6,7 +6,7 @@ import { ChevronRight, Home } from "lucide-react";
 import { motion } from "framer-motion";
 import Script from "next/script";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://xlter.com";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://Xeltr.com";
 
 interface BreadcrumbItem {
   label: string;

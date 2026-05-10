@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Logo from "./Logo";
-import { Menu, X, ChevronDown, Sun, Moon, TerminalSquare, LineChart, MousePointerClick, Triangle, PenTool } from "lucide-react";
+import { Menu, X, ChevronDown, Sun, Moon, TerminalSquare, LineChart, MousePointerClick, Triangle, PenTool, Cpu } from "lucide-react";
 import { useTheme } from "next-themes";
 import ContactModal from "./Contact/ContactModal";
-import ServiceOverlay from "./ServiceOverlay";
+import ServicesMegaMenu from "./Header/ServicesMegaMenu";
 
 const navLinks = [
     { name: "HOME", href: "/" },
@@ -44,19 +44,19 @@ export default function Navbar() {
     };
 
     return (
-        <header className="fixed top-4 md:top-6 inset-x-0 z-50 flex justify-center px-4">
+        <header className="fixed top-4 lg:top-6 inset-x-0 z-50 flex justify-center px-2 lg:px-4">
             <div className="relative w-full max-w-6xl">
-                <div className="w-full flex items-center justify-between px-3 md:px-8 h-14 md:h-16 bg-background/90 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl transition-all duration-300">
+                <div className="w-full flex items-center justify-between px-3 lg:px-8 h-14 lg:h-16 bg-background/90 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl transition-all duration-300">
 
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2 shrink-0">
-                        <div className="h-5 md:h-7">
+                        <div className="h-5 lg:h-7">
                             <Logo />
                         </div>
                     </Link>
 
                     {/* Desktop Menu */}
-                    <nav className="hidden md:flex items-center gap-8 text-sm font-semibold uppercase tracking-wider">
+                    <nav className="hidden lg:flex items-center gap-8 text-sm font-semibold uppercase tracking-wider">
                         {navLinks.map((link) => (
                             <div key={link.name} className="relative">
                                 {link.name === "SERVICES" ? (
@@ -69,11 +69,6 @@ export default function Navbar() {
                                             <ChevronDown size={14} className={`mt-0.5 opacity-50 group-hover:opacity-100 transition-all ${isServiceOpen ? 'rotate-180' : ''}`} />
                                             <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full"></span>
                                         </button>
-
-                                        <ServiceOverlay
-                                            isOpen={isServiceOpen}
-                                            onClose={() => setIsServiceOpen(false)}
-                                        />
                                     </>
                                 ) : (
                                     <Link
@@ -88,7 +83,7 @@ export default function Navbar() {
                         ))}
                     </nav>
 
-                    <div className="flex items-center gap-2 md:gap-3 shrink-0">
+                    <div className="flex items-center gap-2 lg:gap-3 shrink-0">
                         {/* Theme Toggle */}
                         {mounted && (
                             <button
@@ -105,14 +100,14 @@ export default function Navbar() {
                                 const event = new CustomEvent('openContactModal');
                                 window.dispatchEvent(event);
                             }}
-                            className="hidden md:block bg-primary text-primary-foreground hover:brightness-110 active:scale-95 transition-all px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest shadow-md shadow-primary/20"
+                            className="hidden lg:block bg-primary text-primary-foreground hover:brightness-110 active:scale-95 transition-all px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest shadow-md shadow-primary/20"
                         >
                             GET IN TOUCH
                         </button>
 
                         {/* Hamburger */}
                         <button
-                            className="md:hidden p-2 rounded-xl bg-accent/50 text-foreground transition-colors shrink-0"
+                            className="lg:hidden p-2 rounded-xl bg-accent/50 text-foreground transition-colors shrink-0"
                             onClick={() => setIsOpen(!isOpen)}
                         >
                             {isOpen ? <X size={20} /> : <Menu size={20} />}
@@ -120,16 +115,15 @@ export default function Navbar() {
                     </div>
                 </div>
 
-                {/* Mobile Menu — inside pointer-events-auto wrapper */}
+                {/* Mobile Menu */}
                 <div
-                    className={`absolute top-[calc(100%+10px)] left-0 w-full md:hidden px-4 transition-all duration-300 ${isOpen
-                        ? "opacity-100 translate-y-0"
+                    className={`absolute top-[calc(100%+10px)] left-0 w-full lg:hidden px-2 transition-all duration-300 ${isOpen
+                        ? "opacity-100 translate-y-0 pointer-events-auto"
                         : "opacity-0 -translate-y-3 pointer-events-none"
                         }`}
                 >
-                    <div className="bg-background/95 backdrop-blur-xl rounded-2xl shadow-xl border border-white/10">
-                        {/* Scrollable nav area */}
-                        <nav className="flex flex-col gap-5 px-6 text-sm font-bold uppercase tracking-widest overflow-y-auto max-h-[calc(80vh-80px)]">
+                    <div className="bg-background/95 backdrop-blur-xl rounded-2xl shadow-xl border border-white/10 overflow-hidden">
+                        <nav className="flex flex-col gap-4 px-5 py-5 text-sm font-bold uppercase tracking-widest overflow-y-auto max-h-[65vh]">
                             {navLinks.map((link) => (
                                 <div key={link.name} className="flex flex-col gap-3">
                                     {link.name === "SERVICES" ? (
@@ -139,13 +133,22 @@ export default function Navbar() {
                                                 className="text-foreground/70 hover:text-primary transition-colors text-left w-full flex items-center justify-between"
                                             >
                                                 {link.name}
-                                                <ChevronDown size={16} className={`transition-transform duration-300 ${isMobileServiceOpen ? 'rotate-180' : ''}`} />
+                                                <ChevronDown
+                                                    size={16}
+                                                    className={`transition-transform duration-300 ${isMobileServiceOpen ? "rotate-180" : ""
+                                                        }`}
+                                                />
                                             </button>
 
-                                            {/* Mobile Sub-Links (Accordion) */}
-                                            <div className={`flex flex-col gap-2 pl-3 overflow-hidden transition-all duration-300 ${isMobileServiceOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                                            <div
+                                                className={`flex flex-col gap-2 pl-2 overflow-hidden transition-all duration-300 ${isMobileServiceOpen
+                                                    ? "max-h-[420px] opacity-100"
+                                                    : "max-h-0 opacity-0"
+                                                    }`}
+                                            >
                                                 {[
                                                     { name: "Web Development", href: "/web-development", icon: TerminalSquare },
+                                                    { name: "Software Development", href: "/soft-dev", icon: Cpu },
                                                     { name: "AI Digital Strategy", href: "/ai-strategy", icon: LineChart },
                                                     { name: "UI/UX Design", href: "/ui-ux", icon: MousePointerClick },
                                                     { name: "Branding", href: "/branding", icon: Triangle },
@@ -163,15 +166,15 @@ export default function Navbar() {
                                                         <div className="w-7 h-7 rounded-lg bg-accent flex items-center justify-center text-muted-foreground shrink-0">
                                                             <sub.icon size={13} />
                                                         </div>
-                                                        {sub.name}
+                                                        <span className="break-words">{sub.name}</span>
                                                     </Link>
                                                 ))}
                                             </div>
                                         </>
                                     ) : (
                                         <Link
-                                            key={link.name}
                                             href={link.href}
+                                            key={link.name}
                                             onClick={() => setIsOpen(false)}
                                             className="text-foreground/70 hover:text-primary transition-colors"
                                         >
@@ -182,8 +185,7 @@ export default function Navbar() {
                             ))}
                         </nav>
 
-                        {/* GET IN TOUCH — always pinned at bottom */}
-                        <div className="px-6 pt-4">
+                        <div className="px-5 pb-5 pt-2">
                             <button
                                 onClick={() => {
                                     setIsOpen(false);
@@ -195,9 +197,13 @@ export default function Navbar() {
                             </button>
                         </div>
                     </div>
-
                 </div>
             </div>
+
+            <ServicesMegaMenu
+                isOpen={isServiceOpen}
+                onClose={() => setIsServiceOpen(false)}
+            />
 
             <ContactModal
                 isOpen={isContactOpen}

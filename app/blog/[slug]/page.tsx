@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, Calendar, Clock, User, Tag } from "lucide-react";
 import connectToDatabase from "@/lib/mongodb";
 import Blog from "@/models/Blog";
+import BlogCard from "@/Components/Blog/BlogCard";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -30,25 +31,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const blog = await getBlogBySlug(slug);
 
-  if (!blog) return { title: "Not Found | Xlter" };
+  if (!blog) return { title: "Not Found | Xeltr" };
 
   const title = blog.metaTitle || blog.title;
   const description = blog.metaDescription || blog.description;
   const ogImage = blog.ogImage || blog.thumbnail;
 
   return {
-    title: `${title} | Xlter Studio`,
+    title: `${title} | Xeltr Studio`,
     description: description,
     robots: blog.noIndex ? "noindex, nofollow" : "index, follow",
     alternates: {
-        canonical: blog.canonicalUrl || `https://xlter.com/blog/${blog.slug}`,
+        canonical: blog.canonicalUrl || `https://xeltr.com/blog/${blog.slug}`,
     },
     openGraph: {
       title: title,
       description: description,
       images: [ogImage],
       type: "article",
-      authors: [blog.author || "Xlter Studio"],
+      authors: [blog.author || "Xeltr Studio"],
       publishedTime: blog.publishDate || blog.createdAt,
     },
     twitter: {
@@ -56,7 +57,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: title,
       description: description,
       images: [ogImage],
-      site: blog.twitterHandle || "@xlterstudio",
+      site: blog.twitterHandle || "@xeltrstudio",
     },
   };
 }
@@ -95,14 +96,14 @@ export default async function BlogPostPage({ params }: Props) {
     "image": blog.thumbnail,
     "author": {
       "@type": "Person",
-      "name": blog.author || "Xlter Studio"
+      "name": blog.author || "Xeltr Studio"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Xlter Studio",
+      "name": "Xeltr Studio",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://xlter.com/Transparent-06.png"
+        "url": "https://xeltr.com/Transparent-06.png"
       }
     },
     "datePublished": blog.publishDate || blog.createdAt,
@@ -110,7 +111,7 @@ export default async function BlogPostPage({ params }: Props) {
     "description": blog.metaDescription || blog.description,
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://xlter.com/blog/${blog.slug}`
+      "@id": `https://xeltr.com/blog/${blog.slug}`
     }
   };
 
@@ -121,136 +122,202 @@ export default async function BlogPostPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
       />
       <article className="bg-background text-foreground min-h-screen pt-0 pb-32 transition-colors duration-500">
-        {/* Hero Section */}
-        <section className="relative w-full h-[60vh] min-h-[500px] flex items-end pb-16 px-6">
-          <div className="absolute inset-0">
-            <Image 
-              src={blog.thumbnail} 
-              alt={blog.title} 
-              fill 
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-black/70 backdrop-blur-[2px]" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
-          </div>
+        
+        {/* 1. Hero Section - Centered Editorial Layout */}
+        <section className="relative w-full pt-32 pb-16 px-4 sm:px-6 max-w-4xl mx-auto text-center">
+            
+            <div className="mb-10">
+                <Link href="/blog" className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors text-xs font-bold uppercase tracking-widest group">
+                    <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Journal
+                </Link>
+            </div>
 
-          <div className="relative z-10 max-w-5xl mx-auto w-full">
-              <Link 
-                  href="/blog" 
-                  className="flex items-center gap-2 text-white/70 hover:text-primary transition-colors text-[10px] font-black uppercase tracking-[0.3em] mb-12 group"
-              >
-                  <ArrowLeft size={14} className="group-hover:-translate-x-2 transition-transform" /> Back to Blog
-              </Link>
-
-              <div className="flex items-center gap-4 mb-8">
-                  <div className="px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 text-primary text-[10px] font-black uppercase tracking-[0.2em]">
-                      {blog.category}
-                  </div>
-                  {blog.tags?.map((tag: string) => (
-                      <span key={tag} className="text-white/40 text-[9px] font-bold uppercase tracking-widest flex items-center gap-1">
-                          <Tag size={10} /> {tag}
-                      </span>
-                  ))}
-              </div>
-
-              <h1 className="text-5xl md:text-8xl font-black text-white leading-[0.85] uppercase tracking-tighter mb-12 max-w-4xl">
-                  {blog.title}
-              </h1>
-
-              <div className="flex flex-wrap items-center gap-10 text-white/60 text-[10px] font-black uppercase tracking-[0.2em]">
-                  <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white border border-white/10">
-                          <User size={16} />
-                      </div>
-                      <div>
-                          <p className="text-white/30 mb-0.5 text-[8px]">AUTHOR</p>
-                          <p className="text-white">{blog.author || "Xlter Studio"}</p>
-                      </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-primary/60 border border-white/5">
-                          <Calendar size={16} />
-                      </div>
-                      <div>
-                          <p className="text-white/30 mb-0.5 text-[8px]">PUBLISHED</p>
-                          <p className="text-white">{new Date(blog.publishDate || blog.createdAt).toLocaleDateString("en-US", { month: 'short', day: 'numeric', year: 'numeric' })}</p>
-                      </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-primary/60 border border-white/5">
-                          <Clock size={16} />
-                      </div>
-                      <div>
-                          <p className="text-white/30 mb-0.5 text-[8px]">READ TIME</p>
-                          <p className="text-white">{readTime} MIN READ</p>
-                      </div>
-                  </div>
-              </div>
-          </div>
+            <span className="text-primary font-bold text-xs uppercase tracking-[0.2em] mb-6 block">
+                {blog.category}
+            </span>
+            
+            <h1 className="text-4xl md:text-5xl lg:text-[64px] font-serif text-foreground leading-[1.15] mb-10 tracking-tight">
+                {blog.title}
+            </h1>
+            
+            <div className="flex flex-wrap items-center justify-center gap-6 text-muted-foreground text-sm font-medium">
+                <span className="flex items-center gap-2"><User size={16}/> {blog.author || "Xeltr Studio"}</span>
+                <span className="flex items-center gap-2"><Calendar size={16}/> {new Date(blog.publishDate || blog.createdAt).toLocaleDateString("en-US", { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                <span className="flex items-center gap-2"><Clock size={16}/> {readTime} min read</span>
+            </div>
         </section>
 
-        {/* Content Section */}
-        <section className="max-w-4xl mx-auto px-6 mt-24">
-          <div className="prose prose-invert prose-blue max-w-none">
-              <div className="space-y-8 text-muted-foreground text-lg md:text-xl leading-[1.8] font-medium">
-                  {content.split('\n').map((para: string, idx: number) => {
-                      if (!para.trim()) return null;
-                      if (para.startsWith('>') || para.startsWith('"') || para.startsWith('“')) {
-                          return (
-                              <blockquote key={idx} className="border-l-4 border-primary pl-10 py-6 my-16 bg-white/5 rounded-r-3xl not-italic relative overflow-hidden">
-                                  <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
-                                  <p className="text-foreground text-3xl font-black leading-tight italic uppercase tracking-tight">
-                                      {para.replace(/^>/, '').trim()}
-                                  </p>
-                              </blockquote>
-                          );
-                      }
-                      if (para.startsWith('#')) {
-                          const level = para.match(/^#+/)?.[0].length || 1;
-                          const text = para.replace(/^#+/, '').trim();
-                          if (level === 1) return <h1 key={idx} className="text-4xl font-black text-white uppercase tracking-tighter mt-16 mb-8">{text}</h1>;
-                          if (level === 2) return <h2 key={idx} className="text-3xl font-black text-white uppercase tracking-tighter mt-12 mb-6">{text}</h2>;
-                          return <h3 key={idx} className="text-2xl font-black text-white uppercase tracking-tighter mt-10 mb-4">{text}</h3>;
-                      }
-                      return <p key={idx} className="whitespace-pre-wrap">{para}</p>;
-                  })}
-              </div>
-          </div>
+        {/* Massive Featured Image */}
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 mb-24">
+            <div className="w-full aspect-[16/10] md:aspect-[21/9] relative rounded-[24px] overflow-hidden shadow-2xl border border-border/30">
+                <Image 
+                    src={blog.thumbnail} 
+                    alt={blog.title} 
+                    fill 
+                    className="object-cover"
+                    priority
+                />
+            </div>
+        </section>
+
+        {/* 2. Article Content Layout */}
+        <section className="max-w-3xl mx-auto px-6 mb-16">
+            <div className="relative z-10 space-y-8 text-muted-foreground text-lg md:text-xl leading-[2.2]">
+                {content.split(/\n\n+/).map((para: string, idx: number) => {
+                    if (!para.trim()) return null;
+
+                    const renderInline = (text: string) => {
+                        const parts = text.split(/(\[.*?\]\(.*?\))/g);
+                        return parts.map((part, i) => {
+                            const linkMatch = part.match(/\[(.*?)\]\((.*?)\)/);
+                            if (linkMatch) {
+                                return <Link key={i} href={linkMatch[2]} className="text-primary hover:text-primary/80 underline decoration-primary/30 underline-offset-4 transition-all">{linkMatch[1]}</Link>;
+                            }
+                            const boldParts = part.split(/(\*\*.*?\*\*)/g);
+                            return boldParts.map((bp, j) => {
+                                const boldMatch = bp.match(/\*\*(.*?)\*\*/);
+                                if (boldMatch) return <strong key={j} className="font-bold text-foreground">{boldMatch[1]}</strong>;
+                                return <span key={j}>{bp}</span>;
+                            });
+                        });
+                    };
+
+                    // 3. Inline Editorial Images
+                    if (para.match(/^!\[.*?\]\(.*?\)$/)) {
+                        const imgMatch = para.match(/^!\[(.*?)\]\((.*?)\)$/);
+                        if (imgMatch) {
+                            return (
+                                <figure key={idx} className="my-16 flex flex-col items-center group">
+                                    <div className="w-full relative rounded-xl overflow-hidden shadow-lg border border-border/30 transition-all duration-700 hover:shadow-2xl">
+                                        <img src={imgMatch[2]} alt={imgMatch[1]} className="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-1000" />
+                                    </div>
+                                    {imgMatch[1] && <figcaption className="mt-4 text-xs text-muted-foreground uppercase tracking-widest">{imgMatch[1]}</figcaption>}
+                                </figure>
+                            );
+                        }
+                    }
+
+                    // CTA Block
+                    if (para.includes('---') && para.toLowerCase().includes('contact')) {
+                        const cleanText = para.replace(/---/g, '').trim();
+                        const linkMatch = cleanText.match(/\[(.*?)\]\((.*?)\)/);
+                        const textBefore = linkMatch ? cleanText.split(/\[/)[0] : cleanText;
+                        return (
+                            <div key={idx} className="my-16 bg-primary/5 border border-primary/20 rounded-2xl p-10 text-center relative overflow-hidden">
+                                <h3 className="text-2xl font-serif text-foreground mb-6 leading-tight">
+                                    {textBefore.replace(/\*\*/g, '').trim()}
+                               </h3>
+                                {linkMatch && (
+                                    <Link href={linkMatch[2]} className="inline-block bg-primary text-primary-foreground font-bold text-sm px-8 py-4 rounded-full hover:bg-primary/90 transition-colors">
+                                        {linkMatch[1]}
+                                    </Link>
+                                )}
+                            </div>
+                        );
+                    }
+
+                    // Elegant Blockquote
+                    if (para.startsWith('>') || para.startsWith('"') || para.startsWith('“')) {
+                        return (
+                            <blockquote key={idx} className="border-l-2 border-primary pl-8 my-14 py-2 italic relative">
+                                <p className="text-foreground text-2xl md:text-3xl font-serif leading-relaxed text-foreground/90 whitespace-pre-wrap">
+                                    {renderInline(para.replace(/^>|"/gm, '').replace(/“|”/g, '').trim())}
+                                </p>
+                            </blockquote>
+                        );
+                    }
+                    
+                    // Serif Headings
+                    if (para.startsWith('#')) {
+                        const level = para.match(/^#+/)?.[0].length || 1;
+                        const text = para.replace(/^#+/, '').trim();
+                        if (level === 1) return <h1 key={idx} className="text-4xl md:text-5xl font-serif text-foreground mt-16 mb-8">{renderInline(text)}</h1>;
+                        if (level === 2) return <h2 key={idx} className="text-3xl md:text-4xl font-serif text-foreground mt-14 mb-6">{renderInline(text)}</h2>;
+                        return <h3 key={idx} className="text-2xl font-serif text-foreground mt-10 mb-4">{renderInline(text)}</h3>;
+                    }
+
+                    // Lists
+                    if (para.startsWith('- ') || para.startsWith('* ')) {
+                        const items = para.split('\n').filter(i => i.trim());
+                        return (
+                            <ul key={idx} className="list-disc space-y-3 my-8 pl-6 marker:text-primary">
+                                {items.map((item, i) => (
+                                    <li key={i} className="pl-2">
+                                        {renderInline(item.replace(/^[-*]\s*/, ''))}
+                                    </li>
+                                ))}
+                            </ul>
+                        );
+                    }
+
+                    // Paragraphs (Drop cap for first paragraph only)
+                    const isFirstParagraph = idx === 0;
+                    return (
+                        <p key={idx} className={`whitespace-pre-wrap ${isFirstParagraph ? "first-letter:text-6xl first-letter:font-serif first-letter:text-foreground first-letter:mr-3 first-letter:float-left first-letter:leading-[0.8]" : ""}`}>
+                            {renderInline(para)}
+                        </p>
+                    );
+                })}
+            </div>
+
+            {/* 4. Tags Section */}
+            {blog.tags && blog.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-16 pt-12 border-t border-border/30">
+                    {blog.tags.map((tag: string) => (
+                        <span key={tag} className="px-4 py-1.5 border border-border/50 rounded-full text-[10px] uppercase tracking-widest text-muted-foreground hover:border-primary/50 hover:text-foreground transition-colors cursor-default">
+                            {tag}
+                        </span>
+                    ))}
+                </div>
+            )}
+
+            {/* 5. Author Card */}
+            <div className="mt-16 p-8 bg-card/20 border border-border/50 rounded-[24px] flex flex-col sm:flex-row items-center sm:items-start gap-6 hover:bg-card/40 transition-colors group">
+                <div className="w-20 h-20 rounded-full bg-muted overflow-hidden shrink-0 grayscale group-hover:grayscale-0 transition-all duration-500 border border-border/50">
+                    <div className="w-full h-full flex items-center justify-center bg-background/50">
+                        <User size={32} className="text-muted-foreground" />
+                    </div>
+                </div>
+                <div className="text-center sm:text-left">
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold block mb-1">Written By</span>
+                    <h4 className="text-xl font-serif font-bold text-foreground mb-3">{blog.author || "Xeltr Studio"}</h4>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                        An editorial voice at Xeltr, exploring the intersections of design, technology, and digital culture.
+                    </p>
+                </div>
+            </div>
         </section>
 
         {/* FAQs */}
         {blog.faqs && blog.faqs.length > 0 && (
-            <FAQSection faqs={blog.faqs} title="Article FAQs" />
+            <div className="max-w-3xl mx-auto px-6">
+               <FAQSection faqs={blog.faqs} title="Frequently Asked Questions" />
+            </div>
         )}
 
-        {/* Related Posts */}
+        {/* 6. Related Articles Section */}
         {relatedBlogs.length > 0 && (
-            <section className="max-w-7xl mx-auto px-6 mt-48">
-                <h2 className="text-3xl font-black uppercase tracking-tighter mb-12">Related Stories</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <section className="max-w-7xl mx-auto px-6 mt-32 border-t border-border/20 pt-24">
+                <h2 className="text-3xl md:text-5xl font-serif text-center mb-16 text-foreground tracking-tight">Read Next</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                     {relatedBlogs.map((rel: any) => (
-                        <Link key={rel._id} href={`/blog/${rel.slug}`} className="group">
-                            <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-6">
-                                <Image src={rel.thumbnail} alt={rel.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                                <div className="absolute top-4 left-4">
-                                    <span className="bg-primary/90 text-white text-[8px] font-black px-3 py-1 rounded-full uppercase tracking-widest">{rel.category}</span>
-                                </div>
+                        <Link href={`/blog/${rel.slug}`} key={rel._id} className="group block">
+                            <div className="relative aspect-[4/3] rounded-[20px] overflow-hidden mb-6 border border-border/30 bg-muted">
+                                <Image 
+                                    src={rel.thumbnail} 
+                                    alt={rel.title} 
+                                    fill 
+                                    className="object-cover group-hover:scale-105 transition-transform duration-[1500ms] ease-out" 
+                                />
                             </div>
-                            <h3 className="text-xl font-bold uppercase tracking-tight group-hover:text-primary transition-colors line-clamp-2">{rel.title}</h3>
+                            <span className="text-primary text-[10px] uppercase tracking-widest font-bold mb-3 block">{rel.category}</span>
+                            <h3 className="text-2xl font-serif text-foreground group-hover:text-primary transition-colors leading-snug mb-4">{rel.title}</h3>
+                            <p className="text-muted-foreground text-sm line-clamp-2 leading-relaxed">{rel.description}</p>
                         </Link>
                     ))}
                 </div>
             </section>
         )}
-
-        {/* Footer */}
-        <div className="max-w-4xl mx-auto px-6 mt-32 pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-8">
-            <div className="flex items-center gap-4">
-                <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/40">SHARE THIS STORY</span>
-            </div>
-            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground/30">© 2026 Xlter Creative Studio</p>
-        </div>
       </article>
     </>
   );

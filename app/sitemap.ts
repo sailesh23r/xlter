@@ -3,7 +3,7 @@ import connectToDatabase from "@/lib/mongodb";
 import Blog from "@/models/Blog";
 import Page from "@/models/Page";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://xlter.com";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://xeltr.com";
 
 // All public static routes with their SEO properties
 const staticRoutes: {

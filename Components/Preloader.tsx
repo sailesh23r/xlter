@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Logo from "./Logo";
-import CustomLogo from "./CustomLogo";
 
 const CONFIG = {
     FILL_DURATION: 0.1,
@@ -16,15 +15,30 @@ export default function Preloader() {
     const [isLoading, setIsLoading] = useState(true);
     const [counter, setCounter] = useState(0);
 
+    const [mounted, setMounted] = useState(false);
+
+    // FIX 5: Preloader body scroll lock with proper cleanup
     useEffect(() => {
-        if (counter >= 100) {
-            const timer = setTimeout(() => setIsLoading(false), 200);
-            return () => clearTimeout(timer);
+        if (isLoading) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
         }
 
-        // Fast increment for a snappy feel
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [isLoading]);
+
+    useEffect(() => {
+        setMounted(true);
+        
         const interval = setInterval(() => {
             setCounter((prev) => {
+                if (prev >= 100) {
+                    clearInterval(interval);
+                    return 100;
+                }
                 const step = Math.floor(Math.random() * 15) + 5;
                 const next = prev + step;
                 return next > 100 ? 100 : next;
@@ -32,7 +46,23 @@ export default function Preloader() {
         }, 35);
 
         return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+        if (counter >= 100) {
+            const timer = setTimeout(() => setIsLoading(false), 200);
+            return () => clearTimeout(timer);
+        }
     }, [counter]);
+
+    // Fail-safe: Hide preloader after 4 seconds regardless of counter
+    useEffect(() => {
+        const failSafe = setTimeout(() => setIsLoading(false), 4000);
+        return () => clearTimeout(failSafe);
+    }, []);
+
+    if (!mounted) return null;
+
 
     return (
         <AnimatePresence mode="wait">
@@ -52,7 +82,7 @@ export default function Preloader() {
                             transition={{ duration: 0.5 }}
                             className="mb-8"
                         >
-                            <CustomLogo color="currentColor" monochrome={false} className="h-8 w-auto" />
+                            <Logo color="currentColor" monochrome={false} className="h-8 w-auto" />
                         </motion.div>
 
                         <div className="flex flex-col items-center">

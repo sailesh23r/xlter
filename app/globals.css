@@ -26,9 +26,9 @@
 .dark {
   --background: #020617;
   --foreground: #f8fafc;
-  --card: #020617;
+  --card: #0f172a;
   --card-foreground: #f8fafc;
-  --popover: #020617;
+  --popover: #0f172a;
   --popover-foreground: #f8fafc;
   --primary: #3b82f6;
   --primary-foreground: #ffffff;
@@ -45,7 +45,7 @@
   --ring: #3b82f6;
 }
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -72,26 +72,58 @@
   --font-mono: var(--font-geist-mono);
 }
 
-html {
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  transition: background-color 0.3s ease, color 0.3s ease;
+
   overflow-x: hidden;
-  text-rendering: optimizeLegibility;
+
+  text-rendering: optimizeSpeed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  overscroll-behavior-y: none;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img,
+svg,
+video,
+canvas {
+  transform: translateZ(0);
 }
 
 /* Hide scrollbar for horizontal scroll containers */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* scrollbar-hide utility for Tailwind snap carousels */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }

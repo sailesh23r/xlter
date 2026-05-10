@@ -118,7 +118,7 @@ const Squares: React.FC<SquaresProps> = ({
       window.removeEventListener("resize", resizeCanvas);
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
     };
-  }, [direction, speed, borderColor, hoverFillColor, squareSize, hoveredSquare, showGradient]);
+  }, [direction, speed, borderColor, hoverFillColor, squareSize, showGradient]);
 
   const handleMouseMove = (event: React.MouseEvent) => {
     if (!canvasRef.current) return;

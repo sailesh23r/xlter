@@ -62,8 +62,8 @@ export default function FAQSection({ faqs, title = "Frequently Asked Questions",
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className={`border rounded-2xl overflow-hidden transition-all duration-300 ${
-                isOpen ? "bg-primary/5 border-primary/30" : "bg-card border-border hover:border-primary/20"
+              className={`border rounded-[24px] overflow-hidden transition-all duration-300 ${
+                isOpen ? "bg-primary/5 border-primary/40 shadow-xl shadow-primary/5" : "bg-card/40 backdrop-blur-md border-border/50 hover:border-primary/30 shadow-md shadow-black/5"
               }`}
             >
               <button
@@ -76,8 +76,8 @@ export default function FAQSection({ faqs, title = "Frequently Asked Questions",
                     {faq.question}
                   </span>
                 </div>
-                <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all ${isOpen ? "bg-primary text-white" : "bg-white/5 text-muted-foreground"}`}>
-                  {isOpen ? <Minus size={16} /> : <Plus size={16} />}
+                <div className={`shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all border ${isOpen ? "bg-primary text-white border-primary shadow-lg shadow-primary/20" : "bg-background/50 border-border/50 text-muted-foreground group-hover:border-primary/40 group-hover:text-primary"}`}>
+                  {isOpen ? <Minus size={18} /> : <Plus size={18} />}
                 </div>
               </button>
 

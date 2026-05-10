@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import {
     Sparkles,
     TrendingUp,
@@ -13,38 +13,32 @@ import {
     Repeat,
     RotateCcw,
     Quote,
-    ArrowRight
+    ArrowRight,
+    Target,
+    Eye,
+    Users,
+    Lightbulb
 } from "lucide-react";
 import { fadeUp, stagger } from "@/lib/animations";
 import { useTheme } from "next-themes";
 import GridBackground from "@/Components/Animations/GridBackground";
 import Squares from "@/Components/Animations/Squares";
 
-const philosophy = [
+const coreValues = [
     {
-        title: "Experience",
-        desc: "Designing digital journeys that feel intuitive, human, and unforgettable.",
-        icon: Sparkles
+        title: "Client-Centric",
+        desc: "Designing tailored digital experiences that put the client's needs and audience first.",
+        icon: Users
     },
     {
-        title: "Elevate",
-        desc: "Taking brands from ordinary to extraordinary through high-fidelity visual systems.",
-        icon: TrendingUp
-    },
-    {
-        title: "Lead",
-        desc: "Navigating the digital frontier with bold innovation and technical mastery.",
+        title: "Integrity",
+        desc: "Operating with transparency, ethical practices, and an unwavering commitment to quality.",
         icon: ShieldCheck
     },
     {
-        title: "Transform",
-        desc: "Restructuring how businesses communicate and operate in an AI-first world.",
-        icon: Zap
-    },
-    {
-        title: "Reinvent",
-        desc: "Breaking the mold to build future-proof identities and technology platforms.",
-        icon: Rocket
+        title: "Innovation",
+        desc: "Continuously pushing the boundaries of design and technology to deliver future-proof solutions.",
+        icon: Lightbulb
     }
 ];
 
@@ -84,7 +78,6 @@ const framework = [
 export default function AboutPage() {
     const { resolvedTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
-    const [scrollTarget, setScrollTarget] = useState<HTMLElement | null>(null);
 
     useEffect(() => {
         setMounted(true);
@@ -92,17 +85,10 @@ export default function AboutPage() {
 
     const isDark = resolvedTheme === "dark";
 
-    const { scrollYProgress } = useScroll({
-        target: scrollTarget ? { current: scrollTarget } : undefined,
-        offset: ["start end", "end start"]
-    });
-
-    const xTransform = useTransform(scrollYProgress, [0, 1], ["10%", "-10%"]);
-
     if (!mounted) return null;
 
     return (
-        <div className="bg-background text-foreground selection:bg-primary selection:text-white pb-16 pt-0 transition-colors duration-500 relative overflow-hidden">
+        <div className="bg-background text-foreground selection:bg-primary selection:text-white pb-16 pt-0 transition-colors duration-500 relative overflow-x-clip">
             {/* Background Animations */}
             {/* Background elements removed for cleaner look */}
 
@@ -124,37 +110,46 @@ export default function AboutPage() {
                                 BLEND OF <span className="text-primary">AI AND HUMAN</span> CREATIVITY
                             </h1>
                             <p className="text-muted-foreground text-base md:text-lg font-medium leading-relaxed max-w-2xl mb-10 mx-auto">
-                                at <span className="text-primary font-bold">Xlter</span>, we are more than a digital agency; we are a fusion of human creativity and artificial intelligence.
+                                at <span className="text-primary font-bold">Xeltr</span>, we are more than a digital agency; we are a fusion of human creativity and artificial intelligence.
                             </p>
                         </motion.div>
                     </div>
                 </section>
 
-                {/* Philosophy Section */}
-                <section className="max-w-7xl mx-auto px-4 md:px-6 mb-16 md:mb-32 overflow-hidden" ref={(el) => setScrollTarget(el)}>
+                {/* Core Values Section */}
+                <section className="max-w-7xl mx-auto px-4 md:px-6 mb-16 md:mb-32">
                     <div className="text-center mb-12 md:mb-20">
-                        <h2 className="text-[26px] sm:text-[34px] md:text-[42px] font-bold uppercase tracking-tighter leading-tight text-primary mb-4">Core Philosophy</h2>
-                        <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed opacity-60">&quot;Experience, Elevate, Lead, Transform, and Reinvent.&quot;</p>
+                        <h2 className="text-[26px] sm:text-[34px] md:text-[42px] font-bold uppercase tracking-tighter leading-tight text-primary mb-4">Our Core Value</h2>
+                        <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed opacity-60 max-w-xl mx-auto">
+                            &quot;Client-Centric, Integrity, and Innovation.&quot;
+                        </p>
                     </div>
 
-                    <motion.div
-                        style={{ x: xTransform }}
-                        className="flex gap-6 mb-8 px-4"
-                    >
-                        {philosophy.map((item, idx) => (
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 px-4">
+                        {coreValues.map((item, idx) => (
                             <motion.div
                                 key={idx}
-                                whileHover={{ y: -5, borderColor: "rgba(37,99,235,0.3)" }}
-                                className="bg-card border border-border p-8 md:p-10 rounded-[8px] shadow-2xl shadow-black/5 min-w-[260px] md:min-w-[380px] transition-all duration-500 group"
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: idx * 0.1 }}
+                                whileHover={{ y: -10 }}
+                                className="group relative bg-card/40 backdrop-blur-md border border-border/50 p-8 md:p-10 rounded-[24px] shadow-2xl shadow-black/5 transition-all duration-500 hover:border-primary/50 overflow-hidden cursor-default"
                             >
-                                <div className="w-14 h-14 bg-background border border-border rounded-[8px] flex items-center justify-center text-primary mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm">
-                                    <item.icon size={24} />
+                                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[40px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/10 transition-colors duration-700" />
+                                
+                                <div className="relative z-10">
+                                    <div className="w-16 h-16 bg-background/50 backdrop-blur-md border border-border/50 rounded-[16px] flex items-center justify-center text-primary mb-8 group-hover:scale-110 group-hover:bg-primary group-hover:text-white group-hover:border-primary/50 transition-all duration-500 shadow-sm">
+                                        <item.icon size={28} className="group-hover:rotate-12 transition-transform duration-500" />
+                                    </div>
+                                    <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4 group-hover:text-primary transition-colors duration-300">{item.title}</h3>
+                                    <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity duration-300">{item.desc}</p>
                                 </div>
-                                <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4">{item.title}</h3>
-                                <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed opacity-80">{item.desc}</p>
+                                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] w-0 group-hover:w-[60%] transition-all duration-700 rounded-t-full bg-primary" />
                             </motion.div>
                         ))}
-                    </motion.div>
+                    </div>
                 </section>
 
                 {/* Framework Section */}
@@ -199,70 +194,67 @@ export default function AboutPage() {
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            whileHover={{ y: -10 }}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="bg-card border border-border p-8 md:p-12 rounded-[8px] relative overflow-hidden group shadow-2xl shadow-black/5"
+                            whileHover={{ y: -12 }}
+                            className="group relative bg-card/20 backdrop-blur-sm border border-border/50 p-8 md:p-12 rounded-[32px] overflow-hidden shadow-2xl shadow-black/5 transition-all duration-500 hover:border-primary/50 cursor-default"
                         >
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[60px] rounded-full -translate-y-1/2 translate-x-1/2" />
-                            <h3 className="flex items-center gap-3 text-primary text-[10px] font-black tracking-widest uppercase mb-8">
-                                <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                                Our Mission
-                            </h3>
-                            <p className="text-foreground font-bold leading-[1.8] text-lg uppercase tracking-tight opacity-90">
-                                At Xlter, Our Mission Is To Blend Human Creativity With The Power Of Artificial Intelligence To Craft Experiences That Elevate Brands And Transform Businesses.
-                            </p>
+                            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/10 transition-colors duration-700" />
+
+                            <div className="relative z-10 flex flex-col h-full">
+                                <div className="flex items-center justify-between mb-8">
+                                    <div className="flex items-center gap-3 px-4 py-2 rounded-full text-[10px] font-black tracking-widest uppercase backdrop-blur-xl border border-primary/20 text-primary shadow-xl bg-primary/10">
+                                        <span className="w-2 h-2 bg-primary rounded-full animate-pulse shadow-[0_0_10px_rgba(37,99,235,0.8)]" />
+                                        Our Mission
+                                    </div>
+                                    <div className="w-14 h-14 rounded-full bg-background border border-border flex items-center justify-center text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm">
+                                        <Target size={24} className="group-hover:rotate-12 transition-transform duration-500" />
+                                    </div>
+                                </div>
+
+                                <p className="text-foreground font-bold leading-[1.6] text-xl md:text-2xl uppercase tracking-tight opacity-90 group-hover:text-primary transition-colors duration-500 mt-auto">
+                                    At Xeltr, Our Mission Is To Blend Human Creativity With The Power Of Artificial Intelligence To Craft Experiences That Elevate Brands And Transform Businesses.
+                                </p>
+                            </div>
+
+                            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[4px] w-0 group-hover:w-[60%] transition-all duration-700 rounded-t-full bg-primary" />
                         </motion.div>
 
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            whileHover={{ y: -10 }}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="bg-card border border-border p-8 md:p-12 rounded-[8px] relative overflow-hidden group shadow-2xl shadow-black/5"
+                            whileHover={{ y: -12 }}
+                            transition={{ delay: 0.1 }}
+                            className="group relative bg-card/20 backdrop-blur-sm border border-border/50 p-8 md:p-12 rounded-[32px] overflow-hidden shadow-2xl shadow-black/5 transition-all duration-500 hover:border-primary/50 cursor-default"
                         >
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[60px] rounded-full -translate-y-1/2 translate-x-1/2" />
-                            <h3 className="flex items-center gap-3 text-primary text-[10px] font-black tracking-widest uppercase mb-8">
-                                <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                                Our Vision
-                            </h3>
-                            <p className="text-foreground font-bold leading-[1.8] text-lg uppercase tracking-tight opacity-90">
-                                Our Vision Is To Create A Future Where AI And Human Innovation Work Hand In Hand, Empowering Businesses Worldwide To Experience Growth And Reinvent Continuously.
-                            </p>
+                            <div className="absolute inset-0 bg-gradient-to-bl from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/10 transition-colors duration-700" />
+
+                            <div className="relative z-10 flex flex-col h-full">
+                                <div className="flex items-center justify-between mb-8">
+                                    <div className="flex items-center gap-3 px-4 py-2 rounded-full text-[10px] font-black tracking-widest uppercase backdrop-blur-xl border border-primary/20 text-primary shadow-xl bg-primary/10">
+                                        <span className="w-2 h-2 bg-primary rounded-full animate-pulse shadow-[0_0_10px_rgba(37,99,235,0.8)]" />
+                                        Our Vision
+                                    </div>
+                                    <div className="w-14 h-14 rounded-full bg-background border border-border flex items-center justify-center text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm">
+                                        <Eye size={24} className="group-hover:scale-110 transition-transform duration-500" />
+                                    </div>
+                                </div>
+
+                                <p className="text-foreground font-bold leading-[1.6] text-xl md:text-2xl uppercase tracking-tight opacity-90 group-hover:text-primary transition-colors duration-500 mt-auto">
+                                    Our Vision Is To Create A Future Where AI And Human Innovation Work Hand In Hand, Empowering Businesses Worldwide To Experience Growth And Reinvent Continuously.
+                                </p>
+                            </div>
+
+                            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[4px] w-0 group-hover:w-[60%] transition-all duration-700 rounded-t-full bg-primary" />
                         </motion.div>
                     </div>
                 </section>
 
-                {/* Quote & CTA */}
-                <section className="px-4 md:px-6 text-center max-w-5xl mx-auto pb-16 md:pb-32">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="bg-card border border-border p-16 md:p-24 rounded-[16px] relative overflow-hidden shadow-3xl"
-                    >
-                        <div className="absolute inset-0 bg-primary/5 pointer-events-none" />
-                        <div className="relative z-10 flex flex-col items-center gap-12">
-                            <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center text-primary shadow-inner">
-                                <Quote size={40} className="fill-primary/20" />
-                            </div>
-
-                            <h2 className="text-[28px] md:text-[42px] font-bold uppercase tracking-tighter leading-tight max-w-3xl mx-auto group cursor-default">
-                                <span className="group-hover:text-primary transition-colors duration-500">Xlter Strives</span> To Be The Bridge Between <span className="text-primary underline decoration-2 underline-offset-8">Imagination</span> And <span className="text-primary">Technology</span> In The Digital Era.
-                            </h2>
-
-                            <motion.button
-                                whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(37,99,235,0.2)" }}
-                                whileTap={{ scale: 0.95 }}
-                                className="bg-primary text-white px-12 py-5 rounded-[4px] font-black uppercase tracking-[0.3em] text-xs flex items-center gap-4 group transition-all"
-                            >
-                                Build the Future with Us
-                                <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
-                            </motion.button>
-                        </div>
-                    </motion.div>
-                </section>
+                {/* Section removed */}
             </div>
         </div>
     );

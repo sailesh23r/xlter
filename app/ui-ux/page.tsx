@@ -77,11 +77,11 @@ export default function UIUXPage() {
     return (
         <div className="bg-background text-foreground min-h-screen pt-0 transition-colors duration-500">
             {/* Hero Section */}
-            <section className="relative w-full h-auto py-16 md:py-20 bg-background border-b border-border/10">
+            <section className="relative w-full h-auto py-16 sm:py-20 lg:py-28 bg-background border-b border-border/10">
                 
                 {/* Background animations removed for cleaner look */}
                 
-                <div className="px-6 md:px-12 max-w-7xl mx-auto relative z-10 text-center">
+                <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 space-y-12 text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -95,7 +95,7 @@ export default function UIUXPage() {
                     <motion.h1
                         initial="hidden"
                         animate="visible"
-                        className="text-4xl md:text-[64px] font-bold leading-[1.1] uppercase tracking-tighter mb-6 mt-6"
+                        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] uppercase tracking-tighter mb-6 mt-6"
                     >
                         {words.map((word, i) => (
                             <motion.span
@@ -122,20 +122,19 @@ export default function UIUXPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
-                        className="flex flex-wrap justify-center items-center gap-8"
+                        className="flex flex-wrap justify-center items-center gap-4"
                     >
                         <button 
                             onClick={openContact}
-                            className="group relative px-10 py-5 bg-primary text-white rounded-[6px] overflow-hidden transition-all duration-500 hover:scale-105 active:scale-95 shadow-2xl shadow-primary/20"
+                            className="bg-primary text-primary-foreground px-6 sm:px-8 py-4 sm:py-5 rounded-full font-black uppercase tracking-widest text-[10px] md:text-xs shadow-2xl shadow-primary/40 hover:scale-105 transition-all active:scale-95 flex items-center gap-3 group"
                         >
-                            <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
-                            <span className="relative z-10 font-black uppercase tracking-[0.3em] text-[10px]">Start Project</span>
+                            Start Project <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
                         </button>
                         
-                        <Link href="#services" className="group flex items-center gap-4 text-muted-foreground hover:text-primary transition-all duration-300">
-                            <span className="font-black uppercase tracking-[0.3em] text-[10px]">Explore Services</span>
-                            <div className="w-10 h-[1px] bg-muted-foreground group-hover:w-16 group-hover:bg-primary transition-all duration-500" />
-                            <ArrowRight className="group-hover:translate-x-2 transition-transform duration-500" size={16} />
+                        <Link href="#services">
+                            <button className="bg-transparent border border-border text-foreground px-6 sm:px-10 py-4 sm:py-5 rounded-full font-black uppercase tracking-widest text-[10px] md:text-xs hover:bg-accent transition-all active:scale-95 flex items-center gap-3">
+                                Explore Services <ChevronRight size={18} />
+                            </button>
                         </Link>
                     </motion.div>
                 </div>
@@ -151,14 +150,13 @@ export default function UIUXPage() {
             </section>
 
             {/* Expertise Section */}
-            <section id="services" className="py-16 md:py-24 lg:py-32 px-6 md:px-12 bg-accent/30 transition-colors duration-500 border-t border-border/10 relative overflow-hidden">
-                <GridBackground />
+            <section id="services" className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6 lg:px-8 bg-transparent transition-colors duration-500 border-t border-border/10 relative overflow-hidden">
                 <div className="max-w-7xl mx-auto relative z-10">
-                    <div className="flex flex-col md:flex-row items-end justify-between gap-12 mb-32">
+                    <div className="flex flex-col lg:flex-row justify-between items-center mb-12 sm:mb-16 lg:mb-24 gap-12 text-center lg:text-left">
                         <div className="max-w-2xl">
-                            <motion.p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] mb-6">EXPERTISE</motion.p>
-                            <h2 className="text-[42px] font-bold uppercase tracking-tighter leading-tight text-primary">
-                                Comprehensive Visual <br /> Engineering
+                            <motion.p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] mb-6 relative">EXPERTISE</motion.p>
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter leading-tight text-foreground">
+                                Comprehensive Visual <br /> <span className="text-primary">Engineering</span>
                             </h2>
                         </div>
                         <div className="max-w-sm">
@@ -173,7 +171,8 @@ export default function UIUXPage() {
                             {
                                 title: "User Research",
                                 icon: Users,
-                                desc: "Understanding the audience at a psychological level to create interfaces that fulfill their deepest needs."
+                                desc: "Understanding the audience at a psychological level to create interfaces that fulfill their deepest needs.",
+                                span: "md:col-span-2"
                             },
                             {
                                 title: "UI Design",
@@ -189,11 +188,6 @@ export default function UIUXPage() {
                                 title: "Usability Testing",
                                 icon: Eye,
                                 desc: "Iterative cycles of feedback and refinement to ensure a frictionless user journey."
-                            },
-                            {
-                                title: "Interaction Design",
-                                icon: MousePointerClick,
-                                desc: "Subtle micro-animations and motion design that make digital interfaces feel alive and responsive."
                             }
                         ].map((item, i) => (
                             <motion.div
@@ -202,17 +196,17 @@ export default function UIUXPage() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1 }}
-                                className="group relative overflow-hidden rounded-[8px] bg-card border border-border hover:border-primary/50 transition-all duration-500"
+                                className={`group relative overflow-hidden rounded-[24px] bg-card/40 backdrop-blur-md border border-border/50 hover:border-primary/50 hover:bg-card/80 transition-all duration-500 shadow-lg hover:shadow-xl ${item.span || ""}`}
                             >
-                                <div className="p-10 relative z-10 flex flex-col h-full min-h-[300px]">
-                                    <div className="w-12 h-12 rounded-2xl bg-accent text-primary flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500 group-hover:rotate-[360deg]">
+                                <div className="p-6 sm:p-8 lg:p-10 relative z-10 flex flex-col h-full min-h-[250px]">
+                                    <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 group-hover:rotate-[360deg] group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]">
                                         <item.icon size={24} />
                                     </div>
-                                    <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight mb-4">{item.title}</h3>
-                                    <p className="text-muted-foreground text-sm font-medium leading-relaxed max-w-xs">{item.desc}</p>
-                                    
-                                    <div className="absolute inset-0 z-[-1] opacity-0 group-hover:opacity-10 transition-opacity duration-700">
-                                        <div className="absolute inset-0 bg-gradient-to-br from-primary via-transparent to-primary blur-3xl animate-pulse" />
+                                    <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight mb-4 group-hover:text-primary transition-colors">{item.title}</h3>
+                                    <p className="text-muted-foreground text-sm font-medium leading-relaxed max-w-md">{item.desc}</p>
+
+                                    <div className="absolute inset-0 z-[-1] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+                                        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[80px] rounded-full translate-x-1/2 -translate-y-1/2" />
                                     </div>
                                 </div>
                             </motion.div>

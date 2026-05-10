@@ -14,14 +14,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     await connectToDatabase();
     const page = await Page.findOne({ slug }).lean();
-    if (!page) return { title: "Not Found | Xlter" };
+    if (!page) return { title: "Not Found | Xeltr" };
 
     return {
-      title: `${page.metaTitle || page.title} | Xlter Studio`,
+      title: `${page.metaTitle || page.title} | Xeltr Studio`,
       description: page.metaDescription,
       robots: page.noIndex ? "noindex, nofollow" : "index, follow",
       alternates: {
-        canonical: page.canonicalUrl || `https://xlter.com/${page.slug}`,
+        canonical: page.canonicalUrl || `https://xeltr.com/${page.slug}`,
       },
       openGraph: {
         title: page.metaTitle || page.title,
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
     };
   } catch {
-    return { title: "Xlter Studio" };
+    return { title: "Xeltr Studio" };
   }
 }
 

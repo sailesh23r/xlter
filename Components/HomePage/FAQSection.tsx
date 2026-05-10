@@ -11,7 +11,7 @@ interface FAQItem {
 
 const faqData: FAQItem[] = [
   {
-    question: "What Services Does Xlter Offer?",
+    question: "What Services Does Xeltr Offer?",
     answer:
       "We offer a comprehensive range of digital solutions including custom website design, e-commerce development, digital marketing (SEO, SEM, SMM), UI & UX design, graphic design, branding & visual identity.",
   },
@@ -41,20 +41,20 @@ export default function FAQSection() {
   };
 
   return (
-    <section className="bg-transparent text-foreground py-16 md:py-24 overflow-hidden relative">
+    <section className="bg-transparent text-foreground py-16 sm:py-20 lg:py-24 overflow-hidden relative">
       <GridBackground />
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-10 sm:mb-12 md:mb-16"
+          className="text-center mb-10 sm:mb-12 lg:mb-16"
         >
-          <h2 className="text-[42px] font-bold uppercase tracking-tighter leading-tight mb-3 sm:mb-4 md:mb-5">
-            Frequently Asked Questions
+          <h2 className="text-[32px] sm:text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-tight">
+            FREQUENTLY ASKED <span className="text-primary">QUESTIONS</span>
           </h2>
-          <p className="max-w-xl sm:max-w-2xl mx-auto">
+          <p className="text-muted-foreground mt-4 sm:mt-6 max-w-2xl mx-auto text-sm sm:text-base md:text-lg font-medium leading-relaxed">
             Got questions? We&apos;ve got answers. Here&apos;s everything you need to know about
             our services and process.
           </p>

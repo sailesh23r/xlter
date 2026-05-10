@@ -3,7 +3,17 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
-export default function Logo({ forceWhite = false, monochrome = false }: { forceWhite?: boolean, monochrome?: boolean }) {
+export default function Logo({ 
+    forceWhite = false, 
+    monochrome = false, 
+    className = "h-full w-auto transition-all duration-300",
+    color
+}: { 
+    forceWhite?: boolean, 
+    monochrome?: boolean, 
+    className?: string,
+    color?: string 
+}) {
     const { resolvedTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
 
@@ -11,10 +21,10 @@ export default function Logo({ forceWhite = false, monochrome = false }: { force
         setMounted(true);
     }, []);
 
-    if (!mounted) return <div className="h-8 w-32 bg-transparent" />;
+    if (!mounted) return <div className={className} />;
 
     const isDark = resolvedTheme === "dark" || forceWhite;
-    const logoColor = isDark ? '#FFFFFF' : '#000921';
+    const logoColor = color || (isDark ? '#FFFFFF' : '#000921');
 
     return (
         <svg 
@@ -24,12 +34,12 @@ export default function Logo({ forceWhite = false, monochrome = false }: { force
             xmlnsXlink="http://www.w3.org/1999/xlink" 
             x="0px" y="0px"
             viewBox="0 0 878.93 229.13" 
-            className="h-full w-auto transition-all duration-300"
+            className={className}
             xmlSpace="preserve"
-            aria-label="Xlter Logo"
+            aria-label="Xeltr Logo"
             role="img"
         >
-            <title>Xlter Logo</title>
+            <title>Xeltr Logo</title>
             <style type="text/css">
                 {`
                     .st0 { fill: ${monochrome ? logoColor : '#2E65FF'}; transition: fill 0.3s ease; }
@@ -83,3 +93,4 @@ export default function Logo({ forceWhite = false, monochrome = false }: { force
         </svg>
     );
 }
+

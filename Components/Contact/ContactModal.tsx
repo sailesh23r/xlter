@@ -2,8 +2,9 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import { useLenis } from "../Animations/SmoothScroll";
 
 type Props = {
     isOpen: boolean;
@@ -11,23 +12,32 @@ type Props = {
 };
 
 export default function ContactModal({ isOpen, onClose }: Props) {
+    const lenis = useLenis();
     const [formData, setFormData] = useState({
         name: "",
         email: "",
         phone: "",
         message: ""
     });
+    
+    useEffect(() => {
+        if (isOpen && lenis) {
+            lenis.stop();
+        } else if (lenis) {
+            lenis.start();
+        }
+    }, [isOpen, lenis]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         // Elite Web3Forms Integration
         const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
-        
+
         const submissionData = {
             access_key: accessKey,
             subject: `New Lead: ${formData.name}`,
-            from_name: "Xlter Studio Leads",
+            from_name: "xeltr",
             ...formData
         };
 
@@ -75,10 +85,10 @@ export default function ContactModal({ isOpen, onClose }: Props) {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 100 }}
                         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as any }}
-                        className="relative w-full max-w-4xl bg-card text-foreground rounded-2xl md:rounded-[3rem] p-6 md:p-16 shadow-[0_0_100px_rgba(0,0,0,0.1)] border border-border overflow-hidden"
+                        className="relative w-full max-w-4xl bg-card/90 backdrop-blur-xl text-foreground rounded-[24px] p-6 md:p-14 shadow-2xl border border-border/50 overflow-hidden"
                     >
                         {/* Decorative Background Glow */}
-                        <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 blur-[100px] rounded-full pointer-events-none" />
+                        <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 blur-[100px] rounded-[24px] pointer-events-none" />
 
                         {/* Close Button */}
                         <button
@@ -195,7 +205,7 @@ export default function ContactModal({ isOpen, onClose }: Props) {
                             >
                                 <button
                                     type="submit"
-                                    className="group relative bg-primary text-primary-foreground px-12 py-5 rounded-full font-black uppercase tracking-[0.2em] text-xs hover:brightness-110 active:scale-95 transition-all shadow-[0_10px_40px_rgba(var(--primary),0.3)] flex items-center gap-3"
+                                    className="group relative bg-primary text-primary-foreground px-12 py-5 rounded-[12px] font-black uppercase tracking-[0.2em] text-xs hover:brightness-110 active:scale-95 transition-all shadow-[0_10px_40px_rgba(var(--primary),0.3)] flex items-center gap-3"
                                 >
                                     Send Lead
                                     <span className="group-hover:translate-x-1 transition-transform">→</span>

@@ -3,29 +3,26 @@ import Blog from "@/models/Blog";
 import BlogClient from "./BlogClient";
 import { Metadata } from "next";
 import { getPageMetadata } from "@/lib/getSEO";
+import { BlogDoc } from "@/Components/Blog/BlogCard";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const meta = await getPageMetadata("/blog");
-  return meta || {
-    title: "Blog | Xlter Studio",
-    description: "Insights, stories, and updates from Xlter Studio.",
-  };
-}
-
-interface BlogDoc {
-  _id: string;
-  title: string;
-  slug: string;
-  category: string;
-  description: string;
-  thumbnail: string;
-  createdAt: string;
+  return (
+    meta || {
+      title: "Blog | Xeltr Studio",
+      description: "Insights, stories, and updates from Xeltr Studio.",
+    }
+  );
 }
 
 async function getBlogs(): Promise<BlogDoc[]> {
   try {
     await connectToDatabase();
-    const blogs = await Blog.find({}).sort({ createdAt: -1 }).lean();
+    const blogs = await Blog.find({ status: "PUBLISHED" })
+      .sort({ featured: -1, publishDate: -1, createdAt: -1 })
+      .lean();
     return JSON.parse(JSON.stringify(blogs));
   } catch (error) {
     console.error("Failed to fetch blogs:", error);
@@ -33,7 +30,7 @@ async function getBlogs(): Promise<BlogDoc[]> {
   }
 }
 
-async function getCategories(): Promise<any[]> {
+async function getCategories(): Promise<{ _id: string; name: string }[]> {
   try {
     await connectToDatabase();
     const Category = (await import("@/models/Category")).default;
@@ -46,10 +43,7 @@ async function getCategories(): Promise<any[]> {
 }
 
 export default async function BlogPage() {
-  const [blogs, categories] = await Promise.all([
-    getBlogs(),
-    getCategories()
-  ]);
+  const [blogs, categories] = await Promise.all([getBlogs(), getCategories()]);
 
   return <BlogClient blogs={blogs} categories={categories} />;
 }
