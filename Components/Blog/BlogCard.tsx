@@ -12,6 +12,7 @@ export interface BlogDoc {
   publishDate?: string;
   createdAt: string;
   featured?: boolean;
+  author?: string;
 }
 
 type Props = {
