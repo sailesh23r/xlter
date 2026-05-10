@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     const tags = ((formData.get("tags") as string) || "").split(",").map(t => t.trim()).filter(t => t !== "");
     const author = (formData.get("author") as string) || "Xeltr Studio";
     const publishDate = formData.get("publishDate") ? new Date(formData.get("publishDate") as string) : new Date();
-    const status = (formData.get("status") as string) || "PUBLISHED";
+    const status = (formData.get("status") as "DRAFT" | "PUBLISHED") || "PUBLISHED";
     const featured = formData.get("featured") === "true";
     const faqs = JSON.parse((formData.get("faqs") as string) || "[]");
     
