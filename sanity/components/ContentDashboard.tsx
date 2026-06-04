@@ -113,7 +113,7 @@ export function ContentDashboard() {
                               Updated {formatDate(item._updatedAt)} by {item.authorName || 'Unknown'}
                             </Text>
                           </Box>
-                          <Badge mode="outline" tone={item.status === 'PUBLISHED' ? 'success' : 'caution'}>
+                          <Badge mode="outline" tone={item.status === 'PUBLISHED' ? 'positive' : 'caution'}>
                             {item.status || 'Draft'}
                           </Badge>
                         </Flex>
