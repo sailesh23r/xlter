@@ -32,6 +32,7 @@ const menu = [
     icon: FileText,
     children: [
       { title: "Blogs", href: "/xeltr-admin/content/blog" },
+      { title: "Open CMS", href: "/studio" },
       { title: "Case Studies", href: "/xeltr-admin/content/casestudy" },
       { title: "Testimonials", href: "/xeltr-admin/content/testimonials" },
     ],

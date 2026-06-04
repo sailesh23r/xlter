@@ -1,5 +1,6 @@
 import connectToDatabase from "@/lib/mongodb";
-import Blog from "@/models/Blog";
+import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
 import BlogClient from "./BlogClient";
 import { Metadata } from "next";
 import { getPageMetadata } from "@/lib/getSEO";
@@ -19,11 +20,38 @@ export async function generateMetadata(): Promise<Metadata> {
 
 async function getBlogs(): Promise<BlogDoc[]> {
   try {
-    await connectToDatabase();
-    const blogs = await Blog.find({ status: "PUBLISHED" })
-      .sort({ featured: -1, publishDate: -1, createdAt: -1 })
-      .lean();
-    return JSON.parse(JSON.stringify(blogs));
+    const query = `*[
+      _type == "post" &&
+      defined(slug.current) &&
+      !(_id in path("drafts.**"))
+    ] | order(publishDate desc, _createdAt desc) {
+      _id,
+      title,
+      slug,
+      excerpt,
+      featuredImage,
+      publishDate,
+      _createdAt,
+      _updatedAt,
+      author->{name, image},
+      category->{title, slug}
+    }`;
+    
+    const sanityBlogs = await client.fetch(query);
+
+    const blogs: BlogDoc[] = sanityBlogs.map((blog: any) => ({
+      _id: blog._id,
+      title: blog.title || "Untitled",
+      slug: blog.slug?.current || "",
+      category: blog.category?.title || "Uncategorized",
+      description: blog.excerpt || "",
+      thumbnail: blog.featuredImage ? urlFor(blog.featuredImage).url() : "",
+      publishDate: blog.publishDate || blog._createdAt,
+      createdAt: blog._createdAt || new Date().toISOString(),
+      author: blog.author?.name || "Xeltr Studio",
+      featured: false
+    }));
+    return blogs;
   } catch (error) {
     console.error("Failed to fetch blogs:", error);
     return [];
@@ -32,10 +60,9 @@ async function getBlogs(): Promise<BlogDoc[]> {
 
 async function getCategories(): Promise<{ _id: string; name: string }[]> {
   try {
-    await connectToDatabase();
-    const Category = (await import("@/models/Category")).default;
-    const categories = await Category.find({}).sort({ name: 1 }).lean();
-    return JSON.parse(JSON.stringify(categories));
+    const query = `*[_type == "category"] | order(title asc) { _id, "name": title }`;
+    const categories = await client.fetch(query);
+    return categories;
   } catch (error) {
     console.error("Failed to fetch categories:", error);
     return [];

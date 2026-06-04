@@ -29,11 +29,25 @@ export default function Testimonials() {
 
     useEffect(() => {
         fetch("/api/admin/content/testimonials")
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                return res.json();
+            })
             .then(data => {
                 if (data && Array.isArray(data)) setTestimonials(data);
             })
-            .catch(err => console.error(err));
+            .catch(err => {
+                console.error("Testimonials fetch failed:", err);
+                // Try absolute URL as fallback if relative fails
+                if (typeof window !== 'undefined') {
+                    fetch(window.location.origin + "/api/admin/content/testimonials")
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data && Array.isArray(data)) setTestimonials(data);
+                        })
+                        .catch(e => console.error("Testimonials absolute fetch failed:", e));
+                }
+            });
     }, []);
 
     const displayItems = testimonials.length > 0 ? testimonials : [
@@ -46,7 +60,7 @@ export default function Testimonials() {
     ];
 
     return (
-        <section className="py-16 sm:py-20 lg:py-24 bg-background text-foreground relative overflow-x-clip min-h-[600px] flex flex-col items-center justify-center transition-colors duration-500 px-4 sm:px-6 lg:px-8">
+        <section className="py-16 sm:py-20 lg:py-28 bg-background text-foreground relative overflow-x-clip min-h-[600px] flex flex-col items-center justify-center transition-colors duration-500 px-4 sm:px-6 lg:px-8">
 
             {/* Background Decorative Elements - Reduced blur on mobile */}
             <div className="absolute inset-0 pointer-events-none opacity-40 md:opacity-100">

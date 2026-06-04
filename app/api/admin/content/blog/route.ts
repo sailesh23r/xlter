@@ -1,20 +1,52 @@
 import { NextRequest, NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
-import connectToDatabase from "@/lib/mongodb";
+import connectToDatabase, { withTimeout } from "@/lib/mongodb";
 import Blog from "@/models/Blog";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 
+import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
+
 // GET /api/blogs — fetch all blogs sorted by newest first
 export async function GET() {
   try {
-    await connectToDatabase();
-    const blogs = await Blog.find({}).sort({ createdAt: -1 });
+    console.log("GET /api/admin/content/blog - Fetching from Sanity...");
+    const query = `*[_type == "post" && defined(slug.current)] | order(publishedAt desc, _createdAt desc) {
+      _id,
+      title,
+      slug,
+      excerpt,
+      mainImage,
+      publishedAt,
+      _createdAt,
+      _updatedAt,
+      author->{name, image},
+      categories[]->{title, slug}
+    }`;
+    
+    const sanityBlogs = await client.fetch(query);
+    
+    const blogs = sanityBlogs.map((blog: any) => ({
+      _id: blog._id,
+      title: blog.title || "Untitled",
+      slug: blog.slug?.current || "",
+      category: blog.categories?.[0]?.title || "Uncategorized",
+      description: blog.excerpt || "",
+      thumbnail: blog.mainImage ? urlFor(blog.mainImage).url() : "",
+      publishDate: blog.publishedAt,
+      createdAt: blog._createdAt || new Date().toISOString(),
+      updatedAt: blog._updatedAt || blog._createdAt || new Date().toISOString(),
+      author: blog.author?.name || "Xeltr Studio",
+      status: blog._id.startsWith('drafts.') ? 'DRAFT' : 'PUBLISHED',
+      featured: false
+    }));
+
     return NextResponse.json({ success: true, blogs });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error fetching blogs:", error);
     return NextResponse.json(
-      { success: false, error: "Failed to fetch blogs" },
+      { success: false, error: error.message || "Failed to fetch blogs" },
       { status: 500 }
     );
   }

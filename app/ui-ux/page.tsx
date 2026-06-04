@@ -27,6 +27,7 @@ import Squares from "@/Components/Animations/Squares";
 import { useTheme } from "next-themes";
 import React, { useState, useEffect } from "react";
 import GridBackground from "@/Components/Animations/GridBackground";
+import TechScrollTicker from "@/Components/Animations/TechScrollTicker";
 
 // --- Custom Brand SVG Icons for Tech ---
 const XDIcon = ({ size = 32, style = {} }: any) => (
@@ -59,7 +60,7 @@ export default function UIUXPage() {
         }
     };
 
-    const words = "Intuitive Interfaces, Human-Centric Experiences".split(" ");
+    const words = "DESIGNED FOR HUMANS. BUILT FOR RESULTS.".split(" ");
 
     const textVariants = {
         hidden: { opacity: 0, y: 20 },
@@ -78,33 +79,36 @@ export default function UIUXPage() {
         <div className="bg-background text-foreground min-h-screen pt-0 transition-colors duration-500">
             {/* Hero Section */}
             <section className="relative w-full h-auto py-16 sm:py-20 lg:py-28 bg-background border-b border-border/10">
-                
+
                 {/* Background animations removed for cleaner look */}
-                
+
                 <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 space-y-12 text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="flex flex-col items-center gap-4"
                     >
-                        <p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-[4px] border border-primary/20 w-fit mx-auto">
-                            Digital Experience Strategy
-                        </p>
+                        <div className="inline-flex items-center gap-3 px-5 h-10 rounded-full border border-primary/25 bg-primary/[0.06] backdrop-blur-xl shadow-[0_0_24px_hsl(var(--primary)/0.15)] w-fit mx-auto">
+                            <span className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_hsl(var(--primary)/0.8)] animate-pulse" />
+                            <span className="text-[10px] font-black uppercase tracking-[0.24em] text-primary/90">
+                                UI/UX Design
+                            </span>
+                        </div>
                     </motion.div>
 
                     <motion.h1
                         initial="hidden"
                         animate="visible"
-                        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] uppercase tracking-tighter mb-6 mt-6"
+                        className="text-[32px] md:text-[42px] lg:text-[52px] font-bold leading-[1.1] uppercase tracking-tighter mb-6 mt-6 lg:whitespace-nowrap"
                     >
                         {words.map((word, i) => (
                             <motion.span
                                 key={i}
                                 custom={i}
                                 variants={textVariants}
-                                className="inline-block mr-4 last:mr-0"
+                                className="inline-block mr-[0.2em]"
                             >
-                                {word === "Interfaces," || word === "Human-Centric" ? <span className="text-primary">{word}</span> : word}
+                                {word === "HUMANS." || word === "RESULTS." ? <span className="text-primary">{word}</span> : word}
                             </motion.span>
                         ))}
                     </motion.h1>
@@ -115,7 +119,7 @@ export default function UIUXPage() {
                         transition={{ delay: 0.2 }}
                         className="text-muted-foreground text-base md:text-lg font-medium leading-relaxed max-w-2xl mb-10 mx-auto"
                     >
-                        We design digital experiences that feel like second nature. By blending human-centric design principles with cutting-edge aesthetics, we create interfaces that drive engagement.
+                        We create intuitive, modern interfaces and seamless user experiences that increase engagement, usability, and customer satisfaction.
                     </motion.p>
 
                     <motion.div
@@ -124,13 +128,13 @@ export default function UIUXPage() {
                         transition={{ delay: 0.3 }}
                         className="flex flex-wrap justify-center items-center gap-4"
                     >
-                        <button 
+                        <button
                             onClick={openContact}
                             className="bg-primary text-primary-foreground px-6 sm:px-8 py-4 sm:py-5 rounded-full font-black uppercase tracking-widest text-[10px] md:text-xs shadow-2xl shadow-primary/40 hover:scale-105 transition-all active:scale-95 flex items-center gap-3 group"
                         >
                             Start Project <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
                         </button>
-                        
+
                         <Link href="#services">
                             <button className="bg-transparent border border-border text-foreground px-6 sm:px-10 py-4 sm:py-5 rounded-full font-black uppercase tracking-widest text-[10px] md:text-xs hover:bg-accent transition-all active:scale-95 flex items-center gap-3">
                                 Explore Services <ChevronRight size={18} />
@@ -139,7 +143,7 @@ export default function UIUXPage() {
                     </motion.div>
                 </div>
 
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1 }}
@@ -152,15 +156,14 @@ export default function UIUXPage() {
             {/* Expertise Section */}
             <section id="services" className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6 lg:px-8 bg-transparent transition-colors duration-500 border-t border-border/10 relative overflow-hidden">
                 <div className="max-w-7xl mx-auto relative z-10">
-                    <div className="flex flex-col lg:flex-row justify-between items-center mb-12 sm:mb-16 lg:mb-24 gap-12 text-center lg:text-left">
-                        <div className="max-w-2xl">
-                            <motion.p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] mb-6 relative">EXPERTISE</motion.p>
-                            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter leading-tight text-foreground">
-                                Comprehensive Visual <br /> <span className="text-primary">Engineering</span>
+                    <div className="flex flex-col items-center mb-12 sm:mb-16 lg:mb-24 gap-6 text-center">
+                        <div className="max-w-3xl">
+                            <h2 className="text-[50px] font-bold uppercase tracking-tighter leading-tight text-foreground">
+                                Comprehensive Visual & <span className="text-primary">Engineering</span>
                             </h2>
                         </div>
-                        <div className="max-w-sm">
-                            <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed opacity-70">
+                        <div className="max-w-2xl">
+                            <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed opacity-70 mx-auto">
                                 Meticulously designed touchpoints that communicate authority and luxury at every scale.
                             </p>
                         </div>
@@ -187,7 +190,8 @@ export default function UIUXPage() {
                             {
                                 title: "Usability Testing",
                                 icon: Eye,
-                                desc: "Iterative cycles of feedback and refinement to ensure a frictionless user journey."
+                                desc: "Iterative cycles of feedback and refinement to ensure a frictionless user journey.",
+                                span: "md:col-span-2"
                             }
                         ].map((item, i) => (
                             <motion.div
@@ -232,38 +236,38 @@ export default function UIUXPage() {
 
                     <div className="flex flex-col gap-12 max-w-4xl mx-auto text-left">
                         {[
-                            { 
-                                name: "Discovery", 
+                            {
+                                name: "Discovery",
                                 step: "01",
                                 desc: "Uncovering user needs, business goals, and technological constraints through deep stakeholder interviews.",
                                 icon: Search
                             },
-                            { 
-                                name: "Empathize", 
+                            {
+                                name: "Empathize",
                                 step: "02",
                                 desc: "Developing a profound understanding of the users' challenges and aspirations through qualitative research.",
                                 icon: Heart
                             },
-                            { 
-                                name: "Define", 
+                            {
+                                name: "Define",
                                 step: "03",
                                 desc: "Synthesizing research findings into clear, actionable problem statements and design requirements.",
                                 icon: Clipboard
                             },
-                            { 
-                                name: "Ideate", 
+                            {
+                                name: "Ideate",
                                 step: "04",
                                 desc: "Exploring creative solutions and architectural layouts that address the defined user challenges.",
                                 icon: Lightbulb
                             },
-                            { 
-                                name: "Prototype", 
+                            {
+                                name: "Prototype",
                                 step: "05",
                                 desc: "Building interactive models to validate design assumptions and test user interactions early.",
                                 icon: Edit3
                             },
-                            { 
-                                name: "Verify", 
+                            {
+                                name: "Verify",
                                 step: "06",
                                 desc: "Final quality assurance and usability testing to ensure the product meets our elite standards.",
                                 icon: CheckCircle
@@ -295,13 +299,13 @@ export default function UIUXPage() {
 
 
             {/* Tech Stack Section */}
-            <section className="py-16 md:py-24 lg:py-32 px-6 md:px-12 bg-background relative overflow-hidden">
+            <section className="py-16 md:py-24 lg:py-32 bg-background relative overflow-hidden">
                 <GridBackground />
-                <div className="max-w-7xl mx-auto text-center relative z-10">
+                <div className="max-w-7xl mx-auto text-center relative z-10 px-6 md:px-12">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        className="mb-24"
+                        className="mb-16"
                     >
                         <h2 className="text-[42px] font-bold uppercase tracking-tighter leading-tight mb-6">
                             Powered by <span className="text-primary">Modern Tech</span>
@@ -310,35 +314,16 @@ export default function UIUXPage() {
                             We use industry-standard tools to craft interfaces that are both visually stunning and technically precise.
                         </p>
                     </motion.div>
-
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12 max-w-5xl mx-auto">
-                        {[
-                            { icon: SiFigma, name: "Figma", color: "#F24E1E" },
-                            { icon: SiFramer, name: "Framer", color: "#0055FF" },
-                            { icon: SiSketch, name: "Sketch", color: "#F7B500" },
-                            { icon: XDIcon, name: "Adobe XD", color: "#FF61F6" },
-                            { icon: CCIcon, name: "Creative Cloud", color: "#DA1F26" }
-                        ].map((tech, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: i * 0.05 }}
-                                className="group flex flex-col items-center gap-6"
-                            >
-                                <motion.div
-                                    whileHover={{ scale: 1.2, rotate: 5 }}
-                                    className="w-20 h-20 rounded-3xl bg-accent/50 flex items-center justify-center text-muted-foreground group-hover:text-primary group-hover:bg-primary/5 transition-all duration-500 shadow-xl"
-                                >
-                                    <tech.icon size={32} style={{ color: i === 5 && !isDark ? "#000" : tech.color }} />
-                                </motion.div>
-                                <h5 className="font-black uppercase tracking-widest text-[10px] opacity-50 group-hover:opacity-100 transition-opacity">
-                                    {tech.name}
-                                </h5>
-                            </motion.div>
-                        ))}
-                    </div>
                 </div>
+                <TechScrollTicker
+                    items={[
+                        { icon: <SiFigma size={32} style={{ color: "#F24E1E" }} />, name: "Figma" },
+                        { icon: <SiFramer size={32} style={{ color: "#0055FF" }} />, name: "Framer" },
+                        { icon: <SiSketch size={32} style={{ color: "#F7B500" }} />, name: "Sketch" },
+                        { icon: <XDIcon size={32} style={{ color: "#FF61F6" }} />, name: "Adobe XD" },
+                        { icon: <CCIcon size={32} style={{ color: "#DA1F26" }} />, name: "Creative Cloud" },
+                    ]}
+                />
             </section>
 
         </div>

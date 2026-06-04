@@ -96,7 +96,7 @@ export default function Hero({ data }: HeroProps) {
             variants={stagger}
             initial="hidden"
             animate="show"
-            className="relative overflow-hidden min-h-[calc(100vh-90px)] lg:min-h-[calc(100vh-110px)] pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8 flex items-center justify-center text-center w-full bg-transparent will-change-transform"
+            className="relative overflow-hidden min-h-[calc(100vh-90px)] lg:min-h-[calc(100vh-110px)] pt-20 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8 flex items-center justify-center text-center w-full bg-transparent will-change-transform"
             style={{ perspective: "1200px" }}
         >
             <motion.div
@@ -113,16 +113,20 @@ export default function Hero({ data }: HeroProps) {
                 <Magnetic>
                     <motion.div
                         variants={fadeUp}
-                        className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-[4px] border border-primary/20"
                         style={{ translateZ: "50px" }}
                     >
-                        {heroLabel}
+                        <div className="inline-flex items-center gap-3 px-5 h-10 rounded-full border border-primary/25 bg-primary/[0.06] backdrop-blur-xl shadow-[0_0_24px_hsl(var(--primary)/0.15)]">
+                            <span className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_hsl(var(--primary)/0.8)] animate-pulse" />
+                            <span className="text-[10px] font-black uppercase tracking-[0.24em] text-primary/90">
+                                {heroLabel}
+                            </span>
+                        </div>
                     </motion.div>
                 </Magnetic>
 
                 <motion.h1
                     variants={fadeUp}
-                    className="mt-6 sm:mt-8 max-w-4xl mx-auto text-4xl sm:text-5xl md:text-6xl lg:text-[72px] xl:text-[84px] font-black uppercase tracking-tighter leading-[0.9]"
+                    className="mt-6 sm:mt-8 max-w-4xl mx-auto text-[2.6rem] sm:text-5xl md:text-6xl lg:text-[72px] xl:text-[84px] font-black uppercase tracking-tight md:tracking-tighter leading-[0.9]"
                     style={{ translateZ: "100px" }}
                 >
                     <span className="block">
@@ -151,20 +155,21 @@ export default function Hero({ data }: HeroProps) {
                     <Magnetic>
                         <button
                             onClick={() => {
-                                if (data?.primaryCTA?.link.startsWith('#')) {
-                                    const el = document.getElementById(data.primaryCTA.link.substring(1));
+                                const link = data?.primaryCTA?.link;
+                                if (!link || link === "/services" || link === "#services" || link === "/#services") {
+                                    handleGetStarted();
+                                } else if (link.startsWith('#casestudy')) {
+                                    const el = document.getElementById(link.substring(1));
                                     if (el && lenis) {
                                         lenis.scrollTo(el);
                                     } else {
                                         el?.scrollIntoView({ behavior: 'smooth' });
                                     }
-                                } else if (data?.primaryCTA?.link) {
-                                    window.location.href = data.primaryCTA.link;
                                 } else {
-                                    handleGetStarted();
+                                    window.location.href = link;
                                 }
                             }}
-                            className="group relative h-14 px-10 rounded-full overflow-hidden bg-primary text-white font-black uppercase tracking-[0.2em] text-[10px] transition-all duration-500 shadow-xl shadow-primary/30"
+                            className="group relative h-12 sm:h-14 px-6 sm:px-10 w-full sm:w-auto max-w-[280px] sm:max-w-none mx-auto rounded-full overflow-hidden bg-primary text-white font-black uppercase tracking-[0.2em] text-[10px] transition-all duration-500 shadow-xl shadow-primary/30"
                         >
                             <div className="absolute inset-0 bg-white -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
                             <span className="relative z-10 group-hover:text-primary transition-colors duration-500">
@@ -177,15 +182,20 @@ export default function Hero({ data }: HeroProps) {
                     <Magnetic>
                         <button
                             onClick={() => {
-                                if (data?.secondaryCTA?.link.startsWith('#')) {
-                                    const el = document.getElementById(data.secondaryCTA.link.substring(1));
+                                let link = data?.secondaryCTA?.link;
+                                if (link === "/portfolio" || link === "/work") {
+                                    link = "/casestudy";
+                                }
+
+                                if (link && link.startsWith('#')) {
+                                    const el = document.getElementById(link.substring(1));
                                     if (el && lenis) {
                                         lenis.scrollTo(el);
                                     } else {
                                         el?.scrollIntoView({ behavior: 'smooth' });
                                     }
-                                } else if (data?.secondaryCTA?.link) {
-                                    window.location.href = data.secondaryCTA.link;
+                                } else if (link) {
+                                    window.location.href = link;
                                 } else {
                                     const workEl = document.getElementById('work');
                                     if (workEl && lenis) {
@@ -195,7 +205,7 @@ export default function Hero({ data }: HeroProps) {
                                     }
                                 }
                             }}
-                            className="group relative h-14 px-10 rounded-full overflow-hidden border border-border text-foreground font-black uppercase tracking-[0.2em] text-[10px] flex items-center gap-4 transition-all duration-300"
+                            className="group relative h-12 sm:h-14 px-6 sm:px-10 w-full sm:w-auto max-w-[280px] sm:max-w-none mx-auto rounded-full overflow-hidden border border-border text-foreground font-black uppercase tracking-[0.2em] text-[10px] flex items-center justify-center sm:justify-start gap-4 transition-all duration-300"
                         >
                             <div className="absolute w-2 h-2 bg-primary rounded-full left-6 group-hover:scale-[25] transition-transform duration-700 ease-in-out -z-0 opacity-0 group-hover:opacity-10" />
                             <span className="relative z-10 flex items-center gap-4 group-hover:translate-x-1 transition-transform">

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
-import connectToDatabase from "@/lib/mongodb";
+import connectToDatabase, { withTimeout } from "@/lib/mongodb";
 import CaseStudy from "@/models/CaseStudy";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
@@ -8,13 +8,18 @@ import path from "path";
 // GET /api/admin/content/casestudy
 export async function GET() {
   try {
-    await connectToDatabase();
-    const casestudies = await CaseStudy.find({}).sort({ createdAt: -1 });
+    console.log("GET /api/admin/content/casestudy - Connecting...");
+    await withTimeout(connectToDatabase(), 5000);
+    console.log("GET /api/admin/content/casestudy - Connected. Fetching...");
+    const casestudies = await withTimeout(
+      CaseStudy.find({}).sort({ createdAt: -1 }),
+      5000
+    );
     return NextResponse.json({ success: true, casestudies });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error fetching case studies:", error);
     return NextResponse.json(
-      { success: false, error: "Failed to fetch case studies" },
+      { success: false, error: error.message || "Failed to fetch case studies" },
       { status: 500 }
     );
   }

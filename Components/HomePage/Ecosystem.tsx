@@ -252,7 +252,7 @@ export default function Ecosystem() {
   return (
     <section
       id="services"
-      className="bg-transparent text-foreground relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8"
+      className="bg-transparent text-foreground relative py-14 sm:py-20 lg:py-28 px-4 sm:px-6 lg:px-8"
     >
       <div className="max-w-7xl 2xl:max-w-[1440px] mx-auto">
         {/* Header */}

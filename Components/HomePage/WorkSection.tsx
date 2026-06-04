@@ -44,12 +44,23 @@ export default function Work() {
     async function fetchLatest() {
       try {
         const res = await fetch("/api/admin/content/casestudy");
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         const data = await res.json();
         if (data.success && data.casestudies?.length > 0) {
           setCasestudies(data.casestudies.slice(0, 3));
         }
       } catch (err) {
         console.error("Failed to fetch case studies:", err);
+        // Fallback to absolute URL
+        try {
+          const res = await fetch(window.location.origin + "/api/admin/content/casestudy");
+          const data = await res.json();
+          if (data.success && data.casestudies?.length > 0) {
+            setCasestudies(data.casestudies.slice(0, 3));
+          }
+        } catch (e) {
+          console.error("Absolute fetch for case studies failed:", e);
+        }
       } finally {
         setLoading(false);
       }
@@ -68,7 +79,7 @@ export default function Work() {
   };
 
   return (
-    <section id="work" className="bg-transparent text-foreground py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 relative">
+    <section id="work" className="bg-transparent text-foreground py-14 sm:py-20 lg:py-28 px-4 sm:px-6 lg:px-8 relative">
       <div className="max-w-7xl 2xl:max-w-[1440px] mx-auto">
 
         {/* Header */}
@@ -97,7 +108,7 @@ export default function Work() {
 
         {/* Desktop Grid */}
         {!loading && (
-          <div className="lg:block space-y-10">
+          <div className="hidden lg:block space-y-10">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
               {casestudies.map((cs, i) => {
                 const accent = ACCENT_MAP[cs.category] ?? "#3b82f6";
@@ -109,10 +120,10 @@ export default function Work() {
                       initial="hidden"
                       whileInView="visible"
                       viewport={{ once: true }}
-                      className="group relative bg-card border border-border/40 rounded-[32px] overflow-hidden hover:border-primary/50 transition-all duration-700 shadow-xl hover:shadow-2xl hover:-translate-y-1"
+                      className="group relative bg-card border border-border/40 rounded-[24px] lg:rounded-[28px] overflow-hidden isolate hover:border-primary/50 transition-all duration-700 shadow-xl hover:shadow-2xl hover:-translate-y-1 flex flex-col h-full"
                     >
                       {/* Thumbnail Container */}
-                      <div className="relative aspect-[16/11] overflow-hidden">
+                      <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden mb-5 rounded-t-[24px] lg:rounded-t-[28px] isolate">
                         <Image
                           src={cs.thumbnail}
                           alt={cs.title}
@@ -125,39 +136,63 @@ export default function Work() {
                         
                         {/* Category Badge - Responsive Glassmorphism */}
                         <div
-                          className="absolute top-3 left-3 sm:top-5 sm:left-5 z-20 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.15em] backdrop-blur-md border border-white/20 text-white shadow-lg"
-                          style={{ background: `${accent}CC` }}
+                          className="absolute top-4 left-4 z-20 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest backdrop-blur-xl border border-white/20 text-white shadow-xl"
+                          style={{ background: `${accent}DD` }}
                         >
                           {cs.category}
                         </div>
                       </div>
 
                       {/* Content Body */}
-                      <div className="p-6 md:p-8">
-                        <div className="flex flex-col gap-3 mb-8">
-                          <h3 className="text-2xl font-black uppercase tracking-tight group-hover:text-primary transition-colors duration-500 leading-[1.1]">
-                            {cs.title}
-                          </h3>
-                          <p className="text-muted-foreground text-sm font-medium leading-relaxed line-clamp-2 opacity-80">
-                            {cs.description}
-                          </p>
-                        </div>
+                      <div className="flex flex-col flex-1 px-5 sm:px-6 pb-6">
+                        <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tight group-hover:text-primary transition-colors duration-500 leading-[1.1] mb-3">
+                          {cs.title}
+                        </h3>
+                        <p className="text-muted-foreground text-sm font-medium leading-relaxed line-clamp-3 opacity-80 mb-6 flex-1">
+                          {cs.description}
+                        </p>
 
-                      {/* Footer Link Removed */}
-                    </div>
+                        {/* Tags / Skills */}
+                        {cs.skills && cs.skills.length > 0 && (
+                          <div className="flex flex-wrap gap-2 mb-6">
+                            {cs.skills.slice(0, 3).map((skill, idx) => (
+                              <span key={idx} className="text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md bg-muted text-muted-foreground border border-border/50">
+                                {skill}
+                              </span>
+                            ))}
+                            {cs.skills.length > 3 && (
+                              <span className="text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md bg-muted text-muted-foreground border border-border/50">
+                                +{cs.skills.length - 3}
+                              </span>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Footer CTA */}
+                        <div className="mt-auto flex items-center justify-between pt-4 border-t border-border/40">
+                          <div className="flex flex-col items-start text-left">
+                            <span className="text-[10px] font-black uppercase tracking-widest text-foreground group-hover:text-primary transition-colors mb-0.5">
+                              View Project
+                            </span>
+                          </div>
+                          <span className="w-10 h-10 rounded-full border border-border/60 flex items-center justify-center text-foreground group-hover:text-primary group-hover:border-primary group-hover:bg-primary/5 transition-all duration-300">
+                            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                          </span>
+                        </div>
+                      </div>
                     </motion.div>
                   </Link>
                 );
               })}
             </div>
 
-            {/* View All */}
-            <div className="flex justify-end">
+            {/* View All Desktop */}
+            <div className="hidden lg:flex justify-end pt-4">
               <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
                 <Magnetic>
                   <Link
                     href="/casestudy"
-                    className="group relative h-14 px-10 rounded-full overflow-hidden border border-border text-foreground font-black uppercase tracking-[0.2em] text-[10px] flex items-center gap-4 transition-all duration-300"
+                    className="group relative h-14 px-10 w-auto rounded-full overflow-hidden border border-border text-foreground font-black uppercase tracking-[0.2em] text-[10px] flex items-center justify-center gap-4 transition-all duration-300"
                   >
                     <div className="absolute w-2 h-2 bg-primary rounded-full left-6 group-hover:scale-[25] transition-transform duration-700 ease-in-out -z-0 opacity-0 group-hover:opacity-10" />
                     <span className="relative z-10 flex items-center gap-4 group-hover:translate-x-1 transition-transform">
@@ -172,9 +207,9 @@ export default function Work() {
 
         {/* Mobile Carousel with Arrow Controls */}
         {!loading && casestudies.length > 0 && (
-          <div className="lg:hidden">
+          <div className="block lg:hidden">
             {/* Card */}
-            <div className="relative overflow-hidden rounded-[28px]">
+            <div className="relative min-h-[480px]">
               <AnimatePresence mode="wait" initial={false}>
                 {(() => {
                   const cs = casestudies[activeIndex];
@@ -182,40 +217,69 @@ export default function Work() {
                   return (
                     <motion.div
                       key={cs._id}
-                      initial={{ opacity: 0, x: direction > 0 ? 60 : -60 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: direction > 0 ? -60 : 60 }}
-                      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                      className="bg-card border border-border/40 rounded-[32px] overflow-hidden shadow-2xl"
+                      initial={{ opacity: 0, x: direction > 0 ? 100 : -100, position: "absolute", width: "100%", height: "100%" }}
+                      animate={{ opacity: 1, x: 0, position: "relative" }}
+                      exit={{ opacity: 0, x: direction > 0 ? -100 : 100, position: "absolute", width: "100%", height: "100%" }}
+                      transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
+                      className="group bg-card border border-border/40 rounded-[24px] lg:rounded-[28px] overflow-hidden isolate shadow-2xl flex flex-col h-full top-0 left-0"
                     >
-                      {/* Image */}
-                      <div className="relative aspect-[16/11] overflow-hidden">
-                        <Image
-                          src={cs.thumbnail}
-                          alt={cs.title}
-                          fill
-                          sizes="100vw"
-                          className="object-cover"
-                        />
-                        {/* Responsive Category Badge */}
-                        <div
-                          className="absolute top-3 left-3 z-20 px-3 py-1.5 rounded-full text-[8px] font-bold uppercase tracking-[0.15em] backdrop-blur-md border border-white/20 text-white shadow-lg"
-                          style={{ background: `${accent}CC` }}
-                        >
-                          {cs.category}
+                      <Link href="/casestudy" className="flex flex-col h-full outline-none">
+                        {/* Image */}
+                        <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden mb-5 rounded-t-[24px] lg:rounded-t-[28px] isolate">
+                          <Image
+                            src={cs.thumbnail}
+                            alt={cs.title}
+                            fill
+                            sizes="100vw"
+                            className="object-cover"
+                          />
+                          {/* Responsive Category Badge */}
+                          <div
+                            className="absolute top-4 left-4 z-20 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest backdrop-blur-xl border border-white/20 text-white shadow-xl"
+                            style={{ background: `${accent}DD` }}
+                          >
+                            {cs.category}
+                          </div>
                         </div>
-                      </div>
 
-                      {/* Body */}
-                      <div className="p-8">
-                        <h3 className="text-2xl font-black uppercase tracking-tight leading-tight mb-3">
-                          {cs.title}
-                        </h3>
-                        <p className="text-muted-foreground text-sm font-medium leading-relaxed line-clamp-3 mb-8 opacity-80">
-                          {cs.description}
-                        </p>
-                        {/* Footer Link Removed */}
-                      </div>
+                        {/* Body */}
+                        <div className="flex flex-col flex-1 px-5 pb-6">
+                          <h3 className="text-xl font-black uppercase tracking-tight leading-tight mb-3">
+                            {cs.title}
+                          </h3>
+                          <p className="text-muted-foreground text-sm font-medium leading-relaxed line-clamp-3 opacity-80 flex-1 mb-6">
+                            {cs.description}
+                          </p>
+
+                          {/* Tags / Skills */}
+                          {cs.skills && cs.skills.length > 0 && (
+                            <div className="flex flex-wrap gap-2 mb-6">
+                              {cs.skills.slice(0, 3).map((skill, idx) => (
+                                <span key={idx} className="text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md bg-muted text-muted-foreground border border-border/50">
+                                  {skill}
+                                </span>
+                              ))}
+                              {cs.skills.length > 3 && (
+                                <span className="text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md bg-muted text-muted-foreground border border-border/50">
+                                  +{cs.skills.length - 3}
+                                </span>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Footer CTA */}
+                          <div className="mt-auto flex items-center justify-between pt-4 border-t border-border/40">
+                            <div className="flex flex-col items-start text-left">
+                              <span className="text-[10px] font-black uppercase tracking-widest text-foreground transition-colors mb-0.5">
+                                View Project
+                              </span>
+                            </div>
+                            <span className="w-10 h-10 rounded-full border border-border/60 flex items-center justify-center text-foreground transition-all duration-300">
+                              <ArrowRight size={16} />
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
                     </motion.div>
                   );
                 })()}
@@ -223,9 +287,9 @@ export default function Work() {
             </div>
 
             {/* Controls row */}
-            <div className="mt-8 flex items-center justify-between">
+            <div className="mt-6 flex items-center justify-between px-1">
               {/* Dot indicators */}
-              <div className="flex gap-2.5">
+              <div className="flex gap-2">
                 {casestudies.map((_, i) => (
                   <button
                     key={i}
@@ -236,22 +300,32 @@ export default function Work() {
               </div>
 
               {/* Arrow buttons */}
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <button
                   onClick={goPrev}
-                  className="h-11 w-11 rounded-full border border-border/60 flex items-center justify-center text-muted-foreground hover:border-primary hover:text-primary active:scale-90 transition-all shadow-sm"
+                  className="h-10 w-10 rounded-full border border-border/60 flex items-center justify-center text-muted-foreground hover:border-primary hover:text-primary active:scale-95 transition-all shadow-sm"
                   aria-label="Previous"
                 >
                   <ArrowLeft size={16} />
                 </button>
                 <button
                   onClick={goNext}
-                  className="h-11 w-11 rounded-full bg-primary border border-primary flex items-center justify-center text-white active:scale-90 transition-all shadow-xl shadow-primary/20"
+                  className="h-10 w-10 rounded-full bg-primary border border-primary flex items-center justify-center text-white active:scale-95 transition-all shadow-xl shadow-primary/20"
                   aria-label="Next"
                 >
                   <ArrowRight size={16} />
                 </button>
               </div>
+            </div>
+
+            {/* Mobile View All Portfolios Button */}
+            <div className="mt-10 flex justify-center pb-2">
+              <Link
+                href="/casestudy"
+                className="flex items-center justify-center gap-3 h-12 px-6 rounded-full border border-border bg-card/30 text-foreground font-black uppercase tracking-[0.18em] text-[10px] active:scale-95 transition-all duration-300 hover:border-primary/50"
+              >
+                VIEW ALL PORTFOLIOS <ArrowRight size={14} />
+              </Link>
             </div>
           </div>
         )}

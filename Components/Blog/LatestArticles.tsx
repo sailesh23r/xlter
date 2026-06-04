@@ -12,6 +12,8 @@ interface Props {
 export default function LatestArticles({ blogs }: Props) {
   const articles = blogs.slice(4, 10);
 
+  if (articles.length === 0) return null;
+
   return (
     <section className="max-w-7xl 2xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 lg:pb-28">
       {/* Section Header */}

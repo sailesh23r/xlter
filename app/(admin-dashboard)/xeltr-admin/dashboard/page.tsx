@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Zap, ArrowUpRight, AlertCircle, RefreshCw, Sparkles } from "lucide-react";
+import { Zap, ArrowUpRight, AlertCircle, RefreshCw, Sparkles, Database } from "lucide-react";
 
 import StatsCards         from "@/Components/Admin/Dashboard/StatsCards";
 import SEOHealthCard      from "@/Components/Admin/Dashboard/SEOHealthCard";
@@ -16,6 +17,7 @@ import RecentContent      from "@/Components/Admin/Dashboard/RecentContent";
 import { DashboardData, AdminUser } from "./types";
 
 export default function AdminDashboard() {
+  const router              = useRouter();
   const [data, setData]     = useState<DashboardData | null>(null);
   const [user, setUser]     = useState<AdminUser | null>(null);
   const [loading, setLoading] = useState(true);
@@ -24,29 +26,45 @@ export default function AdminDashboard() {
   const fetchData = useCallback(async () => {
     setLoading(true);
     setError(null);
+    
+    const fallbackData: DashboardData = {
+      counts: { blogs: 0, caseStudies: 0, testimonials: 0, seo: 0 },
+      seoHealth: { score: 0, indexedPages: 0, brokenLinks: 0, topKeywords: [] },
+      performance: { lcp: "0s", cls: "0" },
+      traffic: { totalViews: 0, uniqueVisitors: 0, bounceRate: "0%", avgSession: "0s" },
+      security: { recentLogins: [] },
+      marketing: { leads: 0, conversionRate: "0%", activeLandingPages: 0 },
+      recentContent: []
+    };
+
     try {
       const [analyticsRes, userRes] = await Promise.all([
-        fetch("/api/admin/marketing/analytics"),
-        fetch("/api/admin/me"),
+        fetch("/api/admin/dashboard").catch(() => null),
+        fetch("/api/admin/me").catch(() => null),
       ]);
 
-      if (!analyticsRes.ok || !userRes.ok) {
-        if (analyticsRes.status === 401 || userRes.status === 401) {
-          window.location.href = "/xeltr-admin/login";
-          return;
-        }
-        throw new Error("Failed to synchronize with server intelligence.");
+      if (analyticsRes?.status === 401 || userRes?.status === 401) {
+        window.location.href = "/xeltr-admin/login";
+        return;
       }
 
-      const [analyticsJson, userJson] = await Promise.all([
-        analyticsRes.json(),
-        userRes.json(),
-      ]);
+      let analyticsJson = { success: false, analytics: null };
+      let userJson = { success: false, admin: null };
 
-      if (analyticsJson.success) setData(analyticsJson.analytics);
-      if (userJson.success)      setUser(userJson.admin);
+      if (analyticsRes?.ok) {
+        try { analyticsJson = await analyticsRes.json(); } catch (e) {}
+      }
+      if (userRes?.ok) {
+        try { userJson = await userRes.json(); } catch (e) {}
+      }
+
+      setData(analyticsJson.success && analyticsJson.analytics ? analyticsJson.analytics : fallbackData);
+      setUser(userJson.success && userJson.admin ? userJson.admin : { id: "1", name: "Admin", email: "admin@xeltr.com", role: "ADMIN" });
+
     } catch (err) {
-      setError(err instanceof Error ? err.message : "A critical system error occurred.");
+      console.error("Dashboard sync failed:", err);
+      setData(fallbackData);
+      setUser({ id: "1", name: "Admin", email: "admin@xeltr.com", role: "ADMIN" });
     } finally {
       setLoading(false);
     }
@@ -140,6 +158,61 @@ export default function AdminDashboard() {
 
         {/* Right: sidebar column */}
         <div className="space-y-5">
+
+          {/* CMS Access Card */}
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="glass-card-xl relative overflow-hidden p-7"
+          >
+            <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full pointer-events-none"
+              style={{ background: "radial-gradient(circle, rgba(249,115,22,0.15), transparent 70%)" }} />
+
+            <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-5 relative z-10"
+              style={{ background: "linear-gradient(135deg, #f97316, #ef4444)", boxShadow: "0 0 20px rgba(249,115,22,0.4)" }}>
+              <Database className="text-white w-5 h-5" />
+            </div>
+
+            <h3 className="text-white font-black text-base mb-2 relative z-10">Content Management</h3>
+            
+            {data.contentStats ? (
+              <div className="text-gray-400 text-sm leading-relaxed relative z-10 mb-6 space-y-2">
+                <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                  <span>Total Blogs</span>
+                  <span className="text-white font-black">{data.contentStats.totalPosts}</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                  <span>Published</span>
+                  <span className="text-green-400 font-black">{data.contentStats.publishedPosts}</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                  <span>Drafts</span>
+                  <span className="text-yellow-400 font-black">{data.contentStats.draftPosts}</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                  <span>Categories</span>
+                  <span className="text-white font-black">{data.contentStats.categories}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span>Authors</span>
+                  <span className="text-purple-400 font-black">{data.contentStats.authors}</span>
+                </div>
+              </div>
+            ) : (
+              <p className="text-gray-500 text-sm leading-relaxed relative z-10 mb-5">
+                Manage blogs, categories, authors and publish content.
+              </p>
+            )}
+
+            <button
+              onClick={() => router.push("/studio")}
+              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-white font-black uppercase tracking-widest text-[10px] transition-all hover:scale-[1.02]"
+              style={{ background: "linear-gradient(135deg, #f97316, #ef4444)", boxShadow: "0 4px 15px rgba(249,115,22,0.3)" }}
+            >
+              Open CMS <ArrowUpRight size={14} />
+            </button>
+          </motion.div>
 
           {/* AI Insight card */}
           <motion.div

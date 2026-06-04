@@ -18,6 +18,7 @@ import Squares from "@/Components/Animations/Squares";
 import { useTheme } from "next-themes";
 import React, { useState, useEffect } from "react";
 import GridBackground from "@/Components/Animations/GridBackground";
+import TechScrollTicker from "@/Components/Animations/TechScrollTicker";
 
 // --- Custom Brand SVG Icons for Tech ---
 const PSIcon = () => (
@@ -75,7 +76,7 @@ export default function BrandingPage() {
         }),
     };
 
-    const words = "Crafting Iconic Identities".split(" ");
+    const words = "BRANDS BUILT TO STAND OUT".split(" ");
 
     return (
         <div className="bg-background text-foreground min-h-screen pt-0 transition-colors duration-500">
@@ -91,15 +92,18 @@ export default function BrandingPage() {
                         animate={{ opacity: 1, y: 0 }}
                         className="flex flex-col items-center gap-4"
                     >
-                        <p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-[4px] border border-primary/20 w-fit mx-auto">
-                            REDEFINING EXCELLENCE
-                        </p>
+                        <div className="inline-flex items-center gap-3 px-5 h-10 rounded-full border border-primary/25 bg-primary/[0.06] backdrop-blur-xl shadow-[0_0_24px_hsl(var(--primary)/0.15)] w-fit mx-auto">
+                            <span className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_hsl(var(--primary)/0.8)] animate-pulse" />
+                            <span className="text-[10px] font-black uppercase tracking-[0.24em] text-primary/90">
+                                Branding & Visual Identity
+                            </span>
+                        </div>
                     </motion.div>
 
                     <motion.h1
                         initial="hidden"
                         animate="visible"
-                        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] uppercase tracking-tighter mb-6"
+                        className="text-[32px] md:text-[42px] lg:text-[52px] font-bold leading-[1.1] uppercase tracking-tighter mb-6 lg:whitespace-nowrap"
                     >
                         {words.map((word, i) => (
                             <motion.span
@@ -108,7 +112,7 @@ export default function BrandingPage() {
                                 variants={textVariants}
                                 className="inline-block mr-[0.2em]"
                             >
-                                {word === "Identities" || word === "Iconic" ? <span className="text-primary">{word}</span> : word}
+                                {word === "BUILT" || word === "STAND" || word === "OUT" ? <span className="text-primary">{word}</span> : word}
                             </motion.span>
                         ))}
                     </motion.h1>
@@ -119,7 +123,7 @@ export default function BrandingPage() {
                         transition={{ delay: 0.2 }}
                         className="text-muted-foreground text-base md:text-lg font-medium leading-relaxed max-w-2xl mb-10 mx-auto"
                     >
-                        We bridge the gap between strategic brand intelligence and architectural visual precision. Elevate your presence with a legacy-driven identity.
+                        We craft bold visual identities and strategic brand systems that create recognition, trust, and lasting impact across every touchpoint.
                     </motion.p>
 
                     <motion.div
@@ -128,14 +132,14 @@ export default function BrandingPage() {
                         transition={{ delay: 0.3 }}
                         className="flex flex-wrap justify-center gap-4"
                     >
-                        <button 
+                        <button
                             onClick={openContact}
                             className="bg-primary text-primary-foreground px-6 sm:px-8 py-4 sm:py-5 rounded-full font-black uppercase tracking-widest text-[10px] md:text-xs shadow-2xl shadow-primary/40 hover:scale-105 transition-all active:scale-95 flex items-center gap-3 group"
                         >
                             Get Started <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
                         </button>
                         <Link href="/casestudy">
-                            <button 
+                            <button
                                 className="bg-transparent border border-border text-foreground px-6 sm:px-10 py-4 sm:py-5 rounded-full font-black uppercase tracking-widest text-[10px] md:text-xs hover:bg-accent transition-all active:scale-95 flex items-center gap-3"
                             >
                                 View Portfolio <ChevronRight size={18} />
@@ -148,15 +152,14 @@ export default function BrandingPage() {
             {/* Expertise Section */}
             <section className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6 lg:px-8 bg-transparent transition-colors duration-500 border-t border-border/10 relative overflow-hidden">
                 <div className="max-w-7xl mx-auto relative z-10">
-                    <div className="flex flex-col lg:flex-row justify-between items-center mb-12 sm:mb-16 lg:mb-24 gap-12 text-center lg:text-left">
-                        <div className="max-w-2xl">
-                            <motion.p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] mb-6 relative">EXPERTISE</motion.p>
-                            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter leading-tight text-foreground">
+                    <div className="flex flex-col items-center mb-12 sm:mb-16 lg:mb-24 gap-6 text-center">
+                        <div className="max-w-3xl">
+                            <h2 className="text-[50px] font-bold uppercase tracking-tighter leading-tight text-foreground">
                                 Comprehensive Visual <br /> <span className="text-primary">Engineering</span>
                             </h2>
                         </div>
-                        <div className="max-w-sm">
-                            <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed opacity-70">
+                        <div className="max-w-2xl">
+                            <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed opacity-70 mx-auto">
                                 Meticulously designed touchpoints that communicate authority and luxury at every scale.
                             </p>
                         </div>
@@ -188,8 +191,8 @@ export default function BrandingPage() {
                             {
                                 title: "Marketing Collateral",
                                 icon: Layers,
-                                desc: "From high-end print to digital assets, we maintain uncompromising quality.",
-                                span: "md:col-span-2"
+                                desc: "From high-end print to digital assets, we maintain uncompromising quality."
+
                             }
                         ].map((item, i) => (
                             <motion.div
@@ -234,20 +237,20 @@ export default function BrandingPage() {
 
                     <div className="flex flex-col gap-12 max-w-4xl mx-auto text-left">
                         {[
-                            { 
-                                name: "Discovery", 
+                            {
+                                name: "Discovery",
                                 step: "01",
                                 desc: "We begin by auditing your current brand landscape, identifying core values, and understanding your target audience's psychological drivers.",
                                 icon: Search
                             },
-                            { 
-                                name: "Concept Design", 
+                            {
+                                name: "Concept Design",
                                 step: "02",
                                 desc: "Translating strategy into visual form. We explore multiple creative directions, focusing on unique architectural structures and tonal palettes.",
                                 icon: Edit3
                             },
-                            { 
-                                name: "Refinement & Delivery", 
+                            {
+                                name: "Refinement & Delivery",
                                 step: "03",
                                 desc: "Iterative polishing based on feedback. We finalize the system and deliver a comprehensive brand manual that ensures future-proof consistency.",
                                 icon: CheckCircle
@@ -274,13 +277,13 @@ export default function BrandingPage() {
             </section>
 
             {/* Tech Stack Section */}
-            <section className="py-16 md:py-24 lg:py-32 px-6 md:px-12 bg-background relative overflow-hidden">
+            <section className="py-16 md:py-24 lg:py-32 bg-background relative overflow-hidden">
                 <GridBackground />
-                <div className="max-w-7xl mx-auto text-center relative z-10">
+                <div className="max-w-7xl mx-auto text-center relative z-10 px-6 md:px-12">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        className="mb-24"
+                        className="mb-16"
                     >
                         <h2 className="text-[42px] font-bold uppercase tracking-tighter leading-tight mb-6">
                             Powered by <span className="text-primary">Modern Tech</span>
@@ -289,34 +292,15 @@ export default function BrandingPage() {
                             We use precision tools to craft brands that are both visually stunning and technically sound.
                         </p>
                     </motion.div>
-
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-5xl mx-auto">
-                        {[
-                            { icon: PSIcon, name: "Photoshop" },
-                            { icon: AIIcon, name: "Illustrator" },
-                            { icon: IDIcon, name: "InDesign" },
-                            { icon: AEIcon, name: "After Effects" }
-                        ].map((tech, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: i * 0.1 }}
-                                className="group flex flex-col items-center gap-6"
-                            >
-                                <motion.div 
-                                    whileHover={{ scale: 1.2, rotate: 5 }}
-                                    className="w-24 h-24 rounded-3xl bg-accent/50 flex items-center justify-center text-muted-foreground group-hover:text-primary group-hover:bg-primary/5 transition-all duration-500 shadow-xl"
-                                >
-                                    <tech.icon />
-                                </motion.div>
-                                <h5 className="font-black uppercase tracking-widest text-[10px] opacity-50 group-hover:opacity-100 transition-opacity">
-                                    {tech.name}
-                                </h5>
-                            </motion.div>
-                        ))}
-                    </div>
                 </div>
+                <TechScrollTicker
+                    items={[
+                        { icon: <PSIcon />, name: "Photoshop" },
+                        { icon: <AIIcon />, name: "Illustrator" },
+                        { icon: <IDIcon />, name: "InDesign" },
+                        { icon: <AEIcon />, name: "After Effects" },
+                    ]}
+                />
             </section>
 
         </div>

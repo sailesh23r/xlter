@@ -1,9 +1,16 @@
 export interface DashboardData {
   counts: {
-    blogs: number;
-    caseStudies: number;
-    testimonials: number;
-    seo: number;
+    totalPosts: number | string;
+    publishedPosts: number | string;
+    draftPosts: number | string;
+    categories: number | string;
+  };
+  contentStats?: {
+    totalPosts: number;
+    publishedPosts: number;
+    draftPosts: number;
+    categories: number;
+    authors: number;
   };
   seoHealth: {
     score: number;

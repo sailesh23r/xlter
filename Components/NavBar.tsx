@@ -44,7 +44,7 @@ export default function Navbar() {
     };
 
     return (
-        <header className="fixed top-4 lg:top-6 inset-x-0 z-50 flex justify-center px-2 lg:px-4">
+        <header className="fixed top-2 lg:top-6 inset-x-0 z-50 flex justify-center px-2 lg:px-4">
             <div className="relative w-full max-w-6xl">
                 <div className="w-full flex items-center justify-between px-3 lg:px-8 h-14 lg:h-16 bg-background/90 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl transition-all duration-300">
 

@@ -42,10 +42,10 @@ export default function BlogCard({ blog }: Props) {
         
         {/* Image Container (Inset) */}
         <div className="p-3 pb-0 relative z-10">
-          <div className="relative w-full h-56 overflow-hidden rounded-[16px] flex-shrink-0 border border-border/20">
+          <div className="relative w-full h-56 overflow-hidden rounded-[16px] flex-shrink-0 border border-border/20 bg-muted">
             <Image
-              src={thumbnail}
-              alt={title}
+              src={thumbnail || "/blog2.png"}
+              alt={title || "Blog Image"}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
@@ -54,7 +54,7 @@ export default function BlogCard({ blog }: Props) {
             
             {/* Category Badge on Image */}
             <span className="absolute top-4 left-4 bg-background/80 backdrop-blur-md text-primary border border-primary/20 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] shadow-lg">
-              {category}
+              {category || "Uncategorized"}
             </span>
           </div>
         </div>

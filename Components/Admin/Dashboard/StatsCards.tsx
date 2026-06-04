@@ -1,15 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FileText, Layers, MessageSquare, Globe, TrendingUp } from "lucide-react";
+import { FileText, CheckCircle, Edit3, Folder, TrendingUp } from "lucide-react";
 
 interface StatsProps {
-  data: { blogs: number; caseStudies: number; testimonials: number; seo: number; };
+  data: { totalPosts: number | string; publishedPosts: number | string; draftPosts: number | string; categories: number | string; };
 }
 
 const STATS = [
     {
-        key: "blogs" as const,
+        key: "totalPosts" as const,
         name: "Blog Posts",
         icon: FileText,
         gradient: "linear-gradient(135deg, rgba(168,85,247,0.2), rgba(124,58,237,0.08))",
@@ -21,9 +21,9 @@ const STATS = [
         trendPos: true,
     },
     {
-        key: "caseStudies" as const,
-        name: "Case Studies",
-        icon: Layers,
+        key: "publishedPosts" as const,
+        name: "Published",
+        icon: CheckCircle,
         gradient: "linear-gradient(135deg, rgba(59,130,246,0.18), rgba(37,99,235,0.06))",
         border: "rgba(59,130,246,0.2)",
         glow: "rgba(59,130,246,0.1)",
@@ -33,21 +33,21 @@ const STATS = [
         trendPos: true,
     },
     {
-        key: "testimonials" as const,
-        name: "Testimonials",
-        icon: MessageSquare,
-        gradient: "linear-gradient(135deg, rgba(6,182,212,0.15), rgba(14,165,233,0.06))",
-        border: "rgba(6,182,212,0.2)",
-        glow: "rgba(6,182,212,0.1)",
-        iconColor: "#06b6d4",
-        iconBg: "rgba(6,182,212,0.12)",
+        key: "draftPosts" as const,
+        name: "Drafts",
+        icon: Edit3,
+        gradient: "linear-gradient(135deg, rgba(249,115,22,0.15), rgba(234,88,12,0.06))",
+        border: "rgba(249,115,22,0.2)",
+        glow: "rgba(249,115,22,0.1)",
+        iconColor: "#f97316",
+        iconBg: "rgba(249,115,22,0.12)",
         trend: "+8%",
         trendPos: true,
     },
     {
-        key: "seo" as const,
-        name: "SEO Entries",
-        icon: Globe,
+        key: "categories" as const,
+        name: "Categories",
+        icon: Folder,
         gradient: "linear-gradient(135deg, rgba(16,185,129,0.15), rgba(5,150,105,0.06))",
         border: "rgba(16,185,129,0.2)",
         glow: "rgba(16,185,129,0.08)",

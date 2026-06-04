@@ -61,7 +61,7 @@ export default function BlogClient({
       <GridBackground />
 
       {/* ── Hero ── */}
-      <section className="relative w-full py-16 sm:py-20 lg:py-28 max-w-7xl 2xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="relative w-full py-14 sm:py-20 lg:py-28 max-w-7xl 2xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -70,7 +70,7 @@ export default function BlogClient({
           OUR BLOG
         </motion.p>
 
-        <h1 className="text-3xl sm:text-5xl lg:text-7xl font-black leading-[1.05] uppercase tracking-tighter mb-6">
+        <h1 className="text-[2.6rem] sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[0.9] uppercase tracking-tight md:tracking-tighter mb-6">
           {words.map((word, i) => (
             <motion.span
               key={i}

@@ -93,7 +93,7 @@ export default async function RootLayout({
           />
         ))}
       </head>
-      <body className="min-h-screen overflow-x-hidden bg-background text-foreground selection:bg-primary/30">
+      <body className="min-h-screen overflow-x-hidden bg-background text-foreground selection:bg-primary/30" suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

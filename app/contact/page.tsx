@@ -141,21 +141,24 @@ export default function ContactPage() {
                 <GridBackground />
 
                 {/* Standardized Hero Section */}
-                <section className="relative w-full h-auto py-16 md:py-20 bg-background border-b border-border/10">
+                <section className="relative w-full h-auto py-14 sm:py-20 lg:py-28 bg-background border-b border-border/10">
                     <div className="max-w-7xl mx-auto px-6 text-center">
                         <div className="flex flex-col items-center gap-4">
-                            <motion.p
+                            <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-[4px] border border-primary/20 w-fit mx-auto"
+                                className="inline-flex items-center gap-3 px-5 h-10 rounded-full border border-primary/25 bg-primary/[0.06] backdrop-blur-xl shadow-[0_0_24px_hsl(var(--primary)/0.15)] w-fit mx-auto"
                             >
-                                Get In Touch
-                            </motion.p>
+                                <span className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_hsl(var(--primary)/0.8)] animate-pulse" />
+                                <span className="text-[10px] font-black uppercase tracking-[0.24em] text-primary/90">
+                                    Get In Touch
+                                </span>
+                            </motion.div>
                             <motion.h1
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.1 }}
-                                className="text-4xl md:text-[64px] font-bold leading-[1.1] uppercase tracking-tighter mb-6 mt-6"
+                                className="text-[2.6rem] sm:text-5xl md:text-6xl lg:text-[64px] font-bold leading-[0.9] uppercase tracking-tight md:tracking-tighter mb-6 mt-6"
                             >
                                 Let&apos;s Build Something <span className="text-primary">Amazing</span>
                             </motion.h1>
@@ -181,7 +184,7 @@ export default function ContactPage() {
                                 animate={{ opacity: 1, x: 0 }}
                                 className="space-y-4"
                             >
-                                <h2 className="text-[42px] font-bold uppercase tracking-tighter leading-tight">
+                                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-tight">
                                     Contact <span className="text-primary">Information</span>
                                 </h2>
                                 <p className="text-muted-foreground text-sm font-medium leading-relaxed">

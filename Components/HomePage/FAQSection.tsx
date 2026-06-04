@@ -41,7 +41,7 @@ export default function FAQSection() {
   };
 
   return (
-    <section className="bg-transparent text-foreground py-16 sm:py-20 lg:py-24 overflow-hidden relative">
+    <section className="bg-transparent text-foreground py-14 sm:py-20 lg:py-28 overflow-hidden relative">
       <GridBackground />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -74,13 +74,13 @@ export default function FAQSection() {
               >
                 <button
                   onClick={() => toggle(index)}
-                  className="w-full flex items-center justify-between gap-3 sm:gap-4 px-4 py-5 sm:px-6 sm:py-6 md:px-10 md:py-8 text-left group"
+                  className="w-full flex items-center justify-between gap-3 sm:gap-4 px-4 py-4 sm:px-6 sm:py-6 md:px-10 md:py-8 text-left group"
                 >
-                  <span className="text-base sm:text-lg md:text-xl font-bold tracking-tight text-card-foreground uppercase flex-1">
+                  <span className="text-base sm:text-lg md:text-xl font-bold tracking-tight text-card-foreground uppercase flex-1 max-w-[85%] pr-2">
                     {item.question}
                   </span>
 
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex-shrink-0 flex items-center justify-center rounded-full transition-all duration-500 bg-primary text-white">
+                  <div className="w-[42px] h-[42px] sm:w-10 sm:h-10 md:w-12 md:h-12 flex-shrink-0 flex items-center justify-center rounded-full transition-all duration-500 bg-primary text-white">
                     {activeIndex === index ? (
                       <svg className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                     ) : (
@@ -102,7 +102,7 @@ export default function FAQSection() {
                   >
                     <div className="flex gap-3 sm:gap-4 md:gap-6 px-4 sm:px-5 md:px-6 py-4 sm:py-6 md:py-8">
                       <div className="w-0.5 sm:w-1 bg-primary/60 rounded-full flex-shrink-0" />
-                      <p className="text-muted-foreground text-sm sm:text-base md:text-lg font-medium leading-relaxed">
+                      <p className="text-muted-foreground text-base leading-7 md:text-lg font-medium">
                         {item.answer}
                       </p>
                     </div>

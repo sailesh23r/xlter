@@ -96,17 +96,20 @@ export default function AboutPage() {
                 <GridBackground />
 
                 {/* Standardized Hero Section */}
-                <section className="relative w-full h-auto py-16 md:py-20 bg-background border-b border-border/10">
+                <section className="relative w-full h-auto py-14 sm:py-20 lg:py-28 bg-background border-b border-border/10">
                     <div className="max-w-7xl mx-auto px-6 text-center">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             className="flex flex-col items-center gap-4"
                         >
-                            <p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-[4px] border border-primary/20 w-fit mx-auto">
-                                About Us
-                            </p>
-                            <h1 className="text-4xl md:text-[64px] font-bold leading-[1.1] uppercase tracking-tighter mb-6 mt-6">
+                            <div className="inline-flex items-center gap-3 px-5 h-10 rounded-full border border-primary/25 bg-primary/[0.06] backdrop-blur-xl shadow-[0_0_24px_hsl(var(--primary)/0.15)] w-fit mx-auto">
+                                <span className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_hsl(var(--primary)/0.8)] animate-pulse" />
+                                <span className="text-[10px] font-black uppercase tracking-[0.24em] text-primary/90">
+                                    About Us
+                                </span>
+                            </div>
+                            <h1 className="text-[2.6rem] sm:text-5xl md:text-6xl lg:text-[64px] font-bold leading-[0.9] uppercase tracking-tight md:tracking-tighter mb-6 mt-6">
                                 BLEND OF <span className="text-primary">AI AND HUMAN</span> CREATIVITY
                             </h1>
                             <p className="text-muted-foreground text-base md:text-lg font-medium leading-relaxed max-w-2xl mb-10 mx-auto">
@@ -119,7 +122,7 @@ export default function AboutPage() {
                 {/* Core Values Section */}
                 <section className="max-w-7xl mx-auto px-4 md:px-6 mb-16 md:mb-32">
                     <div className="text-center mb-12 md:mb-20">
-                        <h2 className="text-[26px] sm:text-[34px] md:text-[42px] font-bold uppercase tracking-tighter leading-tight text-primary mb-4">Our Core Value</h2>
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-tight text-primary mb-4">Our Core Value</h2>
                         <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed opacity-60 max-w-xl mx-auto">
                             &quot;Client-Centric, Integrity, and Innovation.&quot;
                         </p>
@@ -155,7 +158,7 @@ export default function AboutPage() {
                 {/* Framework Section */}
                 <section className="max-w-7xl mx-auto px-4 md:px-6 mb-16 md:mb-32">
                     <div className="text-center mb-12 md:mb-20">
-                        <h2 className="text-[26px] sm:text-[34px] md:text-[42px] font-bold uppercase tracking-tighter leading-tight text-primary mb-4">The X.E.L.T.R Framework</h2>
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-tight text-primary mb-4">The X.E.L.T.R Framework</h2>
                         <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed max-w-xl mx-auto opacity-60">
                             Our methodology is a systematic approach to creative problem-solving.
                         </p>
@@ -190,66 +193,82 @@ export default function AboutPage() {
                 {/* Mission & Vision */}
                 <section className="max-w-7xl mx-auto px-4 md:px-6 mb-16 md:mb-32">
                     <div className="text-center mb-12 md:mb-24">
-                        <h2 className="text-[28px] md:text-[42px] font-bold uppercase tracking-tighter leading-tight">Our Mission & Vision</h2>
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-tight">Our Mission & Vision</h2>
                     </div>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10">
+                        {/* Mission Card */}
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            whileHover={{ y: -12 }}
-                            className="group relative bg-card/20 backdrop-blur-sm border border-border/50 p-8 md:p-12 rounded-[32px] overflow-hidden shadow-2xl shadow-black/5 transition-all duration-500 hover:border-primary/50 cursor-default"
+                            whileHover={{ y: -6 }}
+                            className="group relative bg-card/10 backdrop-blur-xl border border-border/30 p-10 md:p-14 rounded-[32px] overflow-hidden transition-all duration-700 hover:border-primary/30 hover:shadow-[0_8px_40px_-12px_rgba(37,99,235,0.2)] flex flex-col h-full"
                         >
-                            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/10 transition-colors duration-700" />
+                            {/* Clean Inner Gradient */}
+                            <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.02] to-transparent pointer-events-none" />
 
                             <div className="relative z-10 flex flex-col h-full">
-                                <div className="flex items-center justify-between mb-8">
-                                    <div className="flex items-center gap-3 px-4 py-2 rounded-full text-[10px] font-black tracking-widest uppercase backdrop-blur-xl border border-primary/20 text-primary shadow-xl bg-primary/10">
-                                        <span className="w-2 h-2 bg-primary rounded-full animate-pulse shadow-[0_0_10px_rgba(37,99,235,0.8)]" />
-                                        Our Mission
+                                {/* Top: Pill label and minimal icon */}
+                                <div className="flex items-center justify-between mb-16 md:mb-24">
+                                    <div className="px-4 py-1.5 rounded-full text-[11px] font-medium tracking-widest uppercase border border-primary/20 text-primary bg-primary/[0.03]">
+                                        OUR MISSION
                                     </div>
-                                    <div className="w-14 h-14 rounded-full bg-background border border-border flex items-center justify-center text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm">
-                                        <Target size={24} className="group-hover:rotate-12 transition-transform duration-500" />
-                                    </div>
+                                    <Target size={24} className="text-primary/40 group-hover:text-primary transition-colors duration-500" strokeWidth={1.5} />
                                 </div>
 
-                                <p className="text-foreground font-bold leading-[1.6] text-xl md:text-2xl uppercase tracking-tight opacity-90 group-hover:text-primary transition-colors duration-500 mt-auto">
-                                    At Xeltr, Our Mission Is To Blend Human Creativity With The Power Of Artificial Intelligence To Craft Experiences That Elevate Brands And Transform Businesses.
-                                </p>
-                            </div>
+                                {/* Middle: Heading and Text */}
+                                <div className="mt-auto mb-14 max-w-[95%]">
+                                    <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-6 group-hover:text-primary transition-colors duration-500 tracking-tight leading-snug">
+                                        Blending Creativity with AI
+                                    </h3>
+                                    <p className="text-muted-foreground text-base md:text-lg leading-relaxed font-normal opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                                        At Xeltr, our mission is to blend human creativity with the power of artificial intelligence to craft experiences that elevate brands and transform businesses.
+                                    </p>
+                                </div>
 
-                            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[4px] w-0 group-hover:w-[60%] transition-all duration-700 rounded-t-full bg-primary" />
+                                {/* Bottom: Very subtle accent line */}
+                                <div className="mt-auto w-full h-[1px] bg-border/30 relative overflow-hidden">
+                                    <div className="absolute top-0 left-0 h-full w-0 group-hover:w-full transition-all duration-1000 ease-out bg-primary/40" />
+                                </div>
+                            </div>
                         </motion.div>
 
+                        {/* Vision Card */}
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            whileHover={{ y: -12 }}
+                            whileHover={{ y: -6 }}
                             transition={{ delay: 0.1 }}
-                            className="group relative bg-card/20 backdrop-blur-sm border border-border/50 p-8 md:p-12 rounded-[32px] overflow-hidden shadow-2xl shadow-black/5 transition-all duration-500 hover:border-primary/50 cursor-default"
+                            className="group relative bg-card/10 backdrop-blur-xl border border-border/30 p-10 md:p-14 rounded-[32px] overflow-hidden transition-all duration-700 hover:border-primary/30 hover:shadow-[0_8px_40px_-12px_rgba(37,99,235,0.2)] flex flex-col h-full"
                         >
-                            <div className="absolute inset-0 bg-gradient-to-bl from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/10 transition-colors duration-700" />
+                            {/* Clean Inner Gradient */}
+                            <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.02] to-transparent pointer-events-none" />
 
                             <div className="relative z-10 flex flex-col h-full">
-                                <div className="flex items-center justify-between mb-8">
-                                    <div className="flex items-center gap-3 px-4 py-2 rounded-full text-[10px] font-black tracking-widest uppercase backdrop-blur-xl border border-primary/20 text-primary shadow-xl bg-primary/10">
-                                        <span className="w-2 h-2 bg-primary rounded-full animate-pulse shadow-[0_0_10px_rgba(37,99,235,0.8)]" />
-                                        Our Vision
+                                {/* Top: Pill label and minimal icon */}
+                                <div className="flex items-center justify-between mb-16 md:mb-24">
+                                    <div className="px-4 py-1.5 rounded-full text-[11px] font-medium tracking-widest uppercase border border-primary/20 text-primary bg-primary/[0.03]">
+                                        OUR VISION
                                     </div>
-                                    <div className="w-14 h-14 rounded-full bg-background border border-border flex items-center justify-center text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm">
-                                        <Eye size={24} className="group-hover:scale-110 transition-transform duration-500" />
-                                    </div>
+                                    <Eye size={24} className="text-primary/40 group-hover:text-primary transition-colors duration-500" strokeWidth={1.5} />
                                 </div>
 
-                                <p className="text-foreground font-bold leading-[1.6] text-xl md:text-2xl uppercase tracking-tight opacity-90 group-hover:text-primary transition-colors duration-500 mt-auto">
-                                    Our Vision Is To Create A Future Where AI And Human Innovation Work Hand In Hand, Empowering Businesses Worldwide To Experience Growth And Reinvent Continuously.
-                                </p>
-                            </div>
+                                {/* Middle: Heading and Text */}
+                                <div className="mt-auto mb-14 max-w-[95%]">
+                                    <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-6 group-hover:text-primary transition-colors duration-500 tracking-tight leading-snug">
+                                        Creating the Future of Innovation
+                                    </h3>
+                                    <p className="text-muted-foreground text-base md:text-lg leading-relaxed font-normal opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                                        Our vision is to create a future where AI and human innovation work hand in hand, empowering businesses worldwide to grow and reinvent continuously.
+                                    </p>
+                                </div>
 
-                            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[4px] w-0 group-hover:w-[60%] transition-all duration-700 rounded-t-full bg-primary" />
+                                {/* Bottom: Very subtle accent line */}
+                                <div className="mt-auto w-full h-[1px] bg-border/30 relative overflow-hidden">
+                                    <div className="absolute top-0 left-0 h-full w-0 group-hover:w-full transition-all duration-1000 ease-out bg-primary/40" />
+                                </div>
+                            </div>
                         </motion.div>
                     </div>
                 </section>

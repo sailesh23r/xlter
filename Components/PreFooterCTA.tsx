@@ -3,15 +3,28 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import GridBackground from "./Animations/GridBackground";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useLenis } from "./Animations/SmoothScroll";
 
 export default function PreFooterCTA() {
     const router = useRouter();
+    const pathname = usePathname();
     const lenis = useLenis();
 
     const handleCTA = () => {
-        router.push("/Contact");
+        if (pathname === "/contact") {
+            const formElement = document.getElementById("contact-form");
+            if (formElement) {
+                if (lenis) {
+                    lenis.scrollTo(formElement);
+                } else {
+                    formElement.scrollIntoView({ behavior: "smooth" });
+                }
+                return;
+            }
+        }
+
+        router.push("/contact");
         if (lenis) {
             lenis.scrollTo(0);
         } else {
@@ -45,7 +58,7 @@ export default function PreFooterCTA() {
                         <motion.button
                             onClick={handleCTA}
                             whileTap={{ scale: 0.97 }}
-                            className="group relative h-14 px-12 rounded-full bg-primary text-white font-black uppercase tracking-[0.2em] text-[10px] inline-flex items-center gap-4 overflow-hidden shadow-2xl shadow-primary/30 transition-shadow duration-300 hover:shadow-primary/50 cursor-pointer"
+                            className="group relative h-12 sm:h-14 px-6 md:px-12 rounded-full bg-primary text-white font-black uppercase tracking-[0.2em] text-[10px] inline-flex items-center gap-4 overflow-hidden shadow-2xl shadow-primary/30 transition-shadow duration-300 hover:shadow-primary/50 cursor-pointer"
                         >
                             {/* Slide-in white fill */}
                             <div className="absolute inset-0 bg-white -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />

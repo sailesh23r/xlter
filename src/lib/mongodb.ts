@@ -1,8 +1,15 @@
+
 import mongoose from "mongoose";
 import dns from "dns";
 
 // Fixes 'querySrv ECONNREFUSED' bug in Node.js with MongoDB Atlas
-dns.setDefaultResultOrder("ipv4first");
+try {
+  if (typeof dns.setDefaultResultOrder === "function") {
+    dns.setDefaultResultOrder("ipv4first");
+  }
+} catch (e) {
+  console.warn("DNS setDefaultResultOrder not supported or failed:", e);
+}
 
 const MONGODB_URI = process.env.MONGODB_URI;
 

@@ -3,10 +3,12 @@ export const dynamic = "force-dynamic";
 import connectToDatabase from "@/lib/mongodb";
 import Category from "@/models/Category";
 
+import { client } from "@/sanity/lib/client";
+
 export async function GET() {
   try {
-    await connectToDatabase();
-    const categories = await Category.find({}).sort({ name: 1 });
+    const query = `*[_type == "category"] | order(title asc) { _id, "name": title }`;
+    const categories = await client.fetch(query);
     return NextResponse.json({ success: true, categories });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

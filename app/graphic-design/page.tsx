@@ -21,6 +21,10 @@ import Squares from "@/Components/Animations/Squares";
 import { useTheme } from "next-themes";
 import React, { useState, useEffect } from "react";
 import GridBackground from "@/Components/Animations/GridBackground";
+import TechScrollTicker from "@/Components/Animations/TechScrollTicker";
+import { SectionWrapper } from "@/Components/Common/SectionWrapper";
+import { SectionHeading } from "@/Components/Common/SectionHeading";
+import { PremiumCard } from "@/Components/Common/PremiumCard";
 
 // --- Custom Brand SVG Icons for Tech ---
 const PSIcon = () => (
@@ -78,32 +82,33 @@ export default function GraphicDesignPage() {
         }),
     };
 
-    const words = "Creative Graphic Design That Captures".split(" ");
+    const words = "VISUALS THAT CAPTURE ATTENTION".split(" ");
 
     return (
         <div className="bg-background text-foreground min-h-screen pt-0 transition-colors duration-500">
 
             {/* Hero Section */}
-            <section className="relative w-full h-auto py-16 sm:py-20 lg:py-28 bg-background border-b border-border/10">
-
-                {/* Background animations removed for cleaner look */}
-
-                <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 space-y-12 text-center">
+            <SectionWrapper className="border-b border-border/10">
+                <div className="relative z-10 space-y-12 text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="flex flex-col items-center gap-4"
                     >
-                        <p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-[4px] border border-primary/20 w-fit mx-auto">
-                            PREMIUM DESIGN STUDIO
-                        </p>
+                        <div className="inline-flex items-center gap-3 px-5 h-10 rounded-full border border-primary/25 bg-primary/[0.06] backdrop-blur-xl shadow-[0_0_24px_hsl(var(--primary)/0.15)] w-fit mx-auto">
+                            <span className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_hsl(var(--primary)/0.8)] animate-pulse" />
+                            <span className="text-[10px] font-black uppercase tracking-[0.24em] text-primary/90">
+                                Graphic Design
+                            </span>
+                        </div>
                     </motion.div>
 
                     <motion.h1
                         initial="hidden"
                         animate="visible"
-                        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] uppercase tracking-tighter mb-6"
+                        className="text-[32px] md:text-[42px] lg:text-[52px] font-bold leading-[1.1] uppercase tracking-tighter mb-6 lg:whitespace-nowrap"
                     >
+
                         {words.map((word, i) => (
                             <motion.span
                                 key={i}
@@ -111,7 +116,7 @@ export default function GraphicDesignPage() {
                                 variants={textVariants}
                                 className="inline-block mr-[0.2em]"
                             >
-                                {word === "Captures" ? <span className="text-primary">{word}</span> : word}
+                                {word === "VISUALS" || word === "CAPTURE" || word === "ATTENTION" ? <span className="text-primary">{word}</span> : word}
                             </motion.span>
                         ))}
                     </motion.h1>
@@ -120,9 +125,9 @@ export default function GraphicDesignPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="text-muted-foreground text-base md:text-lg font-medium leading-relaxed max-w-2xl mb-10 mx-auto"
+                        className="text-body text-muted-foreground font-medium max-w-2xl mx-auto"
                     >
-                        We create visual languages that speak louder than words. From high-impact marketing collateral to intricate digital assets, our designs are engineered to engage and inspire.
+                        From social creatives to premium marketing assets, we design compelling visuals that communicate clearly and elevate your brand presence.
                     </motion.p>
 
                     <motion.div
@@ -131,207 +136,146 @@ export default function GraphicDesignPage() {
                         transition={{ delay: 0.3 }}
                         className="flex flex-wrap justify-center gap-4"
                     >
-                        <button 
+                        <button
                             onClick={openContact}
-                            className="bg-primary text-primary-foreground px-6 sm:px-8 py-4 sm:py-5 rounded-full font-black uppercase tracking-widest text-[10px] md:text-xs shadow-2xl shadow-primary/40 hover:scale-105 transition-all active:scale-95 flex items-center gap-3 group"
+                            className="bg-primary text-primary-foreground px-8 py-4 rounded-full font-bold text-sm shadow-xl shadow-primary/20 hover:-translate-y-1 transition-all active:scale-95 flex items-center gap-3 group"
                         >
-                            Start Your Project <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
+                            Start Your Project <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                         </button>
                         <Link href="/casestudy">
-                            <button 
-                                className="bg-transparent border border-border text-foreground px-6 sm:px-10 py-4 sm:py-5 rounded-full font-black uppercase tracking-widest text-[10px] md:text-xs hover:bg-accent transition-all active:scale-95 flex items-center gap-3"
+                            <button
+                                className="bg-transparent border border-border text-foreground px-8 py-4 rounded-full font-bold text-sm hover:bg-accent transition-all active:scale-95 flex items-center gap-3"
                             >
                                 View Portfolio <ChevronRight size={18} />
                             </button>
                         </Link>
                     </motion.div>
                 </div>
-            </section>
+            </SectionWrapper>
 
             {/* Expertise Section */}
-            <section className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6 lg:px-8 bg-transparent transition-colors duration-500 border-t border-border/10 relative overflow-hidden">
-                <div className="max-w-7xl mx-auto relative z-10">
-                    <div className="flex flex-col lg:flex-row justify-between items-center mb-12 sm:mb-16 lg:mb-24 gap-12 text-center lg:text-left">
-                        <div className="max-w-2xl">
-                            <motion.p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] mb-6 relative">OUR EXPERTISE</motion.p>
-                            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter leading-tight text-foreground">
-                                Architecting <br /> <span className="text-primary">Visual Impact</span>
-                            </h2>
-                        </div>
-                        <div className="flex flex-col items-center md:items-end">
-                            <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed max-w-sm md:text-right opacity-70">
-                                A specialized suite of services designed for brands that value aesthetic restraint and functional clarity.
-                            </p>
-                        </div>
-                    </div>
+            <SectionWrapper className="bg-transparent transition-colors duration-500 relative overflow-hidden">
+                <SectionHeading
+                    title={<>Architecting <span className="text-primary">Visual Impact</span></>}
+                    subtitle="A specialized suite of services designed for brands that value aesthetic restraint and functional clarity."
+                    centered={true}
+                />
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {[
-                            {
-                                title: "Brochure Design",
-                                icon: BookOpen,
-                                desc: "Tangible storytelling for high-end developments and corporate reports. Precision in every fold.",
-                                span: "md:col-span-2"
-                            },
-                            {
-                                title: "Business Cards",
-                                icon: CreditCard,
-                                desc: "The first impression, refined to its purest form."
-                            },
-                            {
-                                title: "Social Media Post Design",
-                                icon: Share2,
-                                desc: "Stopping the scroll with monochromatic depth and editorial layouts for Instagram and LinkedIn."
-                            },
-                            {
-                                title: "Ad Creatives",
-                                icon: Megaphone,
-                                desc: "High-conversion advertisement visuals that maintain brand luxury while driving engagement.",
-                                span: "md:col-span-2"
-                            }
-                        ].map((item, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.1 }}
-                                className={`group relative overflow-hidden rounded-[24px] bg-card/40 backdrop-blur-md border border-border/50 hover:border-primary/50 hover:bg-card/80 transition-all duration-500 shadow-lg hover:shadow-xl ${item.span || ""}`}
-                            >
-                                <div className="p-6 sm:p-8 lg:p-10 relative z-10 flex flex-col h-full min-h-[250px]">
-                                    <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 group-hover:rotate-[360deg] group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]">
-                                        <item.icon size={24} />
-                                    </div>
-                                    <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight mb-4 group-hover:text-primary transition-colors">{item.title}</h3>
-                                    <p className="text-muted-foreground text-sm font-medium leading-relaxed max-w-md">{item.desc}</p>
-
-                                    <div className="absolute inset-0 z-[-1] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
-                                        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[80px] rounded-full translate-x-1/2 -translate-y-1/2" />
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 relative z-10">
+                    {[
+                        {
+                            title: "Brochure Design",
+                            icon: BookOpen,
+                            desc: "Tangible storytelling for high-end developments and corporate reports. Precision in every fold.",
+                            span: "md:col-span-2"
+                        },
+                        {
+                            title: "Business Cards",
+                            icon: CreditCard,
+                            desc: "The first impression, refined to its purest form."
+                        },
+                        {
+                            title: "Social Media Post Design",
+                            icon: Share2,
+                            desc: "Stopping the scroll with monochromatic depth and editorial layouts for Instagram and LinkedIn."
+                        },
+                        {
+                            title: "Ad Creatives",
+                            icon: Megaphone,
+                            desc: "High-conversion advertisement visuals that maintain brand luxury while driving engagement.",
+                            span: "md:col-span-2"
+                        }
+                    ].map((item, i) => (
+                        <PremiumCard key={i} delay={i * 0.1} className={item.span || ""}>
+                            <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 group-hover:scale-110">
+                                <item.icon size={22} />
+                            </div>
+                            <h3 className="text-card font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">{item.title}</h3>
+                            <p className="text-body text-muted-foreground opacity-80 font-normal">{item.desc}</p>
+                        </PremiumCard>
+                    ))}
                 </div>
-            </section>
+            </SectionWrapper>
 
             {/* Methodology Section */}
-            <section className="py-16 md:py-24 lg:py-32 px-6 md:px-12 bg-background relative border-y border-border/10 overflow-hidden">
+            <SectionWrapper className="bg-background relative border-y border-border/10 overflow-hidden">
                 <GridBackground />
-                <div className="max-w-7xl mx-auto text-center relative z-10">
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        className="text-[42px] font-bold uppercase tracking-tighter leading-tight mb-16"
-                    >
-                        A Methodical <span className="text-primary">Approach</span>
-                    </motion.h2>
-                    <p className="text-muted-foreground text-sm md:text-lg font-medium leading-relaxed max-w-xl mx-auto mb-24">
-                        Precision-driven creativity. Every project follows a structured path to ensure maximum visual impact.
-                    </p>
+                <div className="relative z-10 flex flex-col items-center">
+                    <SectionHeading
+                        title={<>A Methodical <span className="text-primary">Approach</span></>}
+                        subtitle="Precision-driven creativity. Every project follows a structured path to ensure maximum visual impact."
+                        centered={true}
+                    />
 
-                    <div className="flex flex-col gap-12 max-w-4xl mx-auto text-left">
+                    <div className="flex flex-col gap-6 md:gap-8 max-w-4xl mx-auto text-left w-full">
                         {[
-                            { 
-                                name: "Research & Brief", 
+                            {
+                                name: "Research & Brief",
                                 step: "01",
                                 desc: "We begin by understanding your brand, target audience, competitors, and the story you need your visuals to tell.",
                                 icon: Search
                             },
-                            { 
-                                name: "Concept & Sketching", 
+                            {
+                                name: "Concept & Sketching",
                                 step: "02",
                                 desc: "Translating the brief into multiple creative directions, exploring layouts, typography, and visual language.",
                                 icon: PenTool
                             },
-                            { 
-                                name: "Design & Refinement", 
+                            {
+                                name: "Design & Refinement",
                                 step: "03",
                                 desc: "Developing the chosen concept into high-fidelity artwork with meticulous attention to detail and craft.",
                                 icon: Edit3
                             },
-                            { 
-                                name: "Feedback & Revision", 
+                            {
+                                name: "Feedback & Revision",
                                 step: "04",
                                 desc: "Collaborative review rounds to ensure the final design exceeds expectations and aligns with your vision.",
                                 icon: Layers
                             },
-                            { 
-                                name: "Final Delivery", 
+                            {
+                                name: "Final Delivery",
                                 step: "05",
                                 desc: "Exporting production-ready assets in all required formats with a comprehensive usage guide.",
                                 icon: CheckCircle
                             }
                         ].map((step, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] as any }}
-                                className="group flex flex-col md:flex-row gap-8 items-start md:items-center p-12 rounded-[8px] bg-accent/10 border border-border/50 hover:border-primary/50 hover:bg-primary/5 transition-all duration-500"
-                            >
-                                <div className="text-6xl font-bold text-primary/10 group-hover:text-primary transition-colors duration-500">
+                            <PremiumCard key={i} delay={i * 0.1} hoverLift={false} className="!p-6 md:!p-8 !rounded-[20px] flex-col sm:flex-row items-start sm:items-center gap-6">
+                                <div className="text-5xl font-black text-primary/10 group-hover:text-primary transition-colors duration-500 shrink-0">
                                     {step.step}
                                 </div>
-                                <div className="w-12 h-12 rounded-full bg-background border border-border flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500 shrink-0">
+                                <div className="w-12 h-12 rounded-full bg-background/50 border border-border/50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500 shrink-0">
                                     <step.icon size={20} />
                                 </div>
                                 <div className="flex-1">
-                                    <h4 className="text-lg md:text-xl font-bold uppercase tracking-tight mb-4">{step.name}</h4>
-                                    <p className="text-muted-foreground text-sm font-medium leading-relaxed max-w-2xl">{step.desc}</p>
+                                    <h4 className="text-xl font-semibold tracking-tight text-foreground mb-2 group-hover:text-primary transition-colors">{step.name}</h4>
+                                    <p className="text-body text-muted-foreground opacity-80 font-normal">{step.desc}</p>
                                 </div>
-                            </motion.div>
+                            </PremiumCard>
                         ))}
                     </div>
                 </div>
-            </section>
+            </SectionWrapper>
 
             {/* Tech Stack - Redesigned Centered */}
-            <section className="py-16 md:py-24 lg:py-32 px-6 md:px-12 bg-background relative overflow-hidden">
+            <SectionWrapper className="bg-background relative overflow-hidden border-t border-border/10">
                 <GridBackground />
-                <div className="max-w-7xl mx-auto text-center relative z-10">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        className="mb-24"
-                    >
-                        <h2 className="text-[42px] font-bold uppercase tracking-tighter leading-tight mb-6">
-                            Powered by <span className="text-primary">Modern Tech</span>
-                        </h2>
-                        <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed max-w-xl mx-auto">
-                            We leverage the industry's most advanced design tools to ensure every project is crafted with absolute precision.
-                        </p>
-                    </motion.div>
-
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-5xl mx-auto">
-                        {[
-                            { icon: PSIcon, name: "Photoshop" },
-                            { icon: AIIcon, name: "Illustrator" },
-                            { icon: IDIcon, name: "InDesign" },
-                            { icon: AEIcon, name: "After Effects" }
-                        ].map((tech, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: i * 0.1 }}
-                                className="group flex flex-col items-center gap-6"
-                            >
-                                <motion.div 
-                                    whileHover={{ scale: 1.2, rotate: 5 }}
-                                    className="w-24 h-24 rounded-3xl bg-accent/50 flex items-center justify-center text-muted-foreground group-hover:text-primary group-hover:bg-primary/5 transition-all duration-500 shadow-xl"
-                                >
-                                    <tech.icon />
-                                </motion.div>
-                                <h5 className="font-black uppercase tracking-widest text-[10px] opacity-50 group-hover:opacity-100 transition-opacity">
-                                    {tech.name}
-                                </h5>
-                            </motion.div>
-                        ))}
-                    </div>
+                <div className="relative z-10">
+                    <SectionHeading
+                        title={<>Powered by <span className="text-primary">Modern Tech</span></>}
+                        subtitle="We leverage the industry's most advanced design tools to ensure every project is crafted with absolute precision."
+                        centered={true}
+                    />
                 </div>
-            </section>
+                <TechScrollTicker
+                    items={[
+                        { icon: <AIIcon />, name: "Adobe Illustrator", category: "Vector Engine", size: "large", desc: "Our primary tool for infinitely scalable brand assets, vector graphics, and precision iconography." },
+                        { icon: <PSIcon />, name: "Adobe Photoshop", category: "Raster Editing", size: "medium" },
+                        { icon: <IDIcon />, name: "InDesign", category: "Layout & Print", size: "small" },
+                        { icon: <AEIcon />, name: "After Effects", category: "Motion", size: "small" },
+                    ]}
+                />
+            </SectionWrapper>
 
         </div>
     );

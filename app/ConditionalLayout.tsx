@@ -11,8 +11,9 @@ import SmoothScroll from "@/Components/Animations/SmoothScroll";
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/xeltr-admin");
+  const isStudio = pathname?.startsWith("/studio");
 
-  if (isAdmin) {
+  if (isAdmin || isStudio) {
     return <>{children}</>;
   }
 

@@ -239,7 +239,7 @@ export default function CaseStudyGrid({ initialData }: Props) {
       <GridBackground />
 
       {/* Hero */}
-      <section className="relative w-full h-auto py-16 md:py-20 max-w-7xl mx-auto px-6 text-center">
+      <section className="relative w-full h-auto py-14 sm:py-20 lg:py-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[90vw] max-w-[600px] h-[250px] bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
 
         <motion.div
@@ -247,11 +247,14 @@ export default function CaseStudyGrid({ initialData }: Props) {
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-col items-center gap-4 md:gap-8"
         >
-          <span className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-[4px] border border-primary/20 w-fit mx-auto">
-            Our Portfolio
-          </span>
+          <div className="inline-flex items-center gap-3 px-5 h-10 rounded-full border border-primary/25 bg-primary/[0.06] backdrop-blur-xl shadow-[0_0_24px_hsl(var(--primary)/0.15)] w-fit mx-auto">
+            <span className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_hsl(var(--primary)/0.8)] animate-pulse" />
+            <span className="text-[10px] font-black uppercase tracking-[0.24em] text-primary/90">
+              Our Portfolio
+            </span>
+          </div>
 
-          <h1 className="text-4xl md:text-[64px] font-bold leading-[1.1] uppercase tracking-tighter mb-6 mt-6">
+          <h1 className="text-[2.6rem] sm:text-5xl md:text-6xl lg:text-[64px] font-bold leading-[0.9] uppercase tracking-tight md:tracking-tighter mb-6 mt-6">
             SELECTED WORKS
           </h1>
 
@@ -305,10 +308,10 @@ export default function CaseStudyGrid({ initialData }: Props) {
                   initial="hidden"
                   animate="visible"
                   whileHover={{ y: -12, scale: 1.01 }}
-                  className="group relative bg-card/20 backdrop-blur-sm border border-border/50 rounded-[32px] p-4 sm:p-5 overflow-hidden hover:border-primary/50 shadow-2xl shadow-black/5 transition-all duration-500 cursor-pointer"
+                  className="group relative bg-card/20 backdrop-blur-sm border border-border/50 rounded-[24px] lg:rounded-[28px] overflow-hidden isolate hover:border-primary/50 shadow-2xl shadow-black/5 transition-all duration-500 flex flex-col h-full cursor-pointer"
                   onClick={() => setSelected(cs)}
                 >
-                  <div className="relative aspect-[4/3] rounded-[24px] overflow-hidden mb-6 transition-all duration-700 w-full">
+                  <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden mb-5 rounded-t-[24px] lg:rounded-t-[28px] isolate">
                     <Image
                       src={cs.thumbnail}
                       alt={cs.title}
@@ -317,7 +320,7 @@ export default function CaseStudyGrid({ initialData }: Props) {
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-out"
                     />
-                    <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/5 transition-colors duration-700 z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                     
                     <div className="absolute top-4 left-4 z-[30] px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest backdrop-blur-xl border border-white/20 text-white shadow-xl" style={{ background: `${accent}DD` }}>
                       {cs.category}
@@ -330,21 +333,56 @@ export default function CaseStudyGrid({ initialData }: Props) {
                       </div>
                     )}
                   </div>
-                  <div className="px-2 sm:px-4 pb-2">
-                    <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight group-hover:text-primary transition-colors duration-500 mb-3">
+
+                  <div className="flex flex-col flex-1 px-5 sm:px-6 pb-6">
+                    <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tight group-hover:text-primary transition-colors duration-500 leading-[1.1] mb-3">
                       {cs.title}
                     </h3>
-                    <p className="text-muted-foreground text-sm font-medium leading-relaxed mb-6 line-clamp-6">
+                    <p className="text-muted-foreground text-sm font-medium leading-relaxed line-clamp-3 opacity-80 mb-6 flex-1">
                       {cs.description}
                     </p>
-                    <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-foreground group-hover:text-primary transition-colors duration-500">
-                      VIEW PROJECT (PREVIEW)
-                      <span className="w-8 h-8 rounded-full border border-border flex items-center justify-center group-hover:border-primary group-hover:bg-primary/5 transition-all duration-500">
-                        <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-500" />
-                      </span>
+
+                    {/* Tags / Skills */}
+                    {cs.skills && cs.skills.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {cs.skills.slice(0, 3).map((skill, idx) => (
+                          <span key={idx} className="text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md bg-muted text-muted-foreground border border-border/50">
+                            {skill}
+                          </span>
+                        ))}
+                        {cs.skills.length > 3 && (
+                          <span className="text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md bg-muted text-muted-foreground border border-border/50">
+                            +{cs.skills.length - 3}
+                          </span>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Footer CTA */}
+                    <div className="mt-auto flex items-center justify-between pt-4 border-t border-border/40">
+                      <div className="flex flex-col items-start text-left">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-foreground group-hover:text-primary transition-colors mb-0.5">
+                          Interactive Preview
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {cs.liveUrl && (
+                          <a
+                            href={cs.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="h-10 px-4 rounded-xl border border-border bg-card hover:bg-primary hover:text-white hover:border-primary flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-all duration-300 shadow-sm z-30"
+                          >
+                            Live Site <ArrowUpRight size={12} />
+                          </a>
+                        )}
+                        <span className="w-10 h-10 rounded-full border border-border/60 flex items-center justify-center text-foreground group-hover:text-primary group-hover:border-primary group-hover:bg-primary/5 transition-all duration-300">
+                          <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[4px] w-0 group-hover:w-[60%] transition-all duration-700 rounded-t-full" style={{ background: accent }} />
                 </motion.div>
               );
             })}
@@ -353,23 +391,24 @@ export default function CaseStudyGrid({ initialData }: Props) {
 
         {/* ── Mobile Carousel with Arrow Controls ── */}
         <div className="md:hidden px-4 pb-20">
-          <div className="relative overflow-hidden rounded-[2.5rem]">
+          <div className="relative min-h-[480px]">
             <AnimatePresence mode="wait" initial={false}>
               {(() => {
                 const cs = filtered[activeIndex % filtered.length];
                 if (!cs) return null;
                 const accent = ACCENT_MAP[cs.category] ?? "#3b82f6";
+                const pCount = previewCount(cs);
                 return (
                   <motion.div
                     key={cs._id}
-                    initial={{ opacity: 0, x: direction > 0 ? 50 : -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: direction > 0 ? -50 : 50 }}
-                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    className="bg-card/40 backdrop-blur-sm border border-border/50 rounded-[2.5rem] p-5 overflow-hidden shadow-2xl"
+                    initial={{ opacity: 0, x: direction > 0 ? 100 : -100, position: "absolute", width: "100%", height: "100%" }}
+                    animate={{ opacity: 1, x: 0, position: "relative" }}
+                    exit={{ opacity: 0, x: direction > 0 ? -100 : 100, position: "absolute", width: "100%", height: "100%" }}
+                    transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
+                    className="bg-card/40 backdrop-blur-sm border border-border/50 rounded-[24px] lg:rounded-[28px] overflow-hidden isolate shadow-2xl flex flex-col h-full cursor-pointer top-0 left-0"
                     onClick={() => setSelected(cs)}
                   >
-                    <div className="relative aspect-[16/11] rounded-[1.5rem] overflow-hidden mb-6">
+                    <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden mb-5 rounded-t-[24px] lg:rounded-t-[28px] isolate">
                       <Image
                         src={cs.thumbnail}
                         alt={cs.title}
@@ -381,29 +420,64 @@ export default function CaseStudyGrid({ initialData }: Props) {
                       
                       {/* Responsive Category Badge */}
                       <div
-                        className="absolute top-4 left-4 z-[30] px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.15em] backdrop-blur-md border border-white/20 text-white shadow-xl"
+                        className="absolute top-4 left-4 z-[30] px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest backdrop-blur-xl border border-white/20 text-white shadow-xl"
                         style={{ background: `${accent}DD` }}
                       >
                         {cs.category}
                       </div>
+
+                      {pCount > 0 && (
+                        <div className="absolute top-4 right-4 z-20 flex items-center gap-2.5 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest backdrop-blur-xl border border-white/20 text-white shadow-xl" style={{ background: `${accent}DD` }}>
+                          <Layers size={14} />
+                          {pCount} VIEW{pCount > 1 ? "S" : ""}
+                        </div>
+                      )}
                     </div>
 
-                    <div className="px-1 text-center">
-                      <h3 className="text-2xl font-black uppercase tracking-tight leading-none mb-3">
+                    <div className="flex flex-col flex-1 px-5 pb-6">
+                      <h3 className="text-xl font-black uppercase tracking-tight leading-tight mb-3">
                         {cs.title}
                       </h3>
-                      <p className="text-muted-foreground text-sm font-medium leading-relaxed mb-8 line-clamp-6 opacity-80">
+                      <p className="text-muted-foreground text-sm font-medium leading-relaxed line-clamp-3 opacity-80 flex-1 mb-6">
                         {cs.description || "A premium digital experience crafted for impact and performance."}
                       </p>
                       
-                      <div className="flex items-center justify-between pt-6 border-t border-border/20">
-                        <div className="flex flex-col items-start text-left">
-                          <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-1">View Project</span>
-                          <span className="text-[12px] font-bold uppercase tracking-wider opacity-50">(Preview)</span>
+                      {/* Tags / Skills */}
+                      {cs.skills && cs.skills.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mb-6">
+                          {cs.skills.slice(0, 3).map((skill, idx) => (
+                            <span key={idx} className="text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md bg-muted text-muted-foreground border border-border/50">
+                              {skill}
+                            </span>
+                          ))}
+                          {cs.skills.length > 3 && (
+                            <span className="text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md bg-muted text-muted-foreground border border-border/50">
+                              +{cs.skills.length - 3}
+                            </span>
+                          )}
                         </div>
-                        <span className="w-12 h-12 rounded-full border border-border/60 flex items-center justify-center text-primary shadow-sm bg-primary/5">
-                          <ArrowRight size={18} />
-                        </span>
+                      )}
+
+                      <div className="mt-auto flex items-center justify-between pt-4 border-t border-border/40">
+                        <div className="flex flex-col items-start text-left">
+                          <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-0.5">Interactive Preview</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {cs.liveUrl && (
+                            <a
+                              href={cs.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="h-10 px-4 rounded-xl border border-border bg-card hover:bg-primary hover:text-white hover:border-primary flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-all duration-300 shadow-sm z-30"
+                            >
+                              Live Site <ArrowUpRight size={12} />
+                            </a>
+                          )}
+                          <span className="w-10 h-10 rounded-full border border-border/60 flex items-center justify-center text-primary shadow-sm bg-primary/5 transition-all duration-300">
+                            <ArrowRight size={16} />
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </motion.div>

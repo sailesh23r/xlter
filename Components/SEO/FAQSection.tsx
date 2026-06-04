@@ -35,7 +35,7 @@ export default function FAQSection({ faqs, title = "Frequently Asked Questions",
   };
 
   return (
-    <section className="py-24 max-w-4xl mx-auto px-6">
+    <section className="py-14 sm:py-20 lg:py-28 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
@@ -68,15 +68,15 @@ export default function FAQSection({ faqs, title = "Frequently Asked Questions",
             >
               <button
                 onClick={() => setOpenIndex(isOpen ? null : index)}
-                className="w-full flex items-center justify-between p-6 text-left group"
+                className="w-full flex items-center justify-between gap-3 p-4 sm:p-6 text-left group"
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3 sm:gap-4 flex-1">
                   <HelpCircle className={`w-5 h-5 shrink-0 ${isOpen ? "text-primary" : "text-muted-foreground opacity-40"}`} />
-                  <span className={`text-lg font-bold uppercase tracking-tight leading-tight ${isOpen ? "text-primary" : "text-foreground"}`}>
+                  <span className={`text-base sm:text-lg font-bold uppercase tracking-tight leading-tight max-w-[85%] pr-2 ${isOpen ? "text-primary" : "text-foreground"}`}>
                     {faq.question}
                   </span>
                 </div>
-                <div className={`shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all border ${isOpen ? "bg-primary text-white border-primary shadow-lg shadow-primary/20" : "bg-background/50 border-border/50 text-muted-foreground group-hover:border-primary/40 group-hover:text-primary"}`}>
+                <div className={`shrink-0 w-[42px] h-[42px] sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all border ${isOpen ? "bg-primary text-white border-primary shadow-lg shadow-primary/20" : "bg-background/50 border-border/50 text-muted-foreground group-hover:border-primary/40 group-hover:text-primary"}`}>
                   {isOpen ? <Minus size={18} /> : <Plus size={18} />}
                 </div>
               </button>
@@ -89,7 +89,7 @@ export default function FAQSection({ faqs, title = "Frequently Asked Questions",
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                   >
-                    <div className="px-6 pb-6 pt-2 text-muted-foreground leading-relaxed font-medium text-lg border-t border-primary/10 mx-6">
+                    <div className="px-4 sm:px-6 pb-5 sm:pb-6 pt-2 text-muted-foreground text-base leading-7 md:text-lg font-medium border-t border-primary/10 mx-4 sm:mx-6">
                       <div className="pt-4 whitespace-pre-wrap">
                         {faq.answer}
                       </div>

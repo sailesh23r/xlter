@@ -41,23 +41,28 @@ export default function ContactModal({ isOpen, onClose }: Props) {
             ...formData
         };
 
-        const response = await fetch("https://api.web3forms.com/submit", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json"
-            },
-            body: JSON.stringify(submissionData)
-        });
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json"
+                },
+                body: JSON.stringify(submissionData)
+            });
 
-        const result = await response.json();
+            const result = await response.json();
 
-        if (result.success) {
-            toast.success("Thank you! Your message has been sent directly to our team.");
-            setFormData({ name: "", email: "", phone: "", message: "" });
-            onClose();
-        } else {
-            toast.error("Something went wrong. Please try again.");
+            if (result.success) {
+                toast.success("Thank you! Your message has been sent directly to our team.");
+                setFormData({ name: "", email: "", phone: "", message: "" });
+                onClose();
+            } else {
+                toast.error("Something went wrong. Please verify your connection or try again.");
+            }
+        } catch (error) {
+            console.error("Form submission error:", error);
+            toast.error("Network error: Failed to connect to the server. Please check your internet connection and try again.");
         }
     };
 

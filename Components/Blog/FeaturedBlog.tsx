@@ -32,8 +32,8 @@ export default function FeaturedBlog({ blogs }: Props) {
             {/* Left Image (Full Bleed Half) */}
             <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-full overflow-hidden">
                 <Image
-                    src={featured.thumbnail}
-                    alt={featured.title}
+                    src={featured.thumbnail || "/blog2.png"}
+                    alt={featured.title || "Blog Image"}
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
@@ -97,7 +97,7 @@ export default function FeaturedBlog({ blogs }: Props) {
         <div className="flex flex-col gap-4">
           {sidePosts.length === 0 ? (
             <div className="flex-1 flex items-center justify-center text-muted-foreground text-sm">
-              No additional posts
+              Publish more articles to display latest posts.
             </div>
           ) : (
             sidePosts.map((blog) => {
@@ -114,8 +114,8 @@ export default function FeaturedBlog({ blogs }: Props) {
                   {/* Thumbnail (Inset) */}
                   <div className="relative w-24 sm:w-32 h-24 sm:h-32 flex-shrink-0 rounded-[16px] overflow-hidden border border-border/20 z-10">
                     <Image
-                      src={blog.thumbnail}
-                      alt={blog.title}
+                      src={blog.thumbnail || "/blog2.png"}
+                      alt={blog.title || "Blog Image"}
                       fill
                       sizes="(max-width: 640px) 96px, 128px"
                       className="object-cover group-hover:scale-110 transition-transform duration-500"

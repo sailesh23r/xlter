@@ -1,0 +1,45 @@
+/* Xeltr Premium Theme Overrides for Sanity Studio */
+
+/* Force Dark Mode */
+:root {
+  color-scheme: dark !important;
+}
+
+html, body, #sanity {
+  background-color: #030712 !important;
+  color: #ffffff !important;
+}
+
+/* Override Sanity UI CSS Variables */
+[data-theme="dark"], [data-scheme="dark"] {
+  --card-bg-color: #030712 !important;
+  --card-fg-color: #ffffff !important;
+  --card-border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Inner panels and inputs */
+[data-ui="Card"][data-scheme="dark"] [data-ui="Card"] {
+  --card-bg-color: #0B1220 !important;
+}
+
+/* Accent Color */
+[data-ui="Button"][data-tone="primary"] {
+  --card-bg-color: #3B82F6 !important;
+  --card-hover-bg-color: #2563EB !important;
+}
+
+/* Border Radius Overrides */
+[data-ui="Card"] {
+  border-radius: 16px;
+}
+[data-ui="Button"], [data-ui="TextInput"] {
+  border-radius: 12px !important;
+}
+
+/* Soft Shadows and Glassmorphism */
+[data-ui="Popover"] {
+  background: rgba(11, 18, 32, 0.8) !important;
+  backdrop-filter: blur(12px) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}

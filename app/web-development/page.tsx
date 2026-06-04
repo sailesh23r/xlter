@@ -32,6 +32,7 @@ import Squares from "@/Components/Animations/Squares";
 import { useTheme } from "next-themes";
 import React, { useState, useEffect } from "react";
 import GridBackground from "@/Components/Animations/GridBackground";
+import TechScrollTicker from "@/Components/Animations/TechScrollTicker";
 
 export default function WebDevelopmentPage() {
     const { resolvedTheme } = useTheme();
@@ -59,8 +60,7 @@ export default function WebDevelopmentPage() {
         }),
     };
 
-    const firstLine = "Fast, Scalable Websites That";
-    const secondLine = "Drive Results";
+    const words = "FAST, SCALABLE DIGITAL EXPERIENCES".split(" ");
 
     return (
         <div className="bg-background text-foreground min-h-screen pt-0 transition-colors duration-500">
@@ -76,39 +76,29 @@ export default function WebDevelopmentPage() {
                         animate={{ opacity: 1, y: 0 }}
                         className="flex flex-col items-center gap-4"
                     >
-                        <p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] bg-primary/10 px-6 py-2 rounded-[4px] border border-primary/20 w-fit mx-auto">
-                            PREMIUM WEB ENGINEERING
-                        </p>
+                        <div className="inline-flex items-center gap-3 px-5 h-10 rounded-full border border-primary/25 bg-primary/[0.06] backdrop-blur-xl shadow-[0_0_24px_hsl(var(--primary)/0.15)] w-fit mx-auto">
+                            <span className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_hsl(var(--primary)/0.8)] animate-pulse" />
+                            <span className="text-[10px] font-black uppercase tracking-[0.24em] text-primary/90">
+                                Web Development
+                            </span>
+                        </div>
                     </motion.div>
 
                     <motion.h1
                         initial="hidden"
                         animate="visible"
-                        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] uppercase tracking-tighter mb-6"
+                        className="text-[32px] md:text-[42px] lg:text-[52px] font-bold leading-[1.1] uppercase tracking-tighter mb-6 lg:whitespace-nowrap"
                     >
-                        {/* First Line */}
-                        <div>
-                            {firstLine.split(" ").map((word, i) => (
-                                <motion.span
-                                    key={i}
-                                    custom={i}
-                                    variants={textVariants}
-                                    className="inline-block mr-[0.2em]"
-                                >
-                                    {word}
-                                </motion.span>
-                            ))}
-                        </div>
-
-                        {/* Second Line */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.5 }}
-                            className="block text-primary mt-2"
-                        >
-                            {secondLine}
-                        </motion.div>
+                        {words.map((word, i) => (
+                            <motion.span
+                                key={i}
+                                custom={i}
+                                variants={textVariants}
+                                className="inline-block mr-[0.2em]"
+                            >
+                                {word === "FAST," || word === "SCALABLE" ? <span className="text-primary">{word}</span> : word}
+                            </motion.span>
+                        ))}
                     </motion.h1>
 
                     <motion.p
@@ -117,7 +107,7 @@ export default function WebDevelopmentPage() {
                         transition={{ delay: 0.2 }}
                         className="text-muted-foreground text-base md:text-lg font-medium leading-relaxed max-w-2xl mb-10 mx-auto"
                     >
-                        We build high-performance web applications that are as beautiful as they are functional. Our development process prioritizes speed, security, and scalability.
+                        We build high-performance websites and web applications engineered for speed, scalability, security, and modern user expectations.
                     </motion.p>
 
                     <motion.div
@@ -146,10 +136,9 @@ export default function WebDevelopmentPage() {
             {/* Digital Architecture Section */}
             <section className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6 lg:px-8 bg-transparent transition-colors duration-500 border-t border-border/10 relative overflow-hidden">
                 <div className="max-w-7xl mx-auto relative z-10">
-                    <div className="flex flex-col lg:flex-row justify-between items-center mb-12 sm:mb-16 lg:mb-24 gap-12 text-center lg:text-left">
-                        <div className="max-w-2xl">
-                            <motion.p className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] mb-6">CORE SERVICES</motion.p>
-                            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter leading-tight text-foreground">
+                    <div className="flex flex-col items-center mb-12 sm:mb-16 lg:mb-24 gap-6 text-center">
+                        <div className="max-w-3xl">
+                            <h2 className="text-[50px] font-bold uppercase tracking-tighter leading-tight text-foreground">
                                 Digital <br /> <span className="text-primary">Architecture</span>
                             </h2>
                         </div>
@@ -279,12 +268,12 @@ export default function WebDevelopmentPage() {
             </section>
 
             {/* Tech Stack Section */}
-            <section className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6 lg:px-8 bg-background relative overflow-hidden">
-                <div className="max-w-7xl mx-auto text-center relative z-10">
+            <section className="py-16 sm:py-20 lg:py-28 bg-background relative overflow-hidden">
+                <div className="max-w-7xl mx-auto text-center relative z-10 px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        className="mb-12 sm:mb-16 lg:mb-24"
+                        className="mb-12 sm:mb-16"
                     >
                         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter leading-tight mb-6">
                             Powered by <span className="text-primary">Modern Tech</span>
@@ -293,41 +282,22 @@ export default function WebDevelopmentPage() {
                             We leverage the industry's most advanced web technologies to build high-performance digital ecosystems.
                         </p>
                     </motion.div>
-
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 sm:gap-8 lg:gap-12 max-w-6xl mx-auto">
-                        {[
-                            { icon: SiNextdotjs, name: "Next.js", color: "#000000" },
-                            { icon: SiReact, name: "React.js", color: "#61DAFB" },
-                            { icon: SiTailwindcss, name: "Tailwind", color: "#06B6D4" },
-                            { icon: SiTypescript, name: "TypeScript", color: "#3178C6" },
-                            { icon: SiNodedotjs, name: "Node.js", color: "#339933" },
-                            { icon: SiMongodb, name: "MongoDB", color: "#47A248" },
-                            { icon: SiWordpress, name: "WordPress", color: "#21759B" },
-                            { icon: FaGithub, name: "GitHub", color: "#181717" },
-                            { icon: SiFirebase, name: "Firebase", color: "#FFCA28" },
-                            { icon: SiPostgresql, name: "PostgreSQL", color: "#4169E1" },
-                            { icon: SiMysql, name: "MySQL", color: "#4479A1" }
-                        ].map((tech, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: i * 0.05 }}
-                                className="group flex flex-col items-center gap-6"
-                            >
-                                <motion.div
-                                    whileHover={{ scale: 1.2, rotate: 5 }}
-                                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-accent/50 flex items-center justify-center text-muted-foreground group-hover:text-primary group-hover:bg-primary/5 transition-all duration-500 shadow-xl"
-                                >
-                                    <tech.icon size={32} style={{ color: i === 0 && !isDark ? "#000" : tech.color }} />
-                                </motion.div>
-                                <h5 className="font-black uppercase tracking-widest text-[10px] opacity-50 group-hover:opacity-100 transition-opacity">
-                                    {tech.name}
-                                </h5>
-                            </motion.div>
-                        ))}
-                    </div>
                 </div>
+                <TechScrollTicker
+                    items={[
+                        { icon: <SiNextdotjs size={32} style={{ color: !isDark ? "#000" : "#fff" }} />, name: "Next.js" },
+                        { icon: <SiReact size={32} style={{ color: "#61DAFB" }} />, name: "React.js" },
+                        { icon: <SiTailwindcss size={32} style={{ color: "#06B6D4" }} />, name: "Tailwind" },
+                        { icon: <SiTypescript size={32} style={{ color: "#3178C6" }} />, name: "TypeScript" },
+                        { icon: <SiNodedotjs size={32} style={{ color: "#339933" }} />, name: "Node.js" },
+                        { icon: <SiMongodb size={32} style={{ color: "#47A248" }} />, name: "MongoDB" },
+                        { icon: <SiWordpress size={32} style={{ color: "#21759B" }} />, name: "WordPress" },
+                        { icon: <FaGithub size={32} style={{ color: !isDark ? "#000" : "#fff" }} />, name: "GitHub" },
+                        { icon: <SiFirebase size={32} style={{ color: "#FFCA28" }} />, name: "Firebase" },
+                        { icon: <SiPostgresql size={32} style={{ color: "#4169E1" }} />, name: "PostgreSQL" },
+                        { icon: <SiMysql size={32} style={{ color: "#4479A1" }} />, name: "MySQL" },
+                    ]}
+                />
             </section>
 
         </div>
