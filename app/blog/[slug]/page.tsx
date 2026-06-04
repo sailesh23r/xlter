@@ -106,7 +106,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: title,
       description: description,
       images: [ogImage],
-      site: blog.twitterHandle || "@xeltrstudio",
+      site: "@xeltrstudio",
     },
   };
 }
