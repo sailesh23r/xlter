@@ -39,6 +39,7 @@ async function getBlogBySlug(slug: string) {
       author->{name, image},
       category->{title, slug},
       tags,
+      faqs,
       seoTitle,
       seoDescription,
       status
@@ -64,6 +65,7 @@ async function getBlogBySlug(slug: string) {
       author: sanityBlog.author?.name || "Xeltr Studio",
       content: sanityBlog.content || sanityBlog.excerpt || "",
       tags: sanityBlog.tags || [], 
+      faqs: sanityBlog.faqs || null,
       metaTitle: sanityBlog.seoTitle || sanityBlog.title || "Untitled Post",
       metaDescription: sanityBlog.seoDescription || sanityBlog.excerpt || "",
       status: sanityBlog.status || "PUBLISHED"
