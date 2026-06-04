@@ -89,9 +89,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${title} | Xeltr Studio`,
     description: description,
-    robots: blog.noIndex ? "noindex, nofollow" : "index, follow",
+    robots: "index, follow",
     alternates: {
-        canonical: blog.canonicalUrl || `https://xeltr.com/blog/${blog.slug}`,
+        canonical: `https://xeltr.com/blog/${blog.slug}`,
     },
     openGraph: {
       title: title,
