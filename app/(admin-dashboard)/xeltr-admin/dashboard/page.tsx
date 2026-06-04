@@ -28,7 +28,12 @@ export default function AdminDashboard() {
     setError(null);
     
     const fallbackData: DashboardData = {
-      counts: { blogs: 0, caseStudies: 0, testimonials: 0, seo: 0 },
+      counts: {
+        totalPosts: 0,
+        publishedPosts: 0,
+        draftPosts: 0,
+        categories: 0,
+      },
       seoHealth: { score: 0, indexedPages: 0, brokenLinks: 0, topKeywords: [] },
       performance: { lcp: "0s", cls: "0" },
       traffic: { totalViews: 0, uniqueVisitors: 0, bounceRate: "0%", avgSession: "0s" },
