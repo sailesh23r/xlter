@@ -10,6 +10,7 @@ import GridBackground from "@/Components/Animations/GridBackground";
 import ConditionalLayout from "./ConditionalLayout";
 import connectToDatabase, { withTimeout } from "@/lib/mongodb";
 import ScriptInjection from "@/models/ScriptInjection";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -123,6 +124,7 @@ export default async function RootLayout({
               style={{ display: 'none' }}
             />
           ))}
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>

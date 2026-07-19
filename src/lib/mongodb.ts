@@ -34,12 +34,13 @@ if (!cached) {
  * Races a promise against a timeout. If timeout wins, throws an error.
  */
 export function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  let timer: ReturnType<typeof setTimeout>;
   return Promise.race([
     promise,
-    new Promise<T>((_, reject) =>
-      setTimeout(() => reject(new Error(`DB timeout after ${ms}ms`)), ms)
-    ),
-  ]);
+    new Promise<T>((_, reject) => {
+      timer = setTimeout(() => reject(new Error(`DB timeout after ${ms}ms`)), ms);
+    }),
+  ]).finally(() => clearTimeout(timer));
 }
 
 async function connectToDatabase(): Promise<typeof mongoose> {
