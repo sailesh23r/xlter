@@ -102,7 +102,7 @@ export default function ContactPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!formData.name || !formData.phone || !formData.message) {
+        if (!formData.name || !formData.email || !formData.phone || !formData.message) {
             toast.error("Please fill in all required fields.");
             return;
         }
@@ -301,6 +301,7 @@ export default function ContactPage() {
                                             name="email"
                                             value={formData.email}
                                             onChange={handleChange}
+                                            required
                                             placeholder="john@example.com"
                                             className="w-full bg-background/50 backdrop-blur-sm border border-border/50 rounded-[12px] pl-12 pr-6 py-4 text-sm focus:outline-none focus:border-primary/50 focus:bg-background hover:border-border transition-all duration-300 placeholder:text-muted-foreground/30 focus:shadow-[0_0_20px_rgba(37,99,235,0.1)]"
                                         />
