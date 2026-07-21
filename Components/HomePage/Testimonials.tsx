@@ -60,7 +60,7 @@ export default function Testimonials() {
     ];
 
     return (
-        <section className="py-16 sm:py-20 lg:py-28 bg-background text-foreground relative overflow-x-clip min-h-[600px] flex flex-col items-center justify-center transition-colors duration-500 px-4 sm:px-6 lg:px-8">
+        <section className="py-16 sm:py-20 lg:py-28 bg-background text-foreground relative overflow-x-clip transition-colors duration-500 px-4 sm:px-6 lg:px-8">
 
             {/* Background Decorative Elements - Reduced blur on mobile */}
             <div className="absolute inset-0 pointer-events-none opacity-40 md:opacity-100">
@@ -69,6 +69,7 @@ export default function Testimonials() {
                 <div className="absolute bottom-1/4 right-1/4 w-[200px] md:w-[300px] h-[200px] md:h-[300px] bg-indigo-600/5 blur-[60px] md:blur-[100px] rounded-full" />
             </div>
 
+            <div className="flex flex-col items-center w-full">
             {/* Header Text */}
             <div className="max-w-7xl 2xl:max-w-[1440px] mx-auto px-4 relative z-30 text-center mb-12 sm:mb-16 lg:mb-20">
                 <motion.div
@@ -232,6 +233,7 @@ export default function Testimonials() {
                 <p className="text-primary font-black tracking-[0.4em] uppercase text-[9px] opacity-40">
                     Tap an avatar to hear their story
                 </p>
+            </div>
             </div>
         </section>
     );

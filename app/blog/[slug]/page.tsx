@@ -217,11 +217,11 @@ export default async function BlogPostPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
       />
-      <article className="bg-background text-foreground min-h-screen pt-0 pb-32 transition-colors duration-500 relative">
+      <article className="bg-background text-foreground pb-32 transition-colors duration-500 relative">
         <ReadingProgress />
         
         {/* 1. Hero Section - Centered Editorial Layout */}
-        <section className="relative w-full pt-32 pb-16 px-4 sm:px-6 max-w-4xl mx-auto text-center">
+        <section className="relative w-full pt-16 pb-16 px-4 sm:px-6 max-w-4xl mx-auto text-center">
             
             <div className="mb-10">
                 <Link href="/blog" className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors text-xs font-bold uppercase tracking-widest group">

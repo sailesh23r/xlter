@@ -22,7 +22,7 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
       <div className="flex flex-col min-h-screen">
       <Navbar />
       <WhatsAppButton />
-      <main className="relative w-full overflow-x-clip">
+      <main className="relative w-full overflow-x-clip pt-[var(--site-header-height)]">
         <Breadcrumbs />
         {children}
       </main>

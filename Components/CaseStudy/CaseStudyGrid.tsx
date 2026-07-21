@@ -235,7 +235,7 @@ export default function CaseStudyGrid({ initialData }: Props) {
     }).length;
 
   return (
-    <div className="min-h-screen bg-background text-foreground transition-colors duration-500 relative overflow-x-hidden pt-0">
+    <div className="bg-background text-foreground transition-colors duration-500 relative overflow-x-clip">
       <GridBackground />
 
       {/* Hero */}

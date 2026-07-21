@@ -79,7 +79,7 @@ export default function BrandingClient() {
     const words = "BRANDS BUILT TO STAND OUT".split(" ");
 
     return (
-        <div className="bg-background text-foreground min-h-screen pt-0 transition-colors duration-500">
+        <div className="bg-background text-foreground transition-colors duration-500">
 
             {/* Hero Section */}
             <section className="relative w-full h-auto py-16 sm:py-20 lg:py-28 bg-background border-b border-border/10">
@@ -103,7 +103,7 @@ export default function BrandingClient() {
                     <motion.h1
                         initial="hidden"
                         animate="visible"
-                        className="text-[32px] md:text-[42px] lg:text-[52px] font-bold leading-[1.1] uppercase tracking-tighter mb-6 lg:whitespace-nowrap"
+                        className="text-[clamp(1.8rem,4.5vw,3.25rem)] font-bold leading-[1.1] uppercase tracking-tighter mb-6 break-words"
                     >
                         {words.map((word, i) => (
                             <motion.span
@@ -154,7 +154,7 @@ export default function BrandingClient() {
                 <div className="max-w-7xl mx-auto relative z-10">
                     <div className="flex flex-col items-center mb-12 sm:mb-16 lg:mb-24 gap-6 text-center">
                         <div className="max-w-3xl">
-                            <h2 className="text-[50px] font-bold uppercase tracking-tighter leading-tight text-foreground">
+                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter leading-tight break-words">
                                 Comprehensive Visual <br /> <span className="text-primary">Engineering</span>
                             </h2>
                         </div>
@@ -227,11 +227,11 @@ export default function BrandingClient() {
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        className="text-[42px] font-bold uppercase tracking-tighter leading-tight mb-16"
+                        className="text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-tight mb-10"
                     >
                         A Methodical <span className="text-primary">Approach</span>
                     </motion.h2>
-                    <p className="text-muted-foreground text-sm md:text-lg font-medium leading-relaxed max-w-xl mx-auto mb-24">
+                    <p className="text-muted-foreground text-sm md:text-lg font-medium leading-relaxed max-w-xl mx-auto mb-12">
                         Structure is the soul of design. Our process ensures every pixel serves a purpose.
                     </p>
 
@@ -261,7 +261,7 @@ export default function BrandingClient() {
                                 initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
-                                className="group flex flex-col md:flex-row gap-8 items-start md:items-center p-12 rounded-[8px] bg-accent/10 border border-border/50 hover:border-primary/50 transition-all duration-500"
+                                className="group flex flex-col md:flex-row gap-8 items-start md:items-center p-6 sm:p-8 lg:p-12 rounded-[8px] bg-accent/10 border border-border/50 hover:border-primary/50 transition-all duration-500"
                             >
                                 <div className="text-6xl font-black text-primary/10 group-hover:text-primary transition-colors duration-500">
                                     {step.step}
@@ -285,7 +285,7 @@ export default function BrandingClient() {
                         whileInView={{ opacity: 1, y: 0 }}
                         className="mb-16"
                     >
-                        <h2 className="text-[42px] font-bold uppercase tracking-tighter leading-tight mb-6">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-tight mb-6">
                             Powered by <span className="text-primary">Modern Tech</span>
                         </h2>
                         <p className="text-muted-foreground text-sm md:text-base font-medium leading-relaxed max-w-xl mx-auto">

@@ -33,7 +33,7 @@ export default function TechStack() {
     return (
         <section className="bg-background text-foreground py-16 sm:py-20 lg:py-32 overflow-hidden relative">
             {/* Heading */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center mb-24 relative z-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center mb-12 sm:mb-16 relative z-10">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}

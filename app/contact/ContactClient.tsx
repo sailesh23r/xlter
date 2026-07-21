@@ -133,15 +133,15 @@ export default function ContactClient() {
     };
 
     return (
-        <div className="min-h-screen bg-background text-foreground relative overflow-x-clip selection:bg-primary/30 transition-colors duration-500">
+        <div className="bg-background text-foreground relative overflow-x-clip selection:bg-primary/30 transition-colors duration-500">
             {/* Background Animations */}
             {/* Background elements removed for cleaner look */}
 
-            <div className="relative z-10 pt-0 pb-20">
+            <div className="relative z-10 pb-16 sm:pb-20 lg:pb-28">
                 <GridBackground />
 
                 {/* Standardized Hero Section */}
-                <section className="relative w-full h-auto py-14 sm:py-20 lg:py-28 bg-background border-b border-border/10">
+                <section className="relative w-full h-auto py-14 sm:py-20 lg:py-24 bg-background border-b border-border/10">
                     <div className="max-w-7xl mx-auto px-6 text-center">
                         <div className="flex flex-col items-center gap-4">
                             <motion.div

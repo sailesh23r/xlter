@@ -63,7 +63,7 @@ export default function WebDevClient() {
     const words = "FAST, SCALABLE DIGITAL EXPERIENCES".split(" ");
 
     return (
-        <div className="bg-background text-foreground min-h-screen pt-0 transition-colors duration-500">
+        <div className="bg-background text-foreground transition-colors duration-500">
 
             {/* Hero Section */}
             <section className="relative w-full h-auto py-16 sm:py-20 lg:py-28 bg-background border-b border-border/10">
@@ -87,7 +87,7 @@ export default function WebDevClient() {
                     <motion.h1
                         initial="hidden"
                         animate="visible"
-                        className="text-[32px] md:text-[42px] lg:text-[52px] font-bold leading-[1.1] uppercase tracking-tighter mb-6 lg:whitespace-nowrap"
+                        className="text-[clamp(1.8rem,4.5vw,3.25rem)] font-bold leading-[1.1] uppercase tracking-tighter mb-6 break-words"
                     >
                         {words.map((word, i) => (
                             <motion.span
@@ -138,7 +138,7 @@ export default function WebDevClient() {
                 <div className="max-w-7xl mx-auto relative z-10">
                     <div className="flex flex-col items-center mb-12 sm:mb-16 lg:mb-24 gap-6 text-center">
                         <div className="max-w-3xl">
-                            <h2 className="text-[50px] font-bold uppercase tracking-tighter leading-tight text-foreground">
+                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter leading-tight break-words">
                                 Digital <br /> <span className="text-primary">Architecture</span>
                             </h2>
                         </div>
@@ -210,7 +210,7 @@ export default function WebDevClient() {
                         From discovery to deployment — a structured process that delivers reliable, high-performance results.
                     </p>
 
-                    <div className="flex flex-col gap-12 max-w-4xl mx-auto text-left">
+                    <div className="flex flex-col gap-6 md:gap-8 max-w-4xl mx-auto text-left">
                         {[
                             {
                                 name: "Discovery & Planning",

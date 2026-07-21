@@ -85,7 +85,7 @@ export default function GraphicDesignClient() {
     const words = "VISUALS THAT CAPTURE ATTENTION".split(" ");
 
     return (
-        <div className="bg-background text-foreground min-h-screen pt-0 transition-colors duration-500">
+        <div className="bg-background text-foreground transition-colors duration-500">
 
             {/* Hero Section */}
             <SectionWrapper className="border-b border-border/10">
@@ -106,7 +106,7 @@ export default function GraphicDesignClient() {
                     <motion.h1
                         initial="hidden"
                         animate="visible"
-                        className="text-[32px] md:text-[42px] lg:text-[52px] font-bold leading-[1.1] uppercase tracking-tighter mb-6 lg:whitespace-nowrap"
+                        className="text-[clamp(1.8rem,4.5vw,3.25rem)] font-bold leading-[1.1] uppercase tracking-tighter mb-6 break-words"
                     >
 
                         {words.map((word, i) => (

@@ -57,7 +57,7 @@ export default function BlogClient({
   };
 
   return (
-    <div className="bg-background text-foreground min-h-screen pt-0 pb-20 relative overflow-x-hidden">
+    <div className="bg-background text-foreground pb-20 relative overflow-x-clip">
       <GridBackground />
 
       {/* ── Hero ── */}

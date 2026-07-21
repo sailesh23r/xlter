@@ -44,7 +44,7 @@ export default async function DynamicPage({ params }: Props) {
   if (!page) notFound();
 
   return (
-    <main className="min-h-screen pb-20">
+    <main className="pb-20 pt-8">
       <div className="max-w-7xl mx-auto px-6">
         <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-12">
           {page.title}

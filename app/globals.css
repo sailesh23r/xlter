@@ -21,6 +21,14 @@
   --input: #e2e8f0;
   --ring: #2563eb;
   --radius: 0.5rem;
+  /* Navbar pill height + top padding offset */
+  --site-header-height: 88px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --site-header-height: 72px;
+  }
 }
 
 .dark {
@@ -101,6 +109,11 @@ body {
 * {
   min-width: 0;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure anchor IDs are not hidden behind fixed navbar */
+[id] {
+  scroll-margin-top: calc(var(--site-header-height) + 1.5rem);
 }
 
 img,
