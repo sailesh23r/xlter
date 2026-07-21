@@ -13,7 +13,9 @@ import {
   BarChart,
   LayoutGrid,
   FileEdit,
-  Clock
+  Clock,
+  Edit3,
+  Filter
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -41,11 +43,14 @@ interface Category {
   name: string;
 }
 
+type FilterTab = "ALL" | "PUBLISHED" | "DRAFT";
+
 export default function AdminBlogPage() {
   const router = useRouter();
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<FilterTab>("ALL");
   const [toast, setToast] = useState<{ type: "success" | "error"; msg: string } | null>(null);
 
   const showToast = (type: "success" | "error", msg: string) => {
@@ -74,14 +79,30 @@ export default function AdminBlogPage() {
 
   useEffect(() => { fetchData(); }, []);
 
-  const openSanity = () => {
-    router.push("/studio");
+  const openSanity = () => router.push("/studio");
+
+  // Get Sanity Studio edit URL for a post
+  const getSanityEditUrl = (sanityId: string) => {
+    // Strip 'drafts.' prefix for the Sanity Studio intent URL
+    const cleanId = sanityId.replace("drafts.", "");
+    return `/studio/intent/edit/id=${cleanId};type=post`;
   };
 
   const totalPosts = blogs.length;
   const draftPosts = blogs.filter(b => b.status === "DRAFT").length;
   const publishedPosts = blogs.filter(b => b.status === "PUBLISHED").length;
   const totalCategories = categories.length;
+
+  const filteredBlogs = blogs.filter(b => {
+    if (filter === "ALL") return true;
+    return b.status === filter;
+  });
+
+  const tabs: { label: string; value: FilterTab; count: number }[] = [
+    { label: "All Posts", value: "ALL", count: totalPosts },
+    { label: "Published", value: "PUBLISHED", count: publishedPosts },
+    { label: "Drafts", value: "DRAFT", count: draftPosts },
+  ];
 
   return (
     <>
@@ -153,12 +174,39 @@ export default function AdminBlogPage() {
         </Link>
       </div>
 
-      {/* Recent Posts Table */}
+      {/* Filter Tabs */}
+      <div className="flex items-center gap-2 mb-6 p-1.5 bg-white/[0.03] border border-white/10 rounded-2xl w-fit">
+        {tabs.map(tab => (
+          <button
+            key={tab.value}
+            onClick={() => setFilter(tab.value)}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${
+              filter === tab.value
+                ? "bg-purple-600 text-white shadow-lg"
+                : "text-gray-500 hover:text-white"
+            }`}
+          >
+            {tab.label}
+            <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
+              filter === tab.value ? "bg-white/20 text-white" : "bg-white/5 text-gray-600"
+            }`}>
+              {loading ? "…" : tab.count}
+            </span>
+          </button>
+        ))}
+        <Filter className="w-3.5 h-3.5 text-gray-700 ml-2" />
+      </div>
+
+      {/* Posts Table */}
       <div className="bg-[#020617]/50 backdrop-blur-xl border border-white/10 rounded-[24px] overflow-hidden shadow-2xl">
-        <div className="p-6 border-b border-white/5">
+        <div className="p-6 border-b border-white/5 flex items-center justify-between">
           <h2 className="text-base font-bold text-white uppercase tracking-widest flex items-center gap-2">
-            <BarChart className="w-4 h-4 text-primary" /> Recent Posts
+            <BarChart className="w-4 h-4 text-primary" />
+            {filter === "ALL" ? "All Posts" : filter === "DRAFT" ? "Draft Posts" : "Published Posts"}
           </h2>
+          <span className="text-xs text-gray-600 font-bold">
+            {loading ? "…" : `${filteredBlogs.length} ${filteredBlogs.length === 1 ? "post" : "posts"}`}
+          </span>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm text-gray-400">
@@ -169,28 +217,47 @@ export default function AdminBlogPage() {
                 <th className="px-6 py-4">Author</th>
                 <th className="px-6 py-4">Publish Date</th>
                 <th className="px-6 py-4">Last Updated</th>
+                <th className="px-6 py-4">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center">
+                  <td colSpan={6} className="px-6 py-12 text-center">
                     <Loader2 className="w-6 h-6 animate-spin text-primary mx-auto" />
                   </td>
                 </tr>
-              ) : blogs.length === 0 ? (
+              ) : filteredBlogs.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-gray-500 font-medium">
-                    No blogs found. Head over to Sanity Studio to create one.
+                  <td colSpan={6} className="px-6 py-12 text-center">
+                    <div className="flex flex-col items-center gap-3 text-gray-600">
+                      <FileEdit className="w-8 h-8 opacity-30" />
+                      <p className="font-medium text-sm">
+                        {filter === "DRAFT" ? "No draft posts found." : filter === "PUBLISHED" ? "No published posts yet." : "No blog posts found."}
+                      </p>
+                      <p className="text-xs text-gray-700">Use Sanity Studio to create and manage content.</p>
+                    </div>
                   </td>
                 </tr>
               ) : (
-                blogs.map(blog => (
+                filteredBlogs.map(blog => (
                   <tr key={blog._id} className="hover:bg-white/[0.02] transition-colors group">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-white/10 bg-black shrink-0">
-                          <Image src={blog.thumbnail || '/placeholder.png'} alt={blog.title} fill className="object-cover" />
+                          {blog.thumbnail ? (
+                            <Image
+                              src={blog.thumbnail}
+                              alt={blog.title}
+                              fill
+                              className="object-cover"
+                              unoptimized
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-gray-700">
+                              <FileText className="w-4 h-4" />
+                            </div>
+                          )}
                         </div>
                         <div className="min-w-0">
                           <p className="text-white font-bold line-clamp-1">{blog.title}</p>
@@ -199,18 +266,48 @@ export default function AdminBlogPage() {
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`text-[10px] font-bold px-2.5 py-1 rounded-md ${blog.status === 'PUBLISHED' ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'}`}>
+                      <span className={`text-[10px] font-bold px-2.5 py-1 rounded-md ${
+                        blog.status === "PUBLISHED"
+                          ? "bg-green-500/10 text-green-400 border border-green-500/20"
+                          : "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
+                      }`}>
                         {blog.status}
                       </span>
                     </td>
                     <td className="px-6 py-4 font-medium whitespace-nowrap">{blog.author || "Unknown"}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {new Date(blog.publishDate || blog.createdAt).toLocaleDateString()}
+                      {blog.publishDate
+                        ? new Date(blog.publishDate).toLocaleDateString()
+                        : <span className="text-gray-600 text-xs italic">Not published</span>
+                      }
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-1.5 text-gray-500">
                         <Clock className="w-3.5 h-3.5" />
                         {new Date(blog.updatedAt || blog.createdAt).toLocaleDateString()}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <a
+                          href={getSanityEditUrl(blog._id)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="Edit in Sanity"
+                          className="p-1.5 rounded-lg text-gray-500 hover:text-purple-400 hover:bg-purple-500/10 transition-all"
+                        >
+                          <Edit3 className="w-4 h-4" />
+                        </a>
+                        {blog.status === "PUBLISHED" && blog.slug && (
+                          <Link
+                            href={`/blog/${blog.slug}`}
+                            target="_blank"
+                            title="View live"
+                            className="p-1.5 rounded-lg text-gray-500 hover:text-green-400 hover:bg-green-500/10 transition-all"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                          </Link>
+                        )}
                       </div>
                     </td>
                   </tr>

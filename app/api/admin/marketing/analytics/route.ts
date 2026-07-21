@@ -4,6 +4,8 @@ import Analytics from "@/models/Analytics";
 import Lead from "@/models/Lead";
 import { getCurrentAdmin } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: NextRequest) {
     try {
         const admin = await getCurrentAdmin();
@@ -11,60 +13,100 @@ export async function GET(request: NextRequest) {
 
         await connectToDatabase();
 
-        // In a real app, you'd aggregate data based on date ranges
-        // Here we'll provide a sophisticated summary of current data
-        const totalVisitors = await Analytics.countDocuments();
-        const totalLeads = await Lead.countDocuments();
+        const totalVisitors = await Analytics.countDocuments().catch(() => 0);
+        const totalLeads = await Lead.countDocuments().catch(() => 0);
         const conversionRate = totalVisitors > 0 ? ((totalLeads / totalVisitors) * 100).toFixed(1) : "0";
-        
-        // Sample daily traffic aggregation
-        const dailyTraffic = [
-            { label: "Mon", value: 450 },
-            { label: "Tue", value: 520 },
-            { label: "Wed", value: 380 },
-            { label: "Thu", value: 640 },
-            { label: "Fri", value: 710 },
-            { label: "Sat", value: 490 },
-            { label: "Sun", value: 320 },
-        ];
 
-        // Sample source aggregation
-        const sources = [
-            { name: "Google Search", percent: 45 },
-            { name: "Direct Traffic", percent: 25 },
-            { name: "Social Media", percent: 20 },
-            { name: "Referral", percent: 10 },
-        ];
+        // Real daily traffic from Analytics grouped by day of week
+        const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        const dailyAgg = await Analytics.aggregate([
+            {
+                $group: {
+                    _id: { $dayOfWeek: "$createdAt" }, // 1=Sun...7=Sat
+                    count: { $sum: 1 },
+                },
+            },
+        ]).catch(() => []);
 
-        // Sample top pages
-        const topPages = [
-            { path: "/", views: 1240, visitors: 980, avgTime: "1m 24s", conversions: 12 },
-            { path: "/services", views: 850, visitors: 620, avgTime: "2m 10s", conversions: 8 },
-            { path: "/blog/future-of-ai", views: 540, visitors: 410, avgTime: "3m 45s", conversions: 3 },
-            { path: "/contact", views: 320, visitors: 280, avgTime: "0m 55s", conversions: 15 },
-        ];
-
-        // Fetch recent leads for activity feed
-        const recentLeadsRaw = await Lead.find().sort({ createdAt: -1 }).limit(5);
-        const recentLeads = recentLeadsRaw.map(l => ({
-            name: l.name,
-            source: l.source,
-            timeAgo: "Just now" // Simplified for now
+        const dailyCounts: Record<number, number> = {};
+        for (const row of dailyAgg) {
+            dailyCounts[row._id] = row.count; // 1-indexed (1=Sun)
+        }
+        const dailyTraffic = DAY_LABELS.map((label, i) => ({
+            label,
+            value: dailyCounts[i + 1] ?? 0, // i+1 maps to MongoDB's 1-indexed dayOfWeek
         }));
 
-        return NextResponse.json({ 
-            success: true, 
+        // Real traffic sources from Analytics.referrer field
+        const sourceAgg = await Analytics.aggregate([
+            { $group: { _id: "$referrer", count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+            { $limit: 6 },
+        ]).catch(() => []);
+
+        const totalSourceCount = sourceAgg.reduce((a: number, b: any) => a + b.count, 0);
+        const sources = sourceAgg.map((s: any) => ({
+            name: s._id || "Direct",
+            percent: totalSourceCount > 0 ? Math.round((s.count / totalSourceCount) * 100) : 0,
+        }));
+
+        // Real top pages from Analytics.path field
+        const topPagesAgg = await Analytics.aggregate([
+            { $group: { _id: "$path", views: { $sum: 1 } } },
+            { $sort: { views: -1 } },
+            { $limit: 5 },
+        ]).catch(() => []);
+
+        const topPages = topPagesAgg.map((p: any) => ({
+            path: p._id || "/",
+            views: p.views,
+            visitors: p.views, // analytics doesn't separate unique visitors per page
+            avgTime: "—",
+            conversions: 0,
+        }));
+
+        // Real device breakdown
+        const deviceAgg = await Analytics.aggregate([
+            { $group: { _id: "$device", count: { $sum: 1 } } },
+        ]).catch(() => []);
+
+        const totalDevices = deviceAgg.reduce((a: number, b: any) => a + b.count, 0);
+        let desktopPct = 0, mobilePct = 0;
+        for (const d of deviceAgg) {
+            const pct = totalDevices > 0 ? Math.round((d.count / totalDevices) * 100) : 0;
+            if ((d._id || "").toLowerCase().includes("mobile")) mobilePct = pct;
+            else desktopPct += pct;
+        }
+        if (totalDevices > 0 && desktopPct + mobilePct < 100) desktopPct += 100 - desktopPct - mobilePct;
+
+        // Recent leads for activity feed
+        const recentLeadsRaw = await Lead.find().sort({ createdAt: -1 }).limit(5).catch(() => []);
+        const recentLeads = recentLeadsRaw.map((l: any) => ({
+            name: l.name,
+            source: l.source || "Direct",
+            timeAgo: (() => {
+                const diff = Date.now() - new Date(l.createdAt).getTime();
+                const mins = Math.floor(diff / 60000);
+                if (mins < 60) return `${mins}m ago`;
+                const hrs = Math.floor(mins / 60);
+                if (hrs < 24) return `${hrs}h ago`;
+                return `${Math.floor(hrs / 24)}d ago`;
+            })(),
+        }));
+
+        return NextResponse.json({
+            success: true,
             data: {
                 totalVisitors,
                 totalLeads,
                 conversionRate,
-                bounceRate: "42.5",
+                bounceRate: "N/A",
                 dailyTraffic,
-                sources,
-                devices: { desktop: 65, mobile: 35 },
+                sources: sources.length > 0 ? sources : [{ name: "No data yet", percent: 100 }],
+                devices: { desktop: desktopPct || 100, mobile: mobilePct || 0 },
                 topPages,
-                recentLeads
-            }
+                recentLeads,
+            },
         });
     } catch (error) {
         return NextResponse.json({ success: false, error: "Server error" }, { status: 500 });

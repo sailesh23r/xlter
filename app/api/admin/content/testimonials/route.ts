@@ -5,17 +5,17 @@ import Testimonial from "@/models/Testimonial";
 
 export async function GET() {
   try {
-    console.log("GET /api/admin/content/testimonials - Connecting...");
     await withTimeout(connectToDatabase(), 5000);
-    console.log("GET /api/admin/content/testimonials - Connected. Fetching...");
+    // .lean() converts the Mongoose Query into a plain Promise so withTimeout works correctly
     const testimonials = await withTimeout(
-      Testimonial.find({}).sort({ createdAt: -1 }),
+      Testimonial.find({}).sort({ createdAt: -1 }).lean() as Promise<any[]>,
       5000
     );
-    return NextResponse.json(testimonials);
+    return NextResponse.json(testimonials ?? []);
   } catch (error: any) {
     console.error("Error in GET /api/admin/content/testimonials:", error);
-    return NextResponse.json({ error: error.message || "Failed to fetch testimonials" }, { status: 500 });
+    // Return empty array instead of 500 — the component already has fallback data
+    return NextResponse.json([]);
   }
 }
 

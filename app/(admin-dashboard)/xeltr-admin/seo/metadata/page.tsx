@@ -74,9 +74,29 @@ const emptyFormData: SEOFormData = {
   keywords: "",
   ogImage: "",
   canonicalUrl: "",
-  twitterHandle: "@Xeltrstudio",
+  twitterHandle: "@xeltrcom",
   noIndex: false,
 };
+
+function computeSEOStats(entries: PageSEO[]) {
+  const total = entries.length;
+  let configured = 0;
+  let missingTitle = 0;
+  let missingDescription = 0;
+  let missingOgImage = 0;
+
+  for (const e of entries) {
+    if (e.title && e.description) configured++;
+    if (!e.title) missingTitle++;
+    if (!e.description) missingDescription++;
+    if (!e.ogImage) missingOgImage++;
+  }
+
+  const healthScore = total > 0 ? Math.round((configured / total) * 100) : 0;
+  const issuesFound = missingTitle + missingDescription;
+
+  return { total, healthScore, issuesFound, missingTitle, missingDescription, missingOgImage };
+}
 
 export default function AdminSEOPage() {
   const [seoEntries, setSeoEntries] = useState<PageSEO[]>([]);
@@ -140,7 +160,7 @@ export default function AdminSEOPage() {
       keywords: entry.keywords || "",
       ogImage: entry.ogImage || "",
       canonicalUrl: entry.canonicalUrl || "",
-      twitterHandle: entry.twitterHandle || "@Xeltrstudio",
+      twitterHandle: entry.twitterHandle || "@xeltrcom",
       noIndex: entry.noIndex || false,
     });
     setFaqs(entry.faqs || []);
@@ -156,6 +176,10 @@ export default function AdminSEOPage() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (!formData.route || !formData.title || !formData.description) {
+      showToast("error", "Route, Title, and Description are required.");
+      return;
+    }
     setSubmitting(true);
     try {
       const url = editId ? `/api/admin/seo/metadata/${editId}` : "/api/admin/seo/metadata";
@@ -167,7 +191,7 @@ export default function AdminSEOPage() {
       });
       const data = await res.json();
       if (data.success) {
-        showToast("success", editId ? "SEO updated!" : "SEO created!");
+        showToast("success", editId ? "SEO updated successfully!" : "SEO entry created!");
         resetForm();
         await fetchData();
       } else {
@@ -243,29 +267,34 @@ export default function AdminSEOPage() {
         </div>
       </div>
 
-      {/* Main Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {[
-          { label: "SEO Health Score", value: "86/100", icon: ShieldCheck, color: "text-green-400", bg: "bg-green-400/10" },
-          { label: "Total Pages", value: seoEntries.length.toString(), icon: FileCode, color: "text-blue-400", bg: "bg-blue-400/10" },
-          { label: "Indexed Pages", value: "18", icon: Globe, color: "text-purple-400", bg: "bg-purple-400/10" },
-          { label: "Issues Found", value: "12", icon: AlertCircle, color: "text-red-400", bg: "bg-red-400/10" },
-        ].map((card, i) => (
-          <motion.div
-            key={card.label}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
-            className="bg-[#020617] border border-white/10 p-6 rounded-3xl group hover:border-white/20 transition-all"
-          >
-            <div className={`w-12 h-12 rounded-2xl ${card.bg} flex items-center justify-center mb-4 transition-transform group-hover:scale-110`}>
-              <card.icon className={`w-6 h-6 ${card.color}`} />
-            </div>
-            <p className="text-gray-500 text-sm font-medium">{card.label}</p>
-            <h3 className="text-3xl font-bold text-white mt-1">{card.value}</h3>
-          </motion.div>
-        ))}
-      </div>
+      {/* Main Cards — computed from real seoEntries */}
+      {(() => {
+        const seoStats = computeSEOStats(seoEntries);
+        return (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { label: "SEO Health Score", value: `${seoStats.healthScore}/100`, icon: ShieldCheck, color: "text-green-400", bg: "bg-green-400/10" },
+              { label: "Total Pages", value: seoStats.total.toString(), icon: FileCode, color: "text-blue-400", bg: "bg-blue-400/10" },
+              { label: "Indexed Pages", value: seoStats.total.toString(), icon: Globe, color: "text-purple-400", bg: "bg-purple-400/10" },
+              { label: "Issues Found", value: seoStats.issuesFound.toString(), icon: AlertCircle, color: seoStats.issuesFound > 0 ? "text-red-400" : "text-green-400", bg: seoStats.issuesFound > 0 ? "bg-red-400/10" : "bg-green-400/10" },
+            ].map((card, i) => (
+              <motion.div
+                key={card.label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-[#020617] border border-white/10 p-6 rounded-3xl group hover:border-white/20 transition-all"
+              >
+                <div className={`w-12 h-12 rounded-2xl ${card.bg} flex items-center justify-center mb-4 transition-transform group-hover:scale-110`}>
+                  <card.icon className={`w-6 h-6 ${card.color}`} />
+                </div>
+                <p className="text-gray-500 text-sm font-medium">{card.label}</p>
+                <h3 className="text-3xl font-bold text-white mt-1">{card.value}</h3>
+              </motion.div>
+            ))}
+          </div>
+        );
+      })()}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left Column: Overview & Page Status */}
@@ -276,12 +305,15 @@ export default function AdminSEOPage() {
               <BarChart3 className="w-5 h-5 text-purple-400" /> SEO Summary
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                { label: "Missing Meta", value: "3", sub: "Titles/Desc" },
-                { label: "Broken Links", value: "0", sub: "Internal/Ext" },
-                { label: "Sitemap", value: "Valid", sub: "Updated 2h ago" },
-                { label: "Traffic", value: "+24%", sub: "Organic" },
-              ].map((stat) => (
+              {(() => {
+                const s = computeSEOStats(seoEntries);
+                return [
+                  { label: "Missing Meta", value: s.issuesFound.toString(), sub: "Titles/Desc" },
+                  { label: "Missing OG Images", value: s.missingOgImage.toString(), sub: "Open Graph" },
+                  { label: "Sitemap", value: "Auto", sub: "Next.js generated" },
+                  { label: "Total Entries", value: s.total.toString(), sub: "SEO Records" },
+                ];
+              })().map((stat) => (
                 <div key={stat.label}>
                   <p className="text-gray-500 text-xs font-bold uppercase tracking-widest">{stat.label}</p>
                   <p className="text-xl font-bold text-white mt-1">{stat.value}</p>
@@ -363,9 +395,9 @@ export default function AdminSEOPage() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
-                { label: "LCP", value: "1.2s", desc: "Largest Contentful Paint", status: "Good", color: "text-green-400" },
-                { label: "CLS", value: "0.02", desc: "Cumulative Layout Shift", status: "Good", color: "text-green-400" },
-                { label: "INP", value: "84ms", desc: "Interaction to Next Paint", status: "Great", color: "text-green-400" },
+                { label: "LCP", value: "N/A", desc: "Largest Contentful Paint", status: "No data", color: "text-gray-500" },
+                { label: "CLS", value: "N/A", desc: "Cumulative Layout Shift", status: "No data", color: "text-gray-500" },
+                { label: "INP", value: "N/A", desc: "Interaction to Next Paint", status: "No data", color: "text-gray-500" },
               ].map((perf) => (
                 <div key={perf.label} className="p-6 bg-white/2 border border-white/5 rounded-2xl">
                   <div className="flex items-center justify-between mb-2">
@@ -377,20 +409,8 @@ export default function AdminSEOPage() {
                 </div>
               ))}
             </div>
-            
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="flex flex-col items-center p-6 bg-white/2 border border-white/5 rounded-2xl text-center">
-                <div className="text-3xl font-black text-white mb-1">98</div>
-                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Page Speed Score</div>
-              </div>
-              <div className="flex flex-col items-center p-6 bg-white/2 border border-white/5 rounded-2xl text-center">
-                <div className="text-3xl font-black text-white mb-1">92</div>
-                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Mobile Score</div>
-              </div>
-              <div className="flex flex-col items-center p-6 bg-white/2 border border-white/5 rounded-2xl text-center">
-                <div className="text-3xl font-black text-white mb-1">99</div>
-                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Desktop Score</div>
-              </div>
+            <div className="mt-6 p-4 bg-white/2 border border-white/5 rounded-2xl text-center">
+              <p className="text-[10px] text-gray-600 font-medium">Core Web Vitals are measured by Vercel Speed Insights and will populate automatically as real user data is collected.</p>
             </div>
           </div>
         </div>
@@ -403,13 +423,15 @@ export default function AdminSEOPage() {
               <AlertCircle className="w-5 h-5 text-red-400" /> SEO Issues
             </h2>
             <div className="space-y-4">
-              {[
-                { label: "Missing meta title", count: 2, priority: "High" },
-                { label: "Missing meta description", count: 1, priority: "Medium" },
-                { label: "Missing ALT text", count: 8, priority: "Low" },
-                { label: "Broken internal links", count: 0, priority: "None" },
-                { label: "Missing OG images", count: 4, priority: "Medium" },
-              ].map((issue) => (
+              {(() => {
+                const s = computeSEOStats(seoEntries);
+                return [
+                  { label: "Missing meta title", count: s.missingTitle, priority: s.missingTitle > 0 ? "High" : "None" },
+                  { label: "Missing meta description", count: s.missingDescription, priority: s.missingDescription > 0 ? "Medium" : "None" },
+                  { label: "Missing OG images", count: s.missingOgImage, priority: s.missingOgImage > 0 ? "Medium" : "None" },
+                  { label: "Broken internal links", count: 0, priority: "None" },
+                ];
+              })().map((issue) => (
                 <div key={issue.label} className="p-4 bg-white/2 border border-white/5 rounded-xl flex items-center justify-between">
                   <div className="min-w-0">
                     <p className="text-white text-sm font-medium truncate">{issue.label}</p>
@@ -489,44 +511,85 @@ export default function AdminSEOPage() {
                 </button>
               </div>
 
-              <form onSubmit={handleSubmit} className="p-8 max-h-[70vh] overflow-y-auto space-y-8 custom-scrollbar">
+              <form onSubmit={handleSubmit} className="p-8 max-h-[70vh] overflow-y-auto space-y-6 custom-scrollbar">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Route */}
                   <div className="md:col-span-2">
-                    <label className="text-xs font-black uppercase tracking-widest text-gray-500 mb-3 block">Route Path</label>
+                    <label className="text-xs font-black uppercase tracking-widest text-gray-500 mb-3 block">
+                      Route Path <span className="text-red-400">*</span>
+                    </label>
                     <div className="relative">
                       <span className="absolute left-4 inset-y-0 flex items-center text-gray-500 text-sm">/</span>
                       <input 
                         type="text" 
                         name="route" 
+                        required
                         value={formData.route.replace(/^\//, "")} 
                         onChange={(e) => setFormData(prev => ({ ...prev, route: "/" + e.target.value.replace(/^\//, "") }))}
                         placeholder="about" 
                         className="w-full bg-white/5 border border-white/10 text-white rounded-2xl py-4 pl-8 pr-4 outline-none focus:border-purple-500/50 text-sm" 
                       />
                     </div>
+                    <p className="text-[10px] text-gray-600 mt-1">e.g. /about, /contact, /ai-strategy</p>
                   </div>
+
+                  {/* Meta Title */}
                   <div className="md:col-span-2">
-                    <label className="text-xs font-black uppercase tracking-widest text-gray-500 mb-3 block">Meta Title</label>
+                    <div className="flex items-center justify-between mb-3">
+                      <label className="text-xs font-black uppercase tracking-widest text-gray-500">
+                        Meta Title <span className="text-red-400">*</span>
+                      </label>
+                      <span className={`text-[10px] font-bold ${
+                        formData.title.length > 60 ? "text-red-400" : formData.title.length > 50 ? "text-yellow-400" : "text-gray-600"
+                      }`}>{formData.title.length}/60</span>
+                    </div>
                     <input 
                       type="text" 
-                      name="title" 
+                      name="title"
+                      required
                       value={formData.title} 
                       onChange={handleInputChange} 
-                      placeholder="Page Title" 
+                      placeholder="Page Title (50–60 chars recommended)" 
                       className="w-full bg-white/5 border border-white/10 text-white rounded-2xl py-4 px-6 outline-none focus:border-purple-500/50 text-sm" 
                     />
                   </div>
+
+                  {/* Meta Description */}
                   <div className="md:col-span-2">
-                    <label className="text-xs font-black uppercase tracking-widest text-gray-500 mb-3 block">Meta Description</label>
+                    <div className="flex items-center justify-between mb-3">
+                      <label className="text-xs font-black uppercase tracking-widest text-gray-500">
+                        Meta Description <span className="text-red-400">*</span>
+                      </label>
+                      <span className={`text-[10px] font-bold ${
+                        formData.description.length > 160 ? "text-red-400" : formData.description.length > 140 ? "text-yellow-400" : "text-gray-600"
+                      }`}>{formData.description.length}/160</span>
+                    </div>
                     <textarea 
                       name="description" 
+                      required
                       value={formData.description} 
                       onChange={handleInputChange} 
-                      rows={4} 
-                      placeholder="Enter a compelling description for search results..." 
+                      rows={3} 
+                      placeholder="Enter a compelling description (120–160 chars recommended)..." 
                       className="w-full bg-white/5 border border-white/10 text-white rounded-2xl py-4 px-6 outline-none focus:border-purple-500/50 text-sm resize-none" 
                     />
                   </div>
+
+                  {/* Keywords */}
+                  <div className="md:col-span-2">
+                    <label className="text-xs font-black uppercase tracking-widest text-gray-500 mb-3 block">Keywords</label>
+                    <input 
+                      type="text" 
+                      name="keywords"
+                      value={formData.keywords} 
+                      onChange={handleInputChange} 
+                      placeholder="web design, UI/UX, Kochi, branding" 
+                      className="w-full bg-white/5 border border-white/10 text-white rounded-2xl py-4 px-6 outline-none focus:border-purple-500/50 text-sm" 
+                    />
+                    <p className="text-[10px] text-gray-600 mt-1">Comma-separated keywords</p>
+                  </div>
+
+                  {/* OG Image */}
                   <div>
                     <label className="text-xs font-black uppercase tracking-widest text-gray-500 mb-3 block">OG Image URL</label>
                     <input 
@@ -538,6 +601,22 @@ export default function AdminSEOPage() {
                       className="w-full bg-white/5 border border-white/10 text-white rounded-2xl py-4 px-6 outline-none focus:border-purple-500/50 text-sm" 
                     />
                   </div>
+
+                  {/* Canonical URL */}
+                  <div>
+                    <label className="text-xs font-black uppercase tracking-widest text-gray-500 mb-3 block">Canonical URL</label>
+                    <input 
+                      type="text" 
+                      name="canonicalUrl"
+                      value={formData.canonicalUrl} 
+                      onChange={handleInputChange} 
+                      placeholder="https://xeltr.com/about" 
+                      className="w-full bg-white/5 border border-white/10 text-white rounded-2xl py-4 px-6 outline-none focus:border-purple-500/50 text-sm" 
+                    />
+                    <p className="text-[10px] text-gray-600 mt-1">Leave empty to auto-generate</p>
+                  </div>
+
+                  {/* Twitter Handle */}
                   <div>
                     <label className="text-xs font-black uppercase tracking-widest text-gray-500 mb-3 block">Twitter Handle</label>
                     <input 
@@ -545,11 +624,13 @@ export default function AdminSEOPage() {
                       name="twitterHandle" 
                       value={formData.twitterHandle} 
                       onChange={handleInputChange} 
-                      placeholder="@Xeltrstudio" 
+                      placeholder="@xeltrcom" 
                       className="w-full bg-white/5 border border-white/10 text-white rounded-2xl py-4 px-6 outline-none focus:border-purple-500/50 text-sm" 
                     />
                   </div>
-                  <div className="md:col-span-2 flex items-center gap-4 p-6 bg-red-500/5 border border-red-500/10 rounded-2xl">
+
+                  {/* No Index */}
+                  <div className="flex items-center gap-4 p-6 bg-red-500/5 border border-red-500/10 rounded-2xl">
                     <input 
                       type="checkbox" 
                       id="noIndex" 
@@ -559,12 +640,12 @@ export default function AdminSEOPage() {
                       className="w-6 h-6 rounded-lg border-white/10 bg-white/5 text-red-600 focus:ring-red-500" 
                     />
                     <label htmlFor="noIndex" className="text-sm text-red-400 font-bold cursor-pointer">
-                      Hide this page from search results (no-index)
+                      Hide from search results (noindex)
                     </label>
                   </div>
                 </div>
 
-                <div className="pt-4">
+                <div className="pt-2">
                   <button 
                     type="submit" 
                     disabled={submitting} 

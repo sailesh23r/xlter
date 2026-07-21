@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { 
     FileText, 
     MessageSquare, 
@@ -10,46 +11,116 @@ import {
     ArrowUpRight, 
     Plus,
     Clock,
-    CheckCircle2,
     Edit3
 } from "lucide-react";
 
-const contentModules = [
-    {
-        title: "Blog Posts",
-        description: "Articles, news, and insights for your audience.",
-        href: "/xeltr-admin/content/blog",
-        count: "12",
-        icon: BookOpen,
-        color: "#a855f7"
-    },
-    {
-        title: "Case Studies",
-        description: "Detailed success stories and project portfolios.",
-        href: "/xeltr-admin/content/casestudy",
-        count: "8",
-        icon: Layers,
-        color: "#3b82f6"
-    },
-    {
-        title: "Testimonials",
-        description: "Client feedback and industry endorsements.",
-        href: "/xeltr-admin/content/testimonials",
-        count: "24",
-        icon: MessageSquare,
-        color: "#06b6d4"
-    },
-    {
-        title: "Pages",
-        description: "Static content pages and site structure.",
-        href: "/xeltr-admin/content/pages",
-        count: "15",
-        icon: FileText,
-        color: "#f59e0b"
-    }
-];
+interface DraftItem {
+    title: string;
+    type: string;
+    updatedAt: string;
+    sanityId?: string;
+}
+
+interface ContentCounts {
+    blogs: number;
+    casestudies: number;
+    testimonials: number;
+    pages: number;
+    drafts: DraftItem[];
+    loading: boolean;
+}
 
 export default function ContentDashboard() {
+    const [counts, setCounts] = useState<ContentCounts>({
+        blogs: 0, casestudies: 0, testimonials: 0, pages: 0,
+        drafts: [], loading: true,
+    });
+
+    useEffect(() => {
+        const fetchAll = async () => {
+            try {
+                const [blogRes, csRes, testRes, pageRes] = await Promise.all([
+                    fetch("/api/admin/content/blog").catch(() => null),
+                    fetch("/api/admin/content/casestudy").catch(() => null),
+                    fetch("/api/admin/content/testimonials").catch(() => null),
+                    fetch("/api/admin/content/pages").catch(() => null),
+                ]);
+
+                const blogData = blogRes?.ok ? await blogRes.json().catch(() => null) : null;
+                const csData = csRes?.ok ? await csRes.json().catch(() => null) : null;
+                const testData = testRes?.ok ? await testRes.json().catch(() => null) : null;
+                const pageData = pageRes?.ok ? await pageRes.json().catch(() => null) : null;
+
+                const blogs: any[] = blogData?.blogs ?? [];
+                const draftBlogs: DraftItem[] = blogs
+                    .filter((b: any) => b.status === "DRAFT")
+                    .slice(0, 5)
+                    .map((b: any) => ({
+                        title: b.title,
+                        type: "Blog",
+                        updatedAt: b.updatedAt || b.createdAt,
+                        sanityId: b._id,
+                    }));
+
+                setCounts({
+                    blogs: blogs.length,
+                    casestudies: csData?.casestudies?.length ?? 0,
+                    testimonials: Array.isArray(testData) ? testData.length : (testData?.length ?? 0),
+                    pages: pageData?.pages?.length ?? 0,
+                    drafts: draftBlogs,
+                    loading: false,
+                });
+            } catch {
+                setCounts(prev => ({ ...prev, loading: false }));
+            }
+        };
+        fetchAll();
+    }, []);
+
+    const formatTimeAgo = (dateStr: string) => {
+        const diff = Date.now() - new Date(dateStr).getTime();
+        const mins = Math.floor(diff / 60000);
+        if (mins < 60) return `${mins}m ago`;
+        const hrs = Math.floor(mins / 60);
+        if (hrs < 24) return `${hrs}h ago`;
+        return `${Math.floor(hrs / 24)}d ago`;
+    };
+
+    const contentModules = [
+        {
+            title: "Blog Posts",
+            description: "Articles, news, and insights for your audience.",
+            href: "/xeltr-admin/content/blog",
+            count: counts.loading ? "…" : counts.blogs.toString(),
+            icon: BookOpen,
+            color: "#a855f7"
+        },
+        {
+            title: "Case Studies",
+            description: "Detailed success stories and project portfolios.",
+            href: "/xeltr-admin/content/casestudy",
+            count: counts.loading ? "…" : counts.casestudies.toString(),
+            icon: Layers,
+            color: "#3b82f6"
+        },
+        {
+            title: "Testimonials",
+            description: "Client feedback and industry endorsements.",
+            href: "/xeltr-admin/content/testimonials",
+            count: counts.loading ? "…" : counts.testimonials.toString(),
+            icon: MessageSquare,
+            color: "#06b6d4"
+        },
+        {
+            title: "Pages",
+            description: "Static content pages and site structure.",
+            href: "/xeltr-admin/content/pages",
+            count: counts.loading ? "…" : counts.pages.toString(),
+            icon: FileText,
+            color: "#f59e0b"
+        }
+    ];
+
     return (
         <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -64,12 +135,13 @@ export default function ContentDashboard() {
                     <p className="text-gray-500 mt-2 text-lg">Manage your brand's narrative and digital assets.</p>
                 </div>
                 <div className="flex gap-3">
-                    <button className="px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-gray-400 text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:bg-white/10 transition-all">
-                        Media Library
-                    </button>
-                    <button className="px-6 py-3 rounded-2xl bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:bg-purple-500/20 transition-all">
+                    <Link
+                        href="/studio"
+                        target="_blank"
+                        className="px-6 py-3 rounded-2xl bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:bg-purple-500/20 transition-all"
+                    >
                         <Plus size={16} /> Create New
-                    </button>
+                    </Link>
                 </div>
             </div>
 
@@ -117,28 +189,35 @@ export default function ContentDashboard() {
                 </div>
 
                 <div className="space-y-4">
-                    {[
-                        { title: "The Evolution of Digital Twins", type: "Blog", date: "2 hours ago", status: "Draft" },
-                        { title: "Metaverse Branding Strategy", type: "Blog", date: "5 hours ago", status: "Review" },
-                        { title: "Global Logistics Case Study", type: "Portfolio", date: "1 day ago", status: "Draft" },
-                    ].map((item, i) => (
-                        <div key={i} className="flex items-center justify-between p-5 rounded-2xl bg-white/5 border border-white/10 hover:border-blue-500/30 transition-all group">
-                            <div className="flex items-center gap-5">
-                                <div className="w-10 h-10 rounded-xl bg-gray-800 flex items-center justify-center">
-                                    <Edit3 size={16} className="text-gray-500" />
-                                </div>
-                                <div>
-                                    <p className="text-sm font-bold text-white group-hover:text-blue-400 transition-colors">{item.title}</p>
-                                    <p className="text-[10px] text-gray-600 font-bold uppercase tracking-widest mt-1">{item.type} • Last edited {item.date}</p>
-                                </div>
-                            </div>
-                            <span className="text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full bg-white/5 text-gray-500">
-                                {item.status}
-                            </span>
+                    {counts.loading ? (
+                        <div className="text-center py-8 text-gray-600 text-sm">Loading drafts…</div>
+                    ) : counts.drafts.length === 0 ? (
+                        <div className="text-center py-8 text-gray-700 text-sm font-medium">
+                            No draft posts. All content is published or create new in Sanity Studio.
                         </div>
-                    ))}
+                    ) : (
+                        counts.drafts.map((item, i) => (
+                            <div key={i} className="flex items-center justify-between p-5 rounded-2xl bg-white/5 border border-white/10 hover:border-blue-500/30 transition-all group">
+                                <div className="flex items-center gap-5 min-w-0">
+                                    <div className="w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center shrink-0">
+                                        <Edit3 size={16} className="text-yellow-400" />
+                                    </div>
+                                    <div className="min-w-0">
+                                        <p className="text-sm font-bold text-white group-hover:text-blue-400 transition-colors truncate">{item.title}</p>
+                                        <p className="text-[10px] text-gray-600 font-bold uppercase tracking-widest mt-1">
+                                            {item.type} • Last edited {formatTimeAgo(item.updatedAt)}
+                                        </p>
+                                    </div>
+                                </div>
+                                <span className="text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 shrink-0">
+                                    Draft
+                                </span>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
         </motion.div>
     );
 }
+

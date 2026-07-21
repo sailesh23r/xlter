@@ -12,10 +12,10 @@ export async function GET() {
     await withTimeout(connectToDatabase(), 5000);
     console.log("GET /api/admin/content/casestudy - Connected. Fetching...");
     const casestudies = await withTimeout(
-      CaseStudy.find({}).sort({ createdAt: -1 }),
+      CaseStudy.find({}).sort({ createdAt: -1 }).lean() as Promise<any[]>,
       5000
     );
-    return NextResponse.json({ success: true, casestudies });
+    return NextResponse.json({ success: true, casestudies: casestudies ?? [] });
   } catch (error: any) {
     console.error("Error fetching case studies:", error);
     return NextResponse.json(

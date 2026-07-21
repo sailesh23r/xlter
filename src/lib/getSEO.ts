@@ -4,20 +4,20 @@ import { Metadata } from "next";
 
 export async function getPageMetadata(route: string): Promise<Metadata | null> {
   try {
-    await withTimeout(connectToDatabase(), 1500);
+    await withTimeout(connectToDatabase(), 4000);
     const seo = await withTimeout(
       PageSEO.findOne({ route: route.toLowerCase() }).lean() as Promise<any>,
-      1500
+      4000
     );
     if (!seo) return null;
 
     return {
-      title: `${seo.title} | Xlter Studio`,
+      title: `${seo.title} | Xeltr Studio`,
       description: seo.description,
       keywords: seo.keywords,
       robots: seo.noIndex ? "noindex, nofollow" : "index, follow",
       alternates: {
-        canonical: seo.canonicalUrl || `https://xlter.com${route}`,
+        canonical: seo.canonicalUrl || `https://xeltr.com${route}`,
       },
       openGraph: {
         title: seo.title,

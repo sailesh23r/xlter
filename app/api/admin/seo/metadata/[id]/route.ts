@@ -18,10 +18,17 @@ export async function PUT(
     const { id } = await params;
     const body = await request.json();
 
+    // Strip _id so MongoDB doesn't complain about updating an immutable field
+    const { _id, ...updateFields } = body;
+
     const oldSeo = await PageSEO.findById(id);
     if (!oldSeo) return NextResponse.json({ success: false, error: "Not found" }, { status: 404 });
 
-    const seo = await PageSEO.findByIdAndUpdate(id, body, { new: true });
+    const seo = await PageSEO.findByIdAndUpdate(
+      id,
+      { $set: updateFields },
+      { new: true, runValidators: true }
+    );
     
     await logActivity(
         currentAdmin,
@@ -34,6 +41,10 @@ export async function PUT(
 
     return NextResponse.json({ success: true, seo });
   } catch (error: any) {
+    // Handle MongoDB duplicate key error (route already exists)
+    if (error.code === 11000) {
+      return NextResponse.json({ success: false, error: "A SEO entry with this route already exists." }, { status: 409 });
+    }
     return NextResponse.json({ success: false, error: error.message || "Failed to update SEO entry" }, { status: 500 });
   }
 }

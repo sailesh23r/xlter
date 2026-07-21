@@ -11,8 +11,8 @@ import { urlFor } from "@/sanity/lib/image";
 // GET /api/blogs — fetch all blogs sorted by newest first
 export async function GET() {
   try {
-    console.log("GET /api/admin/content/blog - Fetching from Sanity...");
-    const query = `*[_type == "post" && defined(slug.current)] | order(publishedAt desc, _createdAt desc) {
+    // Fetch both published posts and drafts from Sanity
+    const query = `*[_type == "post" && defined(slug.current)] | order(_createdAt desc) {
       _id,
       title,
       slug,
@@ -21,6 +21,7 @@ export async function GET() {
       publishedAt,
       _createdAt,
       _updatedAt,
+      "isDraft": _id in path("drafts.**"),
       author->{name, image},
       categories[]->{title, slug}
     }`;
@@ -38,7 +39,8 @@ export async function GET() {
       createdAt: blog._createdAt || new Date().toISOString(),
       updatedAt: blog._updatedAt || blog._createdAt || new Date().toISOString(),
       author: blog.author?.name || "Xeltr Studio",
-      status: blog._id.startsWith('drafts.') ? 'DRAFT' : 'PUBLISHED',
+      // A post is DRAFT if: _id starts with 'drafts.' OR has no publishedAt date
+      status: (blog.isDraft || !blog.publishedAt) ? "DRAFT" : "PUBLISHED",
       featured: false
     }));
 

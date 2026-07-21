@@ -39,6 +39,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, seo }, { status: 201 });
   } catch (error: any) {
+    if (error.code === 11000) {
+      return NextResponse.json({ success: false, error: "A SEO entry for this route already exists. Use Edit to update it." }, { status: 409 });
+    }
     return NextResponse.json({ success: false, error: error.message || "Failed to create SEO entry" }, { status: 500 });
   }
 }

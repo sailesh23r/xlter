@@ -86,7 +86,27 @@ export default function Hero({ data }: HeroProps) {
     // Use dynamic data with fallbacks
     const heroLabel = data?.heroLabel || "Digital Excellence Studio";
     const h1 = data?.h1 || "EVERYTHING DIGITAL. DONE RIGHT.";
+    const highlightedWord = data?.highlightedWord || "DONE RIGHT.";
     const description = data?.description || "We craft compelling digital solutions—from high-performance websites to branding and AI-driven experiences.";
+
+    // Split H1 to style the highlighted word
+    const renderH1 = () => {
+        if (!h1 || !highlightedWord) return h1;
+        
+        // Case insensitive split
+        const parts = h1.split(new RegExp(`(${highlightedWord})`, 'gi'));
+        
+        return parts.map((part, index) => {
+            if (part.toLowerCase() === highlightedWord.toLowerCase()) {
+                return (
+                    <span key={index} className="text-primary">
+                        {part}
+                    </span>
+                );
+            }
+            return <span key={index}>{part}</span>;
+        });
+    };
 
     return (
         <motion.section
@@ -130,11 +150,7 @@ export default function Hero({ data }: HeroProps) {
                     style={{ translateZ: "100px" }}
                 >
                     <span className="block">
-                        EVERYTHING DIGITAL.
-                    </span>
-
-                    <span className="text-primary">
-                        DONE RIGHT.
+                        {renderH1()}
                     </span>
                 </motion.h1>
 
