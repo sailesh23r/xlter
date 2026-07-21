@@ -15,11 +15,13 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -30,21 +32,29 @@ export const metadata: Metadata = {
   },
 };
 
-export const dynamic = "force-dynamic";
+import { unstable_cache } from "next/cache";
 
-async function getInjectedScripts() {
-  try {
-    // Parallelize connection and fetching with a strict timeout
-    await withTimeout(connectToDatabase(), 5000);
-    return await withTimeout(
-      ScriptInjection.find({ enabled: true }).lean() as Promise<any[]>,
-      5000
-    );
-  } catch (error) {
-    console.error("Layout data fetch failed:", error);
-    return [];
-  }
-}
+const getInjectedScripts = unstable_cache(
+  async () => {
+    try {
+      await withTimeout(connectToDatabase(), 5000);
+      const scripts = await withTimeout(
+        ScriptInjection.find({ enabled: true }).lean(),
+        5000
+      );
+      // Serialize ObjectIds to strings to avoid passing complex objects
+      return (scripts as any[]).map(s => ({
+        ...s,
+        _id: s._id.toString()
+      }));
+    } catch (error) {
+      console.error("Layout data fetch failed:", error);
+      return [];
+    }
+  },
+  ["injected-scripts"],
+  { revalidate: 60 }
+);
 
 export default async function RootLayout({
   children,
@@ -86,15 +96,15 @@ export default async function RootLayout({
         />
         {headScripts.map((s: any) => (
           <script
-            key={s._id.toString()}
-            id={`head-script-${s._id.toString()}`}
+            key={s._id}
+            id={`head-script-${s._id}`}
             dangerouslySetInnerHTML={{ 
               __html: s.content.replace(/<\/?script[^>]*>/gi, '') 
             }}
           />
         ))}
       </head>
-      <body className="min-h-screen overflow-x-hidden bg-background text-foreground selection:bg-primary/30" suppressHydrationWarning>
+      <body className="min-h-screen bg-background text-foreground selection:bg-primary/30" suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -102,7 +112,9 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Preloader />
-          <MatchingCursor />
+          <div className="hidden lg:block">
+            <MatchingCursor />
+          </div>
           <Toaster position="top-center" richColors />
           
           <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
@@ -110,18 +122,19 @@ export default async function RootLayout({
           </div>
 
           <ConditionalLayout>
-            <Suspense fallback={<div className="min-h-screen bg-background" />}>
+            <Suspense>
               {children}
             </Suspense>
           </ConditionalLayout>
           
           {/* Inject body scripts */}
           {bodyScripts.map((s: any) => (
-            <div 
-              key={s._id.toString()} 
-              id={`body-script-${s._id.toString()}`}
-              dangerouslySetInnerHTML={{ __html: s.content }} 
-              style={{ display: 'none' }}
+            <script
+              key={s._id}
+              id={`body-script-${s._id}`}
+              dangerouslySetInnerHTML={{
+                __html: s.content.replace(/<\/?script[^>]*>/gi, '')
+              }}
             />
           ))}
           <SpeedInsights />

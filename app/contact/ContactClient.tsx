@@ -175,7 +175,7 @@ export default function ContactClient() {
                 </section>
 
                 <section id="contact-form" className="max-w-7xl mx-auto px-6">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+                    <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12 items-start">
 
                         {/* Left Side: Contact Information */}
                         <div className="space-y-12">
@@ -271,7 +271,7 @@ export default function ContactClient() {
                             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                             <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/10 transition-colors duration-700 pointer-events-none" />
                             
-                            <form className="space-y-6 relative z-10" onSubmit={handleSubmit}>
+                            <form className="w-full min-w-0 space-y-6 relative z-10" onSubmit={handleSubmit}>
                                 <div className="space-y-2">
                                     <label className="text-xs font-bold flex items-center gap-1">
                                         Full Name <span className="text-primary">*</span>
@@ -362,7 +362,7 @@ export default function ContactClient() {
                                             rows={5}
                                             required
                                             placeholder="Tell us about your project..."
-                                            className="w-full bg-background/50 backdrop-blur-sm border border-border/50 rounded-[12px] pl-12 pr-6 py-4 text-sm focus:outline-none focus:border-primary/50 focus:bg-background hover:border-border transition-all duration-300 placeholder:text-muted-foreground/30 resize-none focus:shadow-[0_0_20px_rgba(37,99,235,0.1)]"
+                                            className="w-full min-w-0 min-h-36 bg-background/50 backdrop-blur-sm border border-border/50 rounded-[12px] pl-12 pr-6 py-4 text-sm focus:outline-none focus:border-primary/50 focus:bg-background hover:border-border transition-all duration-300 placeholder:text-muted-foreground/30 resize-y focus:shadow-[0_0_20px_rgba(37,99,235,0.1)]"
                                         ></textarea>
                                     </div>
                                 </div>
@@ -371,7 +371,7 @@ export default function ContactClient() {
                                     <button
                                         type="submit"
                                         disabled={submitting}
-                                        className="w-full bg-primary text-white py-4 rounded-[12px] font-black uppercase tracking-widest text-xs hover:brightness-110 active:scale-[0.98] hover:shadow-[0_10px_30px_rgba(37,99,235,0.3)] transition-all shadow-xl shadow-primary/20 flex items-center justify-center gap-3 group overflow-hidden relative disabled:opacity-70"
+                                        className="w-full sm:w-auto bg-primary text-white py-4 px-8 rounded-[12px] font-black uppercase tracking-widest text-xs hover:brightness-110 active:scale-[0.98] hover:shadow-[0_10px_30px_rgba(37,99,235,0.3)] transition-all shadow-xl shadow-primary/20 flex items-center justify-center gap-3 group overflow-hidden relative disabled:opacity-70"
                                     >
                                         <div className="absolute inset-0 bg-white/10 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
                                         <span className="relative z-10">{submitting ? "Sending..." : "Send Message"}</span>

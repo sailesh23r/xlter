@@ -17,6 +17,13 @@ export default function MatchingCursor() {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        
+        if (!hasFinePointer || reduceMotion || window.innerWidth < 1024) {
+            return;
+        }
+
         setMounted(true);
         const moveCursor = (e: MouseEvent) => {
             cursorX.set(e.clientX);

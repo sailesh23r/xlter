@@ -73,7 +73,7 @@ export default function ContactModal({ isOpen, onClose }: Props) {
     return (
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+                <div className="fixed inset-0 z-[100] overflow-y-auto bg-black/50 p-4 sm:p-6">
 
                     {/* High-End Backdrop Overlay */}
                     <motion.div
@@ -90,15 +90,17 @@ export default function ContactModal({ isOpen, onClose }: Props) {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 100 }}
                         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as any }}
-                        className="relative w-full max-w-4xl bg-card/90 backdrop-blur-xl text-foreground rounded-[24px] p-6 md:p-14 shadow-2xl border border-border/50 overflow-hidden"
+                        className="mx-auto my-4 w-full max-w-4xl overflow-hidden rounded-3xl bg-background shadow-2xl sm:my-8 relative"
                     >
+                      <div className="max-h-[calc(100dvh-2rem)] overflow-y-auto p-5 sm:p-8 lg:p-10 relative">
                         {/* Decorative Background Glow */}
                         <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 blur-[100px] rounded-[24px] pointer-events-none" />
 
                         {/* Close Button */}
                         <button
                             onClick={onClose}
-                            className="absolute top-8 right-8 p-3 rounded-full hover:bg-accent text-muted-foreground hover:text-foreground transition-all active:scale-90"
+                            aria-label="Close contact form"
+                            className="absolute right-4 top-4 z-20 p-3 rounded-full hover:bg-accent text-muted-foreground hover:text-foreground transition-all active:scale-90 bg-background/50 backdrop-blur-md"
                         >
                             <X size={24} />
                         </button>
@@ -125,7 +127,7 @@ export default function ContactModal({ isOpen, onClose }: Props) {
                         </div>
 
                         {/* Form Section */}
-                        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 md:gap-y-10">
+                        <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6 md:grid-cols-2">
 
                             <motion.div
                                 initial={{ opacity: 0, y: 10 }}
@@ -217,6 +219,7 @@ export default function ContactModal({ isOpen, onClose }: Props) {
                                 </button>
                             </motion.div>
                         </form>
+                      </div>
                     </motion.div>
                 </div>
             )}

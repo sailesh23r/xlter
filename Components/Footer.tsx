@@ -4,6 +4,7 @@ import Link from "next/link";
 import Logo from "./Logo";
 import { ArrowUpRight, Mail, Phone, MapPin } from "lucide-react";
 import { FaGithub, FaTwitter, FaLinkedin, FaInstagram, FaFacebook, FaWhatsapp } from "react-icons/fa";
+import Container from "./Common/Container";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -36,11 +37,14 @@ export default function Footer() {
   return (
     <footer className="w-full bg-background border-t border-border transition-colors duration-300 relative overflow-hidden">
       {/* Background Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] max-w-full h-[300px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+      <div 
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 left-1/2 z-0 hidden h-[420px] w-[640px] -translate-x-1/2 rounded-[140px] bg-primary/5 blur-[120px] lg:block"
+      />
 
-      <div className="max-w-7xl 2xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-28 relative z-10">
+      <Container className="relative z-10 py-16 sm:py-20 lg:py-28">
         {/* Middle Section: Links & Info */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16">
 
           {/* Logo & Brief */}
           <div className="lg:col-span-4 md:col-span-1 flex flex-col gap-6">
@@ -157,7 +161,7 @@ export default function Footer() {
             <Link href="#" className="hover:text-primary transition-colors">Terms of Service</Link>
           </div>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

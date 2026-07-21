@@ -116,7 +116,7 @@ export default function Hero({ data }: HeroProps) {
             variants={stagger}
             initial="hidden"
             animate="show"
-            className="relative overflow-hidden min-h-[calc(100vh-90px)] lg:min-h-[calc(100vh-110px)] pt-20 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8 flex items-center justify-center text-center w-full bg-transparent will-change-transform"
+            className="relative overflow-hidden min-h-[620px] pt-28 pb-20 px-4 sm:px-6 lg:px-8 flex items-center justify-center text-center w-full bg-transparent will-change-transform"
             style={{ perspective: "1200px" }}
         >
             <motion.div
@@ -146,7 +146,7 @@ export default function Hero({ data }: HeroProps) {
 
                 <motion.h1
                     variants={fadeUp}
-                    className="mt-6 sm:mt-8 max-w-4xl mx-auto text-[2.6rem] sm:text-5xl md:text-6xl lg:text-[72px] xl:text-[84px] font-black uppercase tracking-tight md:tracking-tighter leading-[0.9]"
+                    className="mt-6 sm:mt-8 mx-auto max-w-6xl text-center text-[clamp(2.5rem,6vw,5.5rem)] font-black uppercase leading-[0.95] tracking-[-0.04em] break-words"
                     style={{ translateZ: "100px" }}
                 >
                     <span className="block">

@@ -7,6 +7,7 @@ import { Menu, X, ChevronDown, Sun, Moon, TerminalSquare, LineChart, MousePointe
 import { useTheme } from "next-themes";
 import ContactModal from "./Contact/ContactModal";
 import ServicesMegaMenu from "./Header/ServicesMegaMenu";
+import Container from "./Common/Container";
 
 const navLinks = [
     { name: "HOME", href: "/" },
@@ -44,8 +45,8 @@ export default function Navbar() {
     };
 
     return (
-        <header className="fixed top-2 lg:top-6 inset-x-0 z-50 flex justify-center px-2 lg:px-4">
-            <div className="relative w-full max-w-6xl">
+        <header className="fixed inset-x-0 top-0 z-50 pt-2 lg:pt-6">
+            <Container className="relative">
                 <div className="w-full flex items-center justify-between px-3 lg:px-8 h-14 lg:h-16 bg-background/90 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl transition-all duration-300">
 
                     {/* Logo */}
@@ -198,7 +199,7 @@ export default function Navbar() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </Container>
 
             <ServicesMegaMenu
                 isOpen={isServiceOpen}

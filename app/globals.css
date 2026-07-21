@@ -72,32 +72,34 @@
   --font-mono: var(--font-geist-mono);
 }
 
-html,
-body {
+html {
   width: 100%;
-  max-width: 100%;
   min-height: 100%;
-  overflow-x: hidden;
-
+  overflow-x: clip;
   scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
-
-  overflow-x: hidden;
-
-  text-rendering: optimizeSpeed;
+  font-family: var(--font-sans), Arial, sans-serif;
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
 
-  overscroll-behavior-y: none;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 * {
+  min-width: 0;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -105,7 +107,20 @@ img,
 svg,
 video,
 canvas {
-  transform: translateZ(0);
+  display: block;
+  max-width: 100%;
+}
+
+img,
+video {
+  height: auto;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
 /* Hide scrollbar for horizontal scroll containers */
@@ -130,43 +145,51 @@ canvas {
 
 @layer utilities {
   .text-hero {
-    font-size: clamp(42px, 7vw, 86px);
-    line-height: 1.1;
+    font-size: clamp(2.5rem, 6vw, 5.375rem);
+    line-height: 0.98;
   }
+
   .text-page {
-    font-size: clamp(36px, 5vw, 64px);
-    line-height: 1.2;
+    font-size: clamp(2.25rem, 4.5vw, 4rem);
+    line-height: 1.05;
   }
+
   .text-section {
-    font-size: clamp(28px, 4vw, 50px);
-    line-height: 1.2;
+    font-size: clamp(1.75rem, 3vw, 3.125rem);
+    line-height: 1.15;
   }
+
   .text-card {
-    font-size: clamp(20px, 2.5vw, 30px);
-    line-height: 1.3;
+    font-size: clamp(1.125rem, 1.4vw, 1.75rem);
+    line-height: 1.25;
   }
+
   .text-body {
-    font-size: clamp(15px, 1.4vw, 18px);
+    font-size: clamp(0.9375rem, 1vw, 1.125rem);
     line-height: 1.6;
   }
+
   .text-small {
-    font-size: clamp(12px, 1.1vw, 14px);
+    font-size: clamp(0.75rem, 0.8vw, 0.875rem);
     line-height: 1.5;
   }
 
-  /* Responsive spacing utilities */
   .section-padding {
-    padding-top: 3.5rem; /* py-14 */
-    padding-bottom: 3.5rem;
+    padding-block: clamp(3.5rem, 7vw, 6rem);
   }
-  @media (min-width: 768px) {
-    .section-padding {
-      padding-top: 5rem; /* py-20 */
-      padding-bottom: 5rem;
-    }
-  }
+
   .container-padding {
-    padding-left: clamp(16px, 3vw, 40px);
-    padding-right: clamp(16px, 3vw, 40px);
+    padding-inline: clamp(1rem, 3vw, 2.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
